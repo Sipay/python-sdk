@@ -11,8 +11,8 @@ class Transaction:
         self.channel_name = data['channel_name']
         self.channel = data['channel']
         self.method = data['method']
-        self.date = datetime.strptime(data['date'] + ' ' + data['time'],
-                                      '%Y-%m-%d %H:%M:%S')
+        self.date = datetime.strptime(data['date'] + data['time'],
+                                      '%Y-%m-%d%H:%M:%S')
         self.order = data['order']
         self.transaction_id = data['transaction_id']
         self.internal_code = data['code']

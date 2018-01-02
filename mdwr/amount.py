@@ -1,5 +1,5 @@
 """Amount module."""
-from catalogs.currency import CURRENCIES
+from mdwr.catalogs.currency import CURRENCIES
 import re
 
 
@@ -46,17 +46,88 @@ class Amount:
 
         self._amount = amount
 
-    # TODO: hacer sobrecarga de operadores + - < > <= >= == !=
-    # def __add__(self, other):
-    #     """Operator +."""
-    #     if not isinstance(other, Amount):
-    #         raise TypeError('Second argument must be a Amount.')
-    #
-    #     if self.currency != other.currency:
-    #         raise TypeError('You can not add two amounts with different currencies.')  # noqa
+    def __add__(self, other):
+        """Operator +."""
+        if not isinstance(other, Amount):
+            raise TypeError('Second argument must be a Amount.')
+
+        if self.currency != other.currency:
+            raise TypeError('You can not add two amounts with different currencies.')  # noqa
+
+        return Amount(self.amount + other.amount, self.currency)
+
+    def __sub__(self, other):
+        """Operator -."""
+        if not isinstance(other, Amount):
+            raise TypeError('Second argument must be a Amount.')
+
+        if self.currency != other.currency:
+            raise TypeError('You can not add two amounts with different currencies.')  # noqa
+
+        return Amount(self.amount - other.amount, self.currency)
+
+    def __gt__(self, other):
+        """Operator >."""
+        if not isinstance(other, Amount):
+            raise TypeError('Second argument must be a Amount.')
+
+        if self.currency != other.currency:
+            raise TypeError('You can not add two amounts with different currencies.')  # noqa
+
+        return self.amount > other.amount
+
+    def __lt__(self, other):
+        """Operator <."""
+        if not isinstance(other, Amount):
+            raise TypeError('Second argument must be a Amount.')
+
+        if self.currency != other.currency:
+            raise TypeError('You can not add two amounts with different currencies.')  # noqa
+
+        return self.amount < other.amount
+
+    def __ge__(self, other):
+        """Operator >=."""
+        if not isinstance(other, Amount):
+            raise TypeError('Second argument must be a Amount.')
+
+        if self.currency != other.currency:
+            raise TypeError('You can not add two amounts with different currencies.')  # noqa
+
+        return self.amount >= other.amount
+
+    def __le__(self, other):
+        """Operator <=."""
+        if not isinstance(other, Amount):
+            raise TypeError('Second argument must be a Amount.')
+
+        if self.currency != other.currency:
+            raise TypeError('You can not add two amounts with different currencies.')  # noqa
+
+        return self.amount <= other.amount
+
+    def __eq__(self, other):
+        """Operator ==."""
+        if not isinstance(other, Amount):
+            raise TypeError('Second argument must be a Amount.')
+
+        if self.currency != other.currency:
+            raise TypeError('You can not add two amounts with different currencies.')  # noqa
+
+        return self.amount == other.amount
+
+    def __ne__(self, other):
+        """Operator !=."""
+        if not isinstance(other, Amount):
+            raise TypeError('Second argument must be a Amount.')
+
+        if self.currency != other.currency:
+            raise TypeError('You can not add two amounts with different currencies.')  # noqa
+
+        return self.amount != other.amount
 
     def __str__(self):
         """Parse to string."""
-        decimal = self.currency[2]
-        fmt_amount = str(self.amount).zfill(decimal + 1)
-        return fmt_amount[:-decimal] + '.' + fmt_amount[-decimal:]
+        dec = self._currency[2]
+        fmt_amount = str(self.amount).zfill(dec + 1)
+        return fmt_amount[:-dec] + '.' + fmt_amount[-dec:] + self.currency

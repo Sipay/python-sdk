@@ -12,15 +12,10 @@ HIDDEN_KEYS = {'cvv', 'password'}
 class FileLevelHandler(logging.handlers.RotatingFileHandler):
     """File handler."""
 
-    def __init__(self, filename, levels, size=0, backup=0, fmt=FORMATTER):
+    def __init__(self, filename, size=0, backup=0, fmt=FORMATTER):
         """Initialize handler."""
         super().__init__(filename, maxBytes=size, backupCount=backup)
-        self.levels = levels
         self.setFormatter(fmt)
-
-    def filter(self, record):
-        """Filter handler by levels."""
-        return record.levelno in self.levels and super().filter(record)
 
 
 class Logger(logging.LoggerAdapter):

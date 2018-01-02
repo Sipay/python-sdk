@@ -1,0 +1,324 @@
+2018-01-02 17:56:39,472    ERROR - mdwr(209): Exception in post
+Traceback (most recent call last):
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/urllib3/connectionpool.py", line 387, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/urllib3/connectionpool.py", line 383, in _make_request
+    httplib_response = conn.getresponse()
+  File "/usr/lib/python3.5/http/client.py", line 1197, in getresponse
+    response.begin()
+  File "/usr/lib/python3.5/http/client.py", line 297, in begin
+    version, status, reason = self._read_status()
+  File "/usr/lib/python3.5/http/client.py", line 258, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "/usr/lib/python3.5/socket.py", line 575, in readinto
+    return self._sock.recv_into(b)
+  File "/usr/lib/python3.5/ssl.py", line 929, in recv_into
+    return self.read(nbytes, buffer)
+  File "/usr/lib/python3.5/ssl.py", line 791, in read
+    return self._sslobj.read(len, buffer)
+  File "/usr/lib/python3.5/ssl.py", line 575, in read
+    v = self._sslobj.read(len, buffer)
+socket.timeout: The read operation timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/requests/adapters.py", line 440, in send
+    timeout=timeout
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/urllib3/connectionpool.py", line 639, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/urllib3/util/retry.py", line 357, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/urllib3/packages/six.py", line 686, in reraise
+    raise value
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/urllib3/connectionpool.py", line 601, in urlopen
+    chunked=chunked)
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/urllib3/connectionpool.py", line 389, in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/urllib3/connectionpool.py", line 309, in _raise_timeout
+    raise ReadTimeoutError(self, url, "Read timed out. (read timeout=%s)" % timeout_value)
+urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='develop.sipay.es', port=443): Read timed out. (read timeout=27)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/psdk/mdwr/__init__.py", line 205, in send
+    timeout=(self.conn_timeout, self.process_timeout))
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/requests/api.py", line 112, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/requests/api.py", line 58, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/requests/sessions.py", line 508, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/requests/sessions.py", line 618, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/requests/adapters.py", line 521, in send
+    raise ReadTimeout(e, request=request)
+requests.exceptions.ReadTimeout: HTTPSConnectionPool(host='develop.sipay.es', port=443): Read timed out. (read timeout=27)
+2018-01-02 17:59:49,115    ERROR - mdwr(210): Exception in post
+Traceback (most recent call last):
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/urllib3/connectionpool.py", line 387, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/urllib3/connectionpool.py", line 383, in _make_request
+    httplib_response = conn.getresponse()
+  File "/usr/lib/python3.5/http/client.py", line 1197, in getresponse
+    response.begin()
+  File "/usr/lib/python3.5/http/client.py", line 297, in begin
+    version, status, reason = self._read_status()
+  File "/usr/lib/python3.5/http/client.py", line 258, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "/usr/lib/python3.5/socket.py", line 575, in readinto
+    return self._sock.recv_into(b)
+  File "/usr/lib/python3.5/ssl.py", line 929, in recv_into
+    return self.read(nbytes, buffer)
+  File "/usr/lib/python3.5/ssl.py", line 791, in read
+    return self._sslobj.read(len, buffer)
+  File "/usr/lib/python3.5/ssl.py", line 575, in read
+    v = self._sslobj.read(len, buffer)
+socket.timeout: The read operation timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/requests/adapters.py", line 440, in send
+    timeout=timeout
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/urllib3/connectionpool.py", line 639, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/urllib3/util/retry.py", line 357, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/urllib3/packages/six.py", line 686, in reraise
+    raise value
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/urllib3/connectionpool.py", line 601, in urlopen
+    chunked=chunked)
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/urllib3/connectionpool.py", line 389, in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/urllib3/connectionpool.py", line 309, in _raise_timeout
+    raise ReadTimeoutError(self, url, "Read timed out. (read timeout=%s)" % timeout_value)
+urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='develop.sipay.es', port=443): Read timed out. (read timeout=27)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/psdk/mdwr/__init__.py", line 205, in send
+    timeout=(self.conn_timeout, self.process_timeout))
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/requests/api.py", line 112, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/requests/api.py", line 58, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/requests/sessions.py", line 508, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/requests/sessions.py", line 618, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/requests/adapters.py", line 521, in send
+    raise ReadTimeout(e, request=request)
+requests.exceptions.ReadTimeout: HTTPSConnectionPool(host='develop.sipay.es', port=443): Read timed out. (read timeout=27)
+2018-01-02 18:11:07,956    ERROR - mdwr(207): Exception in post
+Traceback (most recent call last):
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/psdk/mdwr/__init__.py", line 203, in send
+    response = r.json()
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/requests/models.py", line 892, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/usr/lib/python3.5/json/__init__.py", line 319, in loads
+    return _default_decoder.decode(s)
+  File "/usr/lib/python3.5/json/decoder.py", line 339, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/usr/lib/python3.5/json/decoder.py", line 357, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2018-01-02 18:11:08,030    ERROR - mdwr(207): Exception in post
+Traceback (most recent call last):
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/psdk/mdwr/__init__.py", line 203, in send
+    response = r.json()
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/requests/models.py", line 892, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/usr/lib/python3.5/json/__init__.py", line 319, in loads
+    return _default_decoder.decode(s)
+  File "/usr/lib/python3.5/json/decoder.py", line 339, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/usr/lib/python3.5/json/decoder.py", line 357, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2018-01-02 18:11:08,072    ERROR - mdwr(207): Exception in post
+Traceback (most recent call last):
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/psdk/mdwr/__init__.py", line 203, in send
+    response = r.json()
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/requests/models.py", line 892, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/usr/lib/python3.5/json/__init__.py", line 319, in loads
+    return _default_decoder.decode(s)
+  File "/usr/lib/python3.5/json/decoder.py", line 339, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/usr/lib/python3.5/json/decoder.py", line 357, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2018-01-02 18:11:08,122    ERROR - mdwr(207): Exception in post
+Traceback (most recent call last):
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/psdk/mdwr/__init__.py", line 203, in send
+    response = r.json()
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/requests/models.py", line 892, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/usr/lib/python3.5/json/__init__.py", line 319, in loads
+    return _default_decoder.decode(s)
+  File "/usr/lib/python3.5/json/decoder.py", line 339, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/usr/lib/python3.5/json/decoder.py", line 357, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2018-01-02 18:11:08,200    ERROR - mdwr(207): Exception in post
+Traceback (most recent call last):
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/psdk/mdwr/__init__.py", line 203, in send
+    response = r.json()
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/requests/models.py", line 892, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/usr/lib/python3.5/json/__init__.py", line 319, in loads
+    return _default_decoder.decode(s)
+  File "/usr/lib/python3.5/json/decoder.py", line 339, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/usr/lib/python3.5/json/decoder.py", line 357, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2018-01-02 18:11:08,260    ERROR - mdwr(207): Exception in post
+Traceback (most recent call last):
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/psdk/mdwr/__init__.py", line 203, in send
+    response = r.json()
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/requests/models.py", line 892, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/usr/lib/python3.5/json/__init__.py", line 319, in loads
+    return _default_decoder.decode(s)
+  File "/usr/lib/python3.5/json/decoder.py", line 339, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/usr/lib/python3.5/json/decoder.py", line 357, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2018-01-02 18:13:21,308    ERROR - mdwr(207): Exception in post
+Traceback (most recent call last):
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/psdk/mdwr/__init__.py", line 203, in send
+    response = r.json()
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/requests/models.py", line 892, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/usr/lib/python3.5/json/__init__.py", line 319, in loads
+    return _default_decoder.decode(s)
+  File "/usr/lib/python3.5/json/decoder.py", line 339, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/usr/lib/python3.5/json/decoder.py", line 357, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2018-01-02 18:13:21,349    ERROR - mdwr(207): Exception in post
+Traceback (most recent call last):
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/psdk/mdwr/__init__.py", line 203, in send
+    response = r.json()
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/requests/models.py", line 892, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/usr/lib/python3.5/json/__init__.py", line 319, in loads
+    return _default_decoder.decode(s)
+  File "/usr/lib/python3.5/json/decoder.py", line 339, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/usr/lib/python3.5/json/decoder.py", line 357, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2018-01-02 18:13:21,390    ERROR - mdwr(207): Exception in post
+Traceback (most recent call last):
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/psdk/mdwr/__init__.py", line 203, in send
+    response = r.json()
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/requests/models.py", line 892, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/usr/lib/python3.5/json/__init__.py", line 319, in loads
+    return _default_decoder.decode(s)
+  File "/usr/lib/python3.5/json/decoder.py", line 339, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/usr/lib/python3.5/json/decoder.py", line 357, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2018-01-02 18:13:21,444    ERROR - mdwr(207): Exception in post
+Traceback (most recent call last):
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/psdk/mdwr/__init__.py", line 203, in send
+    response = r.json()
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/requests/models.py", line 892, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/usr/lib/python3.5/json/__init__.py", line 319, in loads
+    return _default_decoder.decode(s)
+  File "/usr/lib/python3.5/json/decoder.py", line 339, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/usr/lib/python3.5/json/decoder.py", line 357, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2018-01-02 18:13:21,491    ERROR - mdwr(207): Exception in post
+Traceback (most recent call last):
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/psdk/mdwr/__init__.py", line 203, in send
+    response = r.json()
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/requests/models.py", line 892, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/usr/lib/python3.5/json/__init__.py", line 319, in loads
+    return _default_decoder.decode(s)
+  File "/usr/lib/python3.5/json/decoder.py", line 339, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/usr/lib/python3.5/json/decoder.py", line 357, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2018-01-02 18:13:21,537    ERROR - mdwr(207): Exception in post
+Traceback (most recent call last):
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/psdk/mdwr/__init__.py", line 203, in send
+    response = r.json()
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/requests/models.py", line 892, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/usr/lib/python3.5/json/__init__.py", line 319, in loads
+    return _default_decoder.decode(s)
+  File "/usr/lib/python3.5/json/decoder.py", line 339, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/usr/lib/python3.5/json/decoder.py", line 357, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2018-01-02 18:13:21,585    ERROR - mdwr(207): Exception in post
+Traceback (most recent call last):
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/psdk/mdwr/__init__.py", line 203, in send
+    response = r.json()
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/requests/models.py", line 892, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/usr/lib/python3.5/json/__init__.py", line 319, in loads
+    return _default_decoder.decode(s)
+  File "/usr/lib/python3.5/json/decoder.py", line 339, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/usr/lib/python3.5/json/decoder.py", line 357, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2018-01-02 18:13:21,637    ERROR - mdwr(207): Exception in post
+Traceback (most recent call last):
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/psdk/mdwr/__init__.py", line 203, in send
+    response = r.json()
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/requests/models.py", line 892, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/usr/lib/python3.5/json/__init__.py", line 319, in loads
+    return _default_decoder.decode(s)
+  File "/usr/lib/python3.5/json/decoder.py", line 339, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/usr/lib/python3.5/json/decoder.py", line 357, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2018-01-02 18:13:21,689    ERROR - mdwr(207): Exception in post
+Traceback (most recent call last):
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/psdk/mdwr/__init__.py", line 203, in send
+    response = r.json()
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/requests/models.py", line 892, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/usr/lib/python3.5/json/__init__.py", line 319, in loads
+    return _default_decoder.decode(s)
+  File "/usr/lib/python3.5/json/decoder.py", line 339, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/usr/lib/python3.5/json/decoder.py", line 357, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2018-01-02 18:13:21,734    ERROR - mdwr(207): Exception in post
+Traceback (most recent call last):
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/psdk/mdwr/__init__.py", line 203, in send
+    response = r.json()
+  File "/home/icalle/Escritorio/icalle/04_OPERACIONES/03_DESARROLLO/workdir/.virtualenvs/psdk/lib/python3.5/site-packages/requests/models.py", line 892, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/usr/lib/python3.5/json/__init__.py", line 319, in loads
+    return _default_decoder.decode(s)
+  File "/usr/lib/python3.5/json/decoder.py", line 339, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/usr/lib/python3.5/json/decoder.py", line 357, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)

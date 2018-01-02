@@ -26,5 +26,5 @@ class FastPay(PayMethod):
         self._token = token
 
     def add_to(self, payload):
-        """Add to payload a FastPay."""
+        """Add Fastpay to payload."""
         payload['fastpay'] = {'request_id': self.token}

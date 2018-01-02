@@ -1,14 +1,14 @@
-"""Operation module."""
+"""Refund module."""
 from mdwr.responses import Response
 from mdwr.amount import Amount
 
 
-class Operation(Response):
-    """Operation class."""
+class Refund(Response):
+    """Refund class."""
 
-    def __init__(self, response):
+    def __init__(self, request, response):
         """Initialize."""
-        super().__init__(response)
+        super().__init__(request, response)
         payload = response['payload']
         self.internal_code = payload.get('code')
         self.approval = payload.get('approval')
@@ -35,7 +35,7 @@ class Operation(Response):
                 self.type, self.uuid, self.internal_code, self.approval,
                 self.authorizator, self.card_trade, self.card_type, self.order,
                 self.reconciliation, self.transaction_id)
-        return '<Operation(code={0}, detail={1}, description={2}, '\
+        return '<Refund(code={0}, detail={1}, description={2}, '\
                'request_id={3}, type={4}, uuid={5}, internal_code={6}, '\
                'approval={7}, authorizator={8}, card_trade={9}, '\
                'card_type={10}, order={11}, reconciliation={12}, '\

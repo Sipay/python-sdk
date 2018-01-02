@@ -4,7 +4,7 @@
 class Response:
     """Response class."""
 
-    def __init__(self, response):
+    def __init__(self, request, response):
         """Initilize."""
         self.code = int(response['code'])
         self.detail = response['detail']
@@ -12,6 +12,8 @@ class Response:
         self.request_id = response['request_id']
         self.type = response['type']
         self.uuid = response['uuid']
+        self._request = request
+        self._response = response
 
     def __str__(self):
         """Cast to string."""

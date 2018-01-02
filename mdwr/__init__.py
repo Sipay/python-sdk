@@ -1,24 +1,30 @@
 """MDWR module."""
 from configparser import ConfigParser
 from time import time
-from hashlib import sha256
-from hashlib import sha512
 import hmac
 import json
 import requests
 import logging
-import logger
 import re
 
-from mdwr.responses.operation import Operation
-from mdwr.responses.confirmation import Confirmation
-from mdwr.responses.masked_card import MaskedCard
+from mdwr.responses.authorization import Authorization
+from mdwr.responses.cancellation import Cancellation
+from mdwr.responses.card import Card as CardResponse
+from mdwr.responses.refund import Refund
+from mdwr.responses.register import Register
+from mdwr.responses.unregister import Unregister
 from mdwr.responses.query import Query
 from mdwr.paymethod import PayMethod
+from mdwr.paymethod.card import Card
+from mdwr.amount import Amount
+
+from mdwr.utils import schemadec
+
+from mdwr.logger import FileLevelHandler
 
 
 class MDWR:
-    """SDK for using Sipay middleware easier."""
+    """SDK to use middleware of Sipay easily."""
 
     def __init__(self, config_file):
         """Initialize MDWR with a config.ini file."""
@@ -35,13 +41,13 @@ class MDWR:
         self.resource = cred.get('resource', '')
 
         api = config['api']
-        self.enviroment = api.get('enviroment', '')
+        self.environment = api.get('environment', '')
         self.version = api.get('version', '')
         self.mode = api.get('mode', '')
 
         timeout = config['timeout']
-        self.connection = timeout.getint('connection', 3)
-        self.process = timeout.getint('process', 27)
+        self.conn_timeout = timeout.getint('connection', 3)
+        self.process_timeout = timeout.getint('process', 27)
 
         self._logger = self._get_logger(config['logger'])
 
@@ -85,22 +91,22 @@ class MDWR:
         self._resource = resource
 
     @property
-    def enviroment(self):
-        """Getter of enviroment."""
-        return self._enviroment
+    def environment(self):
+        """Getter of environment."""
+        return self._environment
 
-    @enviroment.setter
-    def enviroment(self, enviroment):
-        if not isinstance(enviroment, str):
-            self._logger.error('enviroment must be a string.')
-            raise TypeError('enviroment must be a string.')
+    @environment.setter
+    def environment(self, environment):
+        if not isinstance(environment, str):
+            self._logger.error('environment must be a string.')
+            raise TypeError('environment must be a string.')
 
-        # TODO: remove develop argument
-        if enviroment not in ['develop', 'sandbox', 'staging', 'live']:
-            self._logger.error('enviroment must be sandbox, staging or live')
-            raise ValueError('enviroment must be sandbox, staging or live')
+        environment = environment.lower()
+        if environment not in ['sandbox', 'staging', 'live']:
+            self._logger.error('environment must be sandbox, staging or live')
+            raise ValueError('environment must be sandbox, staging or live')
 
-        self._enviroment = enviroment
+        self._environment = environment
 
     @property
     def mode(self):
@@ -137,78 +143,81 @@ class MDWR:
         self._version = version
 
     @property
-    def connection(self):
-        """Getter of connection."""
-        return self._connection
+    def conn_timeout(self):
+        """Getter of conn_timeout."""
+        return self._conn_timeout
 
-    @connection.setter
-    def connection(self, connection):
-        if not isinstance(connection, int):
-            self._logger.error('connection must be a integer.')
-            raise TypeError('connection must be a integer.')
+    @conn_timeout.setter
+    def conn_timeout(self, conn_timeout):
+        if not isinstance(conn_timeout, int):
+            self._logger.error('conn_timeout must be an integer.')
+            raise TypeError('conn_timeout must be an integer.')
 
-        if connection <= 0:
-            self._logger.error('connection must geater than 0.')
-            raise ValueError('connection must geater than 0.')
+        if conn_timeout <= 0:
+            self._logger.error('conn_timeout must be geater than 0.')
+            raise ValueError('conn_timeout must be geater than 0.')
 
-        self._connection = connection
+        self._conn_timeout = conn_timeout
 
     @property
-    def process(self):
-        """Getter of process."""
-        return self._process
+    def process_timeout(self):
+        """Getter of process_timeout."""
+        return self._process_timeout
 
-    @process.setter
-    def process(self, process):
-        if not isinstance(process, int):
-            self._logger.error('process must be a integer.')
-            raise TypeError('process must be a integer.')
+    @process_timeout.setter
+    def process_timeout(self, process_timeout):
+        if not isinstance(process_timeout, int):
+            self._logger.error('process_timeout must be an integer.')
+            raise TypeError('process_timeout must be an integer.')
 
-        if process <= 0:
-            self._logger.error('process must geater than 0.')
-            raise ValueError('process must geater than 0.')
+        if process_timeout <= 0:
+            self._logger.error('process_timeout must be geater than 0.')
+            raise ValueError('process_timeout must be geater than 0.')
 
-        self._process = process
+        self._process_timeout = process_timeout
 
     def send(self, payload, endpoint):
         """Send payload to endpoint."""
-        self.logger.info('Start send to endpoint ' + endpoint)
+        self._logger.info('Start send to endpoint ' + endpoint)
         nonce = str(time()).replace('.', '')
         secret = bytes(self.secret, 'utf-8')
-        body_json = {
+        params = {
           'key': self.key,
           'resource': self.resource,
           'nonce': nonce,
           'mode': self.mode,
           'payload': payload
         }
-        body_str = json.dumps(body_json)
-        body = bytes(body_str, 'utf-8')
-        method = {
-            'sha256': sha256,
-            'sha512': sha512
-        }[self.mode]
+        body = json.dumps(params)
 
-        signature = hmac.new(secret, body, method).hexdigest()
+        sign = hmac.new(secret, bytes(body, 'utf-8'), self.mode).hexdigest()
         headers = {
             'Content-Type': 'application/json',
-            'Content-Signature': signature
+            'Content-Signature': sign
         }
-        url = 'https://{0}.sipay.es/mdwr/{1}/{2}'.format(self.enviroment,
+        url = 'https://{0}.sipay.es/mdwr/{1}/{2}'.format(self.environment,
                                                          self.version,
                                                          endpoint)
 
         try:
-            r = requests.post(url, headers=headers, data=body_str)
-            response = json.loads(r.content.decode('utf-8'))
+            r = requests.post(url, headers=headers, data=body,
+                              timeout=(self.conn_timeout,
+                                       self.process_timeout))
+            response = r.json()
+            request = r.request.__dict__
 
         except Exception:
             self._logger.exception('Exception in post')
             response = None
+            request = {
+                'url': url,
+                'body': params,
+                'header': headers
+            }
 
-        self.logger.info('End send to endpoint ' + endpoint)
+        self._logger.info('End send to endpoint ' + endpoint)
 
-        return response
+        return (request, response)
 
     def _get_logger(self, config):
         """Set global logger."""
@@ -217,28 +226,34 @@ class MDWR:
         _logger = logging.getLogger(__name__)
         if path:
             level = config.get('level', 'INFO').upper()
-            conversor = logging._nameToLevel
-            levels = []
-            for lev in order:
-                levels.append(conversor[lev])
-                if lev == level:
-                    break
+            if level not in order:
+                Exception('Incorrect levels.')
 
-            _logger.setLevel(conversor[level])
-            _logger.addHandler(logger.FileLevelHandler(
+            _logger.setLevel(getattr(logging, level))
+            _logger.addHandler(FileLevelHandler(
                 filename=path,
-                levels=levels,
                 backup=config.getint('backup_file_rotation', 5),
                 size=config.getint('max_file_size', 20000000)
             ))
 
         return _logger
 
+    @schemadec({
+        'amount': {'type': Amount},
+        'order': {'type': str, 'pattern': r'^[\w-]{6,64}$'},
+        'reconciliation': {
+            'type': str,
+            'pattern': r'^[0-9]{4}[a-zA-Z0-9]{0,8}$'},
+        'custom_01': {'type': str},
+        'custom_02': {'type': str},
+        'token': {'type': str, 'pattern': r'^[\w-]{6,128}$'}
+        })
     def authorization(self, paymethod, amount, order=None, reconciliation=None,
-                      custom_01=None, custom_02=None, tokenize=None):
+                      custom_01=None, custom_02=None, token=None):
         """Send a request of authorization to Sipay."""
-        # IDEA: Poner schema al pricipio de cada funcion que capture los
-        # errores y utilizar logger para reportar error
+        if not issubclass(type(paymethod), PayMethod):
+            TypeError("paymethod isn't a PayMethod")
+
         payload = {
             'order': order,
             'reconciliation': reconciliation,
@@ -247,26 +262,30 @@ class MDWR:
             'amount': amount.amount,
             'currency': amount.currency
         }
-
-        payload = {k: v for k, v in payload.items() if v is not None}
 
         paymethod.add_to(payload)
 
-        if tokenize is not None and not re.match(r'^[\w-]{6,128}$', tokenize):
-            self._logger.error('Value of tokenize is incorrect.')
-            raise ValueError('Value of tokenize is incorrect.')
+        if 'token' not in payload and token is not None:
+            payload['token'] = token
 
-        if 'token' not in payload and tokenize is not None:
-            payload['token'] = tokenize
+        payload = {k: v for k, v in payload.items() if v is not None}
 
-        response = self.send(payload, 'authorization')
-        return Operation(response) if response else None
+        request, response = self.send(payload, 'authorization')
+        return Authorization(request, response) if response else None
 
-    def refund(self, refund_id, amount, order=None, reconciliation=None,
-               custom_01=None, custom_02=None, tokenize=None):
+    @schemadec({
+        'amount': {'type': Amount},
+        'order': {'type': str, 'pattern': r'^[\w-]{6,64}$'},
+        'reconciliation': {
+            'type': str,
+            'pattern': r'^[0-9]{4}[a-zA-Z0-9]{0,8}$'},
+        'custom_01': {'type': str},
+        'custom_02': {'type': str},
+        'token': {'type': str, 'pattern': r'^[\w-]{6,128}$'}
+        })
+    def refund(self, identificator, amount, order=None, reconciliation=None,
+               custom_01=None, custom_02=None, token=None):
         """Send a request of refund to Sipay."""
-        # IDEA: Poner schema al pricipio de cada funcion que capture los
-        # errores y utilizar logger para reportar error
         payload = {
             'order': order,
             'reconciliation': reconciliation,
@@ -278,96 +297,70 @@ class MDWR:
 
         payload = {k: v for k, v in payload.items() if v is not None}
 
-        if isinstance(refund_id, str):
-            payload['transaction_id'] = refund_id
-        elif issubclass(type(refund_id), PayMethod):
-            refund_id.add_to(payload)
+        if isinstance(identificator, str):
+            payload['transaction_id'] = identificator
+        elif issubclass(type(identificator), PayMethod):
+            identificator.add_to(payload)
         else:
-            self._logger.error('Incorrect refund_id.')
-            raise TypeError('Incorrect refund_id.')
+            self._logger.error('Incorrect identificator.')
+            raise TypeError('Incorrect identificator.')
 
-        if tokenize is not None and not re.match(r'^[\w-]{6,128}$', tokenize):
-            self._logger.error('Value of tokenize is incorrect.')
-            raise ValueError('Value of tokenize is incorrect.')
+        if 'token' not in payload and token is not None:
+            payload['token'] = token
 
-        if 'token' not in payload and tokenize is not None:
-            payload['token'] = tokenize
+        request, response = self.send(payload, 'refund')
+        return Refund(request, response) if response else None
 
-        response = self.send(payload, 'refund')
-        return Operation(response) if response else None
-
-    def register(self, card_pan, token):
+    @schemadec({
+        'card': {'type': Card},
+        'token': {'type': str, 'pattern': r'^[\w-]{6,128}$'}
+        })
+    def register(self, card, token):
         """Send a request of register to Sipay."""
-        # IDEA: Poner schema al pricipio de cada funcion que capture los
-        # errores y utilizar logger para reportar error
-        if not isinstance(token, str) or \
-           not re.match(r'^[\w-]{6,128}$', token):
-            self._logger.error('Value of token is incorrect.')
-            raise ValueError('Value of token is incorrect.')
-
         payload = {
             'token': token
         }
-        if isinstance(card_pan.card_id, tuple):
-            card_pan.add_to(payload)
-        else:
-            self._logger.error('Incorrect card_pan.')
-            raise TypeError('Incorrect card_pan.')
+        card.add_to(payload)
 
-        return MaskedCard(self.send(payload, 'register'))
+        request, response = self.send(payload, 'register')
+        return Register(request, response) if response else None
 
+    @schemadec({'token': {'type': str, 'pattern': r'^[\w-]{6,128}$'}})
     def card(self, token):
         """Send a request of save a card to Sipay."""
-        # IDEA: Poner schema al pricipio de cada funcion que capture los
-        # errores y utilizar logger para reportar error
-        if not isinstance(token, str) or \
-           not re.match(r'^[\w-]{6,128}$', token):
-            self._logger.error('Value of token is incorrect.')
-            raise ValueError('Value of token is incorrect.')
-
         payload = {
             'token': token
         }
 
-        response = self.send(payload, 'card')
-        return MaskedCard(response) if response else None
+        request, response = self.send(payload, 'card')
+        return CardResponse(request, response) if response else None
 
+    @schemadec({'transaction_id': {'type': str, 'pattern': r'^[0-9]{6,22}$'}})
     def cancellation(self, transaction_id):
         """Send a request of cancellation to Sipay."""
-        # IDEA: Poner schema al pricipio de cada funcion que capture los
-        # errores y utilizar logger para reportar error
-        if not isinstance(transaction_id, str) or \
-           not re.match(r'^[0-9]{6,22}$', transaction_id):
-            self._logger.error('Value of transaction_id is incorrect.')
-            raise ValueError('Value of transaction_id is incorrect.')
-
         payload = {
             'transaction_id': transaction_id
         }
 
-        response = self.send(payload, 'cancellation')
-        return Confirmation(response) if response else None
+        request, response = self.send(payload, 'cancellation')
+        return Cancellation(request, response) if response else None
 
+    @schemadec({'token': {'type': str, 'pattern': r'^[\w-]{6,128}$'}})
     def unregister(self, token):
         """Send a request of remove a registry of a token to Sipay."""
-        # IDEA: Poner schema al pricipio de cada funcion que capture los
-        # errores y utilizar logger para reportar error
-        if not isinstance(token, str) or \
-           not re.match(r'^[\w-]{6,128}$', token):
-            self._logger.error('Value of token is incorrect.')
-            raise ValueError('Value of token is incorrect.')
-
         payload = {
             'token': token
         }
 
-        response = self.send(payload, 'unregister')
-        return Confirmation(response) if response else None
+        request, response = self.send(payload, 'unregister')
+        return Unregister(request, response) if response else None
 
+    @schemadec({
+        'order': {'type': str, 'pattern': r'^[\w-]{6,64}$'},
+        'transaction_id': {'type': str, 'pattern': r'^[0-9]{6,22}$'}
+        })
     def query(self, order=None, transaction_id=None):
         """Send a query to Sipay."""
-        # IDEA: Poner schema al pricipio de cada funcion que capture los
-        # errores y utilizar logger para reportar error
         payload = {
             'order': order,
             'transaction_id': transaction_id
@@ -375,5 +368,5 @@ class MDWR:
 
         payload = {k: v for k, v in payload.items() if v is not None}
 
-        response = self.send(payload, 'query')
-        return Query(response) if response else None
+        request, response = self.send(payload, 'query')
+        return Query(request, response) if response else None

@@ -6,9 +6,9 @@ from mdwr.responses.transaction import Transaction
 class Query(Response):
     """Query class."""
 
-    def __init__(self, response):
+    def __init__(self, request, response):
         """Initialize."""
-        super().__init__(response)
+        super().__init__(request, response)
         payload = response['payload']
         if payload:
             self.internal_code = int(payload['code'])
