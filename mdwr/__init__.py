@@ -250,7 +250,21 @@ class MDWR:
         })
     def authorization(self, paymethod, amount, order=None, reconciliation=None,
                       custom_01=None, custom_02=None, token=None):
-        """Send a request of authorization to Sipay."""
+        """Send a request of authorization to Sipay.
+
+        Args:
+            - paymethod: Payment method of authorization (it can be an object
+                of Card, TokenizedCard or FastPay).
+            - amount: Amount of the operation.
+            - order: ticket of the operation
+            - reconciliation: identification for bank reconciliation
+            - custom_01: custom field 1
+            - custom_02: custom field 2
+            - token: if this argument is set, it register paymethod with
+                this token
+        Return:
+            Authorization: object that contain response of MDWR API
+        """
         if not issubclass(type(paymethod), PayMethod):
             TypeError("paymethod isn't a PayMethod")
 
@@ -285,7 +299,21 @@ class MDWR:
         })
     def refund(self, identificator, amount, order=None, reconciliation=None,
                custom_01=None, custom_02=None, token=None):
-        """Send a request of refund to Sipay."""
+        """Send a request of refund to Sipay.
+
+        Args:
+            - identificator: identificator of refundation (it can be a
+                PayMethod or transaction_id).
+            - amount: Amount of the operation.
+            - order: ticket of the operation
+            - reconciliation: identification for bank reconciliation
+            - custom_01: custom field 1
+            - custom_02: custom field 2
+            - token: if this argument is set, it register paymethod with
+                this token
+        Return:
+            Refund: object that contain response of MDWR API
+        """
         payload = {
             'order': order,
             'reconciliation': reconciliation,
@@ -316,7 +344,14 @@ class MDWR:
         'token': {'type': str, 'pattern': r'^[\w-]{6,128}$'}
         })
     def register(self, card, token):
-        """Send a request of register to Sipay."""
+        """Send a request of register to Sipay.
+
+        Args:
+            - card: Card that register.
+            - token: token will be associate to card
+        Return:
+            Register: object that contain response of MDWR API
+        """
         payload = {
             'token': token
         }
@@ -327,7 +362,13 @@ class MDWR:
 
     @schemadec({'token': {'type': str, 'pattern': r'^[\w-]{6,128}$'}})
     def card(self, token):
-        """Send a request of save a card to Sipay."""
+        """Send a request for search a card in Sipay.
+
+        Args:
+            - token: token of card
+        Return:
+            Card(Response): object that contain response of MDWR API
+        """
         payload = {
             'token': token
         }
@@ -337,7 +378,13 @@ class MDWR:
 
     @schemadec({'transaction_id': {'type': str, 'pattern': r'^[0-9]{6,22}$'}})
     def cancellation(self, transaction_id):
-        """Send a request of cancellation to Sipay."""
+        """Send a request of cancellation to Sipay.
+
+        Args:
+            - transaction_id: identificator of transaction.
+        Return:
+            Cancellation(Response): object that contain response of MDWR API
+        """
         payload = {
             'transaction_id': transaction_id
         }
@@ -347,7 +394,13 @@ class MDWR:
 
     @schemadec({'token': {'type': str, 'pattern': r'^[\w-]{6,128}$'}})
     def unregister(self, token):
-        """Send a request of remove a registry of a token to Sipay."""
+        """Send a request of remove a registry of a token to Sipay.
+
+        Args:
+            - token: token of a card
+        Return:
+            Unregister: object that contain response of MDWR API
+        """
         payload = {
             'token': token
         }
@@ -360,7 +413,14 @@ class MDWR:
         'transaction_id': {'type': str, 'pattern': r'^[0-9]{6,22}$'}
         })
     def query(self, order=None, transaction_id=None):
-        """Send a query to Sipay."""
+        """Send a query to Sipay.
+
+        Args:
+            - order: ticket of the operation
+            - transaction_id: identificator of transaction
+        Return:
+            Query: object that contain response of MDWR API
+        """
         payload = {
             'order': order,
             'transaction_id': transaction_id

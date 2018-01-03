@@ -6,6 +6,180 @@
 
 # Documentación
 
+## **Objetos**
+
+* **Amount:**
+
+  Este objeto representa una cantidad monetaria, por tanto esta cantidad no puede ser menor igual a 0. Para iniciar un objeto de este tipo se necesita una cantidad y una moneda (código ISO4217)
+
+  La cantidad se puede especificar de dos formas o con un string con la cantidad estandarizada y con el caracter de separación de decimales `.`, o con un entero de la cantidad en la unidad básica e indivisible de la moneda (por ejemplo de la moneda Euro sería el céntimo).
+
+  **Atributos**
+    * **amount:** Contiene un entero de la cantidad en la unidad básica e indivisible de la moneda.
+    * **currency:** Contiene un string del código de la moneda(ISO4217).
+
+  Ejemplos:
+
+  ```python
+    from mdwr.amount import Amount
+
+    # Con string
+    amount = Amount('1.56', 'EUR')
+
+    print(amount)
+    # Imprime 1.56EUR
+    print(amount.amount)
+    # Imprime 156
+    print(amount.currency)
+    # Imprime EUR
+
+    # Con unidad indivisible
+    amount = Amount(156, 'EUR')
+
+    print(amount)
+    # Imprime 1.56EUR
+    print(amount.amount)
+    # Imprime 156
+    print(amount.currency)
+    # Imprime EUR
+  ```
+  **Nota:** En el caso de iniciarlo con el string es imprescindible que tenga el número de decimales que indica el estándar ISO4217
+
+### PayMethods
+
+  * **Card:**
+    Representa el método de pago con tarjeta, para inicializarlo se necesita:
+
+      * **número de tarjeta:** String que tiene entre 14 y 19 números.
+      * **año de caducidad:** Entero de 4 digitos mayor que 2017.
+      * **mes de caducidad:** Entero de 2 digitos entre 1 y 12.
+
+    Ejemplo:
+    ```python
+      from mdwr.paymethod.card import Card
+
+      card = Card('0000000000000000', 2018, 2)
+    ```
+
+
+  * **TokenizedCard:**
+  Representa el método de pago con tarjeta tokenizada, para inicializarlo se necesita:
+
+    * **token asociado a una tarjeta:** String que tiene entre 6 y 128 caracteres alfanúmericos y guiones.
+
+  Ejemplo:
+  ```python
+    from mdwr.paymethod.tokenizedcard import TokenizedCard
+
+    card = TokenizedCard('token-card')
+  ```
+  * **FastPay:**
+  Representa el método de pago con tarjeta tokenizada a mediante Fast Pay, para inicializarlo se necesita:
+
+    * **token asociado a una tarjeta:** String que tiene entre 6 y 128 caracteres alfanúmericos y guiones.
+
+  Ejemplo:
+  ```python
+    from mdwr.paymethod.fastpay import FastPay
+
+    fp = FastPay('token-fast-pay')
+  ```
+
+### Responses
+
+Todos los objetos de esta sección tienen los siguientes atributos:
+- **Atributos comunes:**
+  - **type (enum[string]):** Tipo de respuesta:
+    * success
+    * warning
+    * error
+  - **code (string):** Código identificador del resultado. Es un código orientativo y no está ligado estrictamente con motivo de la respuesta, es decir, el código no identifica univocamente la respuesta.
+    - 0 -> success
+    - mayor a 0 -> warning
+    - menor a 0 -> error
+  - **detail (string):** Código alfanumérico separado con guiones bajos y sin mayúsculas que identifica univocamente la respuesta. Útil para la gestión de los diferentes casos de uso de una operación.
+  - **description (string):** Descripción literal del mensaje de respuesta.
+  - **uuid (string):** Identificador único de la petición, imprescindible para la trazabilidad.
+  - **request_id (string):** Necesario para la finalización de algunas operaciones. Se indicarán aquellas en las que sea necesario.
+  - **_request(dictionary):** Son los datos de la petición que se ha hecho al servidor.
+  - **_response(dictionary):** Son los datos 'raw' de respuesta.
+
+
+* **Authorization:**
+
+  Este objeto añade lo atributos:
+  * **amount (Amount):** Importe de la operación.
+  * **order (string):** Ticket de la operación.
+  * **card_trade (string):** Emisor de la tarjeta. Solicite más información.
+  * **card_type (string):** Tipo de la tarjeta. Solicite más información.
+  * **masked_card (string):** Número de la tarjeta enmascarado.
+  * **reconciliation (string):** Identificador para la conciliación bancaria (p37).
+  * **transaction_id (string):** Identificador de la transacción.
+  * **aproval (string):** Código de aprobación de la entidad.
+  * **authorizator (string):** Entidad autorizadora de la operación.
+
+
+* **Cancellation:**
+
+  Este objeto no añade nada a los atributos anteriores.
+
+* **Card:**
+
+  * **card_mask (string):** Número de la tarjeta enmascarado
+  * **expired_at (date):** Fecha de la expiración
+  * **token (string):** Identificador de la tarjeta
+  * **card(TokenizedCard):** Objeto tarjeta asociado a la tarjeta devuelta.
+
+
+* **Query:**
+
+  Este objeto añade una lista de objetos transacciones, cada objeto transacción tiene:
+
+  **Transaction:**
+    * **description (string):** Descripción literal del estado de la operación.
+    * **date (datetime):** Fecha y hora de la operación.
+    * **order (string):** Ticket de la operación.
+    * **masked_card (string):** Número de la tarjeta enmascarado.
+    * **operation_name (string):** Nombre literal del tipo de operación.
+    * **operation (string):** Identificador del tipo de operación.
+    * **transaction_id (string):** Identificador de la transacción.
+    * **status (string):** Identificador del estado de la operación.
+    * **amount (Amount):** Importe de la operación.
+    * **authorization_id (string):** Identificador de la entidad autorizadora.
+    * **channel_name (string):** Nombre literal del canal de pago.
+    * **channel (string):** Identificador del canal de pago.
+    * **method (string):** Identificador del método de pago.
+    * **method_name (string):** Identificador literal del método de pago.
+
+
+* **Refund:**
+
+  Este objeto añade lo atributos:
+  * **amount (Amount):** Importe de la operación.
+  * **order (string):** Ticket de la operación.
+  * **card_trade (string):** Emisor de la tarjeta. Solicite más información.
+  * **card_type (string):** Tipo de la tarjeta. Solicite más información.
+  * **masked_card (string):** Número de la tarjeta enmascarado.
+  * **reconciliation (string):** Identificador para la conciliación bancaria (p37).
+  * **transaction_id (string):** Identificador de la transacción.
+  * **aproval (string):** Código de aprobación de la entidad.
+  * **authorizator (string):** Entidad autorizadora de la operación.
+
+
+* **Register:**
+
+
+* **card_mask (string):** Número de la tarjeta enmascarado
+* **expired_at (date):** Fecha de la expiración
+* **token (string):** Identificador de la tarjeta
+* **card(TokenizedCard):** Objeto tarjeta asociado a la tarjeta devuelta.
+
+* **Unregister:**
+
+  Este objeto no añade nada a los atributos anteriores.
+
+## **MDWR**
+
 Para utilizar la SDK del middleware, hay que importar el paquete y crear el objeto con la ruta del archivo de configuración.
 
 ```python
@@ -79,13 +253,13 @@ process=27
 Tras iniciar el objeto `mdwr` se puede realizar las siguientes llamadas:
  * **Authorization**
 
-  * **pay_method(PayMethod, required):** metodo de pago [tarjeta, fastpay]
+  * **pay_method(PayMethod, required):** metodo de pago [Card, TokenizedCard, FastPay]
   * **amount(Amount, required):** importe de la operación
   * **order (string):** Ticket de la operación.
   * **reconciliation (string):** Identificador para la conciliación bancaria.
   * **custom_01 (string):** Campo personalizable.
   * **custom_02 (string):** Campo personalizable.
-  * **tokenize(string):** Si el método de pago no es una tarjeta tokenizada, y el valor de tokenize es un str no vacío tokeniza la tarjeta asociada
+  * **token(string):** Si el método de pago no es una tarjeta tokenizada, y el valor de token es un str no vacío tokeniza la tarjeta asociada
 
  Ejemplo:
 
@@ -96,7 +270,7 @@ Tras iniciar el objeto `mdwr` se puede realizar las siguientes llamadas:
    from mdwr.amount import Amount
 
    amount = Amount(100, 'EUR') # 1€
-   card = Card(('6712009000000205', 2018, 2))
+   card = Card('0000000000000000', 2018, 2)
 
    auth = mdwr.authorization(card, amount)
  ```
@@ -113,31 +287,28 @@ Tras iniciar el objeto `mdwr` se puede realizar las siguientes llamadas:
    auth = mdwr.authorization(fp, amount)
  ```
 
- authorization devuelve un objeto Operation.
+ El método authorization devuelve un objeto Authorization.
 
 * **Refund**
 
-  * **pay_method(PayMethod):** Método de pago.
+  * **identificator(PayMethod or string):** Método de pago [Card, TokenizedCard, FastPay] o la id de transacción.
   * **amount (Amount, required):** Importe de la operación
-  * **transaction_id (string):** Identificador de la transacción.
   * **order (string):** Ticket de la operación.
   * **reconciliation (string):** Identificador para la conciliación bancaria.
   * **custom_01 (string):** Campo personalizable.
   * **custom_02 (string):** Campo personalizable.
-  * **tokenize(string):** Si el método de pago no es una tarjeta tokenizada, y el valor de tokenize es un str no vacío tokeniza la tarjeta asociada
-
-  El método de pago o el identificador de la transacción es requerido.
+  * **token(string):** Si el método de pago no es una tarjeta tokenizada, y el valor de token es un str no vacío tokeniza la tarjeta asociada
 
   Ejemplo:
 
   Devolución con tarjeta.
 
   ```python
-    from mdwr.paymethod.card import Card
+    from mdwr.paymethod.tokenizedcard import TokenizedCard
     from mdwr.amount import Amount
 
     amount = Amount(100, 'EUR') # 1€
-    card = Card('bd6613acc6bd4ac7b6aa96fb92b2572a')
+    card = TokenizedCard('bd6613acc6bd4ac7b6aa96fb92b2572a')
 
     refund = mdwr.refund(card, amount)
   ```
@@ -152,32 +323,30 @@ Tras iniciar el objeto `mdwr` se puede realizar las siguientes llamadas:
     refund = mdwr.refund('transaction_id', amount)
   ```
 
-  refund devuelve un objeto Operation.
+  El método refund devuelve un objeto Refund.
 
-  * **Register**
+* **Register**
 
-    * **card(Card):** Tarjeta iniciada con `(pan, año, mes)`.
-    * **tokenize(string):** Token con el que se le asocia a la tarjeta.
+  * **card(Card, required):** Tarjeta a registrar.
+  * **token(string, required):** Token con el que se le asocia a la tarjeta.
 
-    Ejemplo:
+  Ejemplo:
 
-    Registro de tarjeta.
+  Registro de tarjeta.
 
-    ```python
-      from mdwr.paymethod.card import Card
+  ```python
+    from mdwr.paymethod.card import Card
 
-      card = Card(('6712009000000205', 2018, 2))
+    card = Card('0000000000000000', 2018, 2)
 
-      masked_card = mdwr.register(card, 'newtoken')
-    ```
+    masked_card = mdwr.register(card, 'newtoken')
+  ```
 
-    register devuelve un objeto MaskedCard.
-
-    refund devuelve un objeto Operation.
+  El método register devuelve un objeto Register.
 
 * **Card**
 
-  * **token(string):** Token asociado a la tarjeta.
+  * **token(string, required):** Token asociado a la tarjeta.
 
   Ejemplo:
 
@@ -187,4 +356,46 @@ Tras iniciar el objeto `mdwr` se puede realizar las siguientes llamadas:
     masked_card = mdwr.card('newtoken')
   ```
 
-  card devuelve un objeto MaskedCard.
+  El método card devuelve un objeto Card del apartado Responses.
+
+* **Unregister**
+
+  * **token(string, required):** Token asociado a la tarjeta.
+
+  Ejemplo:
+
+  Borrar una tarjeta del registro.
+
+  ```python
+    unregister = mdwr.unregister('newtoken')
+  ```
+
+  El método unregister devuelve un objeto Unregister.
+
+* **Cancellation**
+
+  * **transaction_id(string, required):** identificador de la transacción.
+
+  Ejemplo:
+
+  Cancelación de operación.
+
+  ```python
+    cancel = mdwr.cancellation('transaction_id')
+  ```
+
+  El método cancellation devuelve un objeto Cancellation.
+
+* **Query**
+  * **order(string):** Ticket de la operación.
+  * **transaction_id(string):** identificador de la transacción.
+
+  Ejemplo:
+
+  Búsqueda de transacciones.
+
+  ```python
+    query = mdwr.query(transaction_id='transaction_id')
+  ```
+
+  El método query devuelve un objeto Query.
