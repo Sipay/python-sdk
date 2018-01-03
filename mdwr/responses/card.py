@@ -22,11 +22,3 @@ class Card(Response):
 
         if self.card:
             self.card = TokenizedCard(self.card)
-
-    def __str__(self):
-        """Cast to string."""
-        args = (self.code, self.detail, self.description, self.request_id,
-                self.type, self.uuid, self.expired_at, self.card, self.card_mask, self.token)
-        return '<MaskedCard(code={0}, detail={1}, description={2}, '\
-               'request_id={3}, type={4}, uuid={5}, expired_at={6}, card={7},'\
-               ' card_mask={8}, token={9})>'.format(*args)

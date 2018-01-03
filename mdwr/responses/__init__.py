@@ -6,18 +6,25 @@ class Response:
 
     def __init__(self, request, response):
         """Initilize."""
-        self.code = int(response['code'])
-        self.detail = response['detail']
-        self.description = response['description']
-        self.request_id = response['request_id']
-        self.type = response['type']
-        self.uuid = response['uuid']
+        self.code = response.get('code')
+        self.detail = response.get('detail')
+        self.description = response.get('description')
+        self.request_id = response.get('request_id')
+        self.type = response.get('type')
+        self.uuid = response.get('uuid')
         self._request = request
         self._response = response
 
+        if self.code:
+            self.code = int(self.code)
+
     def __str__(self):
         """Cast to string."""
-        args = (self.code, self.detail, self.description, self.request_id,
-                self.type, self.uuid)
-        return '<Response(code={0}, detail={1}, description={2}, '\
-               'request_id={3}, type={4}, uuid={5})>'.format(*args)
+        ret = ''
+        for k, v in self.__dict__.items():
+            if not k.startswith('_'):
+                ret += '{0}={1}, '.format(k, v)
+
+        ret = '<{0}({1})>'.format(type(self).__name__,ret[:-2])
+
+        return ret
