@@ -12,8 +12,8 @@ class Register(Response):
         super().__init__(request, response)
         payload = response['payload']
         self.expired_at = payload.get('expired_at')
-        self.internal_code = payload.get('code')
         self.card_mask = payload.get('card_mask')
+        self.token = payload.get('token')
         self.card = self.token = payload.get('token')
 
         if self.expired_at:
@@ -22,9 +22,6 @@ class Register(Response):
 
         if self.card:
             self.card = TokenizedCard(self.card)
-
-        if self.internal_code:
-            self.internal_code = int(self.internal_code)
 
     def __str__(self):
         """Cast to string."""

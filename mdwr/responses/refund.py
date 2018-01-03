@@ -10,7 +10,6 @@ class Refund(Response):
         """Initialize."""
         super().__init__(request, response)
         payload = response['payload']
-        self.internal_code = payload.get('code')
         self.approval = payload.get('approval')
         self.authorizator = payload.get('authorizator')
         self.card_trade = payload.get('card_trade')

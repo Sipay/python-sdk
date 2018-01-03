@@ -13,7 +13,6 @@ class Card(Response):
         payload = response['payload']
         self.expired_at = payload.get('expired_at')
         self.card = payload.get('token')
-        self.internal_code = payload.get('code')
         self.card_mask = payload.get('card_mask')
         self.token = payload.get('token')
 
@@ -23,9 +22,6 @@ class Card(Response):
 
         if self.card:
             self.card = TokenizedCard(self.card)
-
-        if self.internal_code:
-            self.internal_code = int(self.internal_code)
 
     def __str__(self):
         """Cast to string."""

@@ -11,11 +11,9 @@ class Query(Response):
         super().__init__(request, response)
         payload = response['payload']
         if payload:
-            self.internal_code = int(payload['code'])
             self.transactions = [Transaction(tx) for tx in payload['items']]
 
         else:
-            self.internal_code = None
             self.transactions = None
 
     def __str__(self):

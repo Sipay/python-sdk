@@ -8,8 +8,14 @@ class Amount:
 
     def __init__(self, amount, currency):
         """Initialize Amount."""
-        self.amount = amount
         self.currency = currency
+        index = -self._currency[2]-1
+        if isinstance(amount, str) and \
+           re.match(r'^([0-9]+\.[0-9]+)$', amount) and amount[index] == '.':
+            amount = amount.replace('.', '')
+            amount = int(amount)
+
+        self.amount = amount
 
     @property
     def currency(self):
@@ -33,12 +39,7 @@ class Amount:
 
     @amount.setter
     def amount(self, amount):
-        if isinstance(amount, str) and \
-           re.match(r'^([0-9]+)|([0-9]+\.[0-9]+)$', amount):
-            amount = amount.replace('.', '')
-            amount = int(amount)
-
-        elif not isinstance(amount, int):
+        if not isinstance(amount, int):
             raise TypeError('amount must have a correct format.')
 
         if amount <= 0:
