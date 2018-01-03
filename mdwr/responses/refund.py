@@ -25,17 +25,14 @@ class Refund(Response):
         else:
             self.amount = None
 
-        if self.internal_code:
-            self.internal_code = int(self.internal_code)
-
     def __str__(self):
         """Cast to string."""
         args = (self.code, self.detail, self.description, self.request_id,
-                self.type, self.uuid, self.internal_code, self.approval,
+                self.type, self.uuid, self.approval,
                 self.authorizator, self.card_trade, self.card_type, self.order,
                 self.reconciliation, self.transaction_id)
         return '<Refund(code={0}, detail={1}, description={2}, '\
-               'request_id={3}, type={4}, uuid={5}, internal_code={6}, '\
-               'approval={7}, authorizator={8}, card_trade={9}, '\
-               'card_type={10}, order={11}, reconciliation={12}, '\
-               'transaction_id={13})>'.format(*args)
+               'request_id={3}, type={4}, uuid={5}, approval={6}, '\
+               'authorizator={7}, card_trade={8}, card_type={9}, '\
+               'order={10}, reconciliation={11}, '\
+               'transaction_id={12})>'.format(*args)

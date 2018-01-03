@@ -26,8 +26,7 @@ class Card(Response):
     def __str__(self):
         """Cast to string."""
         args = (self.code, self.detail, self.description, self.request_id,
-                self.type, self.uuid, self.expired_at, self.card,
-                self.internal_code, self.card_mask, self.token)
+                self.type, self.uuid, self.expired_at, self.card, self.card_mask, self.token)
         return '<MaskedCard(code={0}, detail={1}, description={2}, '\
                'request_id={3}, type={4}, uuid={5}, expired_at={6}, card={7},'\
-               ' internal_code={8}, card_mask={9}, token={10})>'.format(*args)
+               ' card_mask={8}, token={9})>'.format(*args)
