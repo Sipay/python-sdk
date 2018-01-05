@@ -21,10 +21,10 @@ class TokenizedCard(PayMethod):
     @token.setter
     def token(self, token):
         if not isinstance(token, str):
-            raise TypeError('token hasn\'t a correct type.')
+            raise TypeError('token doesn\'t have a correct type.')
 
         if not re.match(r'^[\w-]{6,128}$', token):
-            raise ValueError('token hasn\'t a correct value.')
+            raise ValueError('token doesn\'t have a correct value.')
 
         self._token = token
 

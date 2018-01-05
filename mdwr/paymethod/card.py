@@ -20,10 +20,10 @@ class Card(PayMethod):
     @card_number.setter
     def card_number(self, card_number):
         if not isinstance(card_number, str):
-            raise TypeError('card_number hasn\'t a correct type.')
+            raise TypeError('card_number doesn\'t have a correct type.')
 
         if not re.match(r'^[\w-]{14,19}$', card_number):
-            raise ValueError('card_number hasn\'t a correct value.')
+            raise ValueError('card_number doesn\'t have a correct value.')
 
         self._card_number = card_number
 
@@ -40,18 +40,18 @@ class Card(PayMethod):
     def set_expiration_date(self, year, month):
         """Set expiration date."""
         if not isinstance(year, int):
-            raise TypeError('year hasn\'t a correct type.')
+            raise TypeError('year doesn\'t have a correct type.')
 
         if not (999 < year <= 9999):
-            raise ValueError('year hasn\'t a correct value.')
+            raise ValueError('year doesn\'t have a correct value.')
 
         self._year = year
 
         if not isinstance(month, int):
-            raise TypeError('month hasn\'t a correct type.')
+            raise TypeError('month doesn\'t have a correct type.')
 
         if not (0 < month <= 12):
-            raise ValueError('month hasn\'t a correct value.')
+            raise ValueError('month doesn\'t have a correct value.')
 
         self._month = month
 
