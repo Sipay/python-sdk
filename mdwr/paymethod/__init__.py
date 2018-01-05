@@ -4,6 +4,6 @@
 class PayMethod:
     """PayMethod class."""
 
-    def add_to(self, payload):
+    def to_dict(self, payload):
         """Add to payload a pay method."""
         raise NotImplementedError()

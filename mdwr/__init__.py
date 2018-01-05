@@ -5,7 +5,6 @@ import hmac
 import json
 import requests
 import logging
-import re
 
 from mdwr.responses.authorization import Authorization
 from mdwr.responses.cancellation import Cancellation
@@ -277,7 +276,7 @@ class MDWR:
             'currency': amount.currency
         }
 
-        paymethod.add_to(payload)
+        payload.update(paymethod.to_dict())
 
         if 'token' not in payload and token is not None:
             payload['token'] = token
@@ -328,7 +327,7 @@ class MDWR:
         if isinstance(identificator, str):
             payload['transaction_id'] = identificator
         elif issubclass(type(identificator), PayMethod):
-            identificator.add_to(payload)
+            payload.update(identificator.to_dict())
         else:
             self._logger.error('Incorrect identificator.')
             raise TypeError('Incorrect identificator.')
@@ -355,7 +354,7 @@ class MDWR:
         payload = {
             'token': token
         }
-        card.add_to(payload)
+        payload.update(card.to_dict())
 
         request, response = self.send(payload, 'register')
         return Register(request, response) if response else None

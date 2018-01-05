@@ -8,7 +8,7 @@ def schemadec(schema):
 
     check if arguments of function are correct.
     """
-    def Decorator(func):
+    def decorator(func):
         def _schemadec(*args, **kwargs):
             func_arg_names = inspect.getargspec(func).args
             num_args = len(args)
@@ -32,7 +32,7 @@ def schemadec(schema):
 
             return func(*args, **kwargs)
         return _schemadec
-    return Decorator
+    return decorator
 
 
 def check_schema(val, schema):

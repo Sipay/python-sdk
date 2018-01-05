@@ -21,13 +21,15 @@ class TokenizedCard(PayMethod):
     @token.setter
     def token(self, token):
         if not isinstance(token, str):
-            raise TypeError('token dont have a correct type.')
+            raise TypeError('token hasn\'t a correct type.')
 
         if not re.match(r'^[\w-]{6,128}$', token):
-            raise ValueError('token dont have a correct value.')
+            raise ValueError('token hasn\'t a correct value.')
 
         self._token = token
 
-    def add_to(self, payload):
-        """Add to payload a card."""
-        payload['token'] = self.token
+    def to_dict(self):
+        """Parse card date to dict."""
+        return {
+            'token': self.token
+        }

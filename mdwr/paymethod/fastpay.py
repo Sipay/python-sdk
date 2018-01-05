@@ -25,6 +25,8 @@ class FastPay(PayMethod):
 
         self._token = token
 
-    def add_to(self, payload):
-        """Add Fastpay to payload."""
-        payload['fastpay'] = {'request_id': self.token}
+    def to_dict(self):
+        """Parse Fastpay date to dict."""
+        return {
+            'fastpay': {'request_id': self.token}
+        }

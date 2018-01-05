@@ -1,6 +1,7 @@
 """Card file."""
 from mdwr.paymethod import PayMethod
 import re
+import time
 
 
 class Card(PayMethod):
@@ -9,8 +10,7 @@ class Card(PayMethod):
     def __init__(self, card_number, year, month):
         """Initialize."""
         self.card_number = card_number
-        self.year = year
-        self.month = month
+        self.set_expiration_date(year, month)
 
     @property
     def card_number(self):
@@ -20,10 +20,10 @@ class Card(PayMethod):
     @card_number.setter
     def card_number(self, card_number):
         if not isinstance(card_number, str):
-            raise TypeError('card_number dont have a correct type.')
+            raise TypeError('card_number hasn\'t a correct type.')
 
         if not re.match(r'^[\w-]{14,19}$', card_number):
-            raise ValueError('card_number dont have a correct value.')
+            raise ValueError('card_number hasn\'t a correct value.')
 
         self._card_number = card_number
 
@@ -32,18 +32,41 @@ class Card(PayMethod):
         """Getter of year."""
         return self._year
 
-    @year.setter
-    def year(self, year):
-        if not isinstance(year, int):
-            raise TypeError('year dont have a correct type.')
+    @property
+    def month(self):
+        """Getter of month."""
+        return self._month
 
-        if not (2017 < year <= 9999):
-            raise ValueError('year dont have a correct value.')
+    def set_expiration_date(self, year, month):
+        """Set expiration date."""
+        if not isinstance(year, int):
+            raise TypeError('year hasn\'t a correct type.')
+
+        if not (999 < year <= 9999):
+            raise ValueError('year hasn\'t a correct value.')
 
         self._year = year
 
-    def add_to(self, payload):
-        """Add to payload a card."""
-        payload['pan'] = self.card_number
-        payload['year'] = self.year
-        payload['month'] = self.month
+        if not isinstance(month, int):
+            raise TypeError('month hasn\'t a correct type.')
+
+        if not (0 < month <= 12):
+            raise ValueError('month hasn\'t a correct value.')
+
+        self._month = month
+
+        if self.is_expired():
+            raise Exception('Card is expired.')
+
+    def is_expired(self):
+        """Return if card is expired."""
+        year, month, _, _, _, _, _, _, _ = time.localtime()
+        return self.year < year or (self.year == year and self.month < month)
+
+    def to_dict(self):
+        """Parse card date to dict."""
+        return {
+            'pan': self.card_number,
+            'year': self.year,
+            'month': self.month
+        }
