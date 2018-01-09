@@ -14,11 +14,11 @@ class Register(Response):
         self.expired_at = payload.get('expired_at')
         self.card_mask = payload.get('card_mask')
         self.token = payload.get('token')
-        self.card = self.token = payload.get('token')
+        self.card = None
 
         if self.expired_at:
             date = datetime.strptime(payload['expired_at'], '%Y-%m-%d').date()
             self.expired_at = date
 
-        if self.card:
-            self.card = TokenizedCard(self.card)
+        if self.token:
+            self.card = TokenizedCard(self.token)

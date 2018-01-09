@@ -3,13 +3,13 @@ import re
 import inspect
 
 
-def schemadec(schema):
+def schema(schema):
     """Decorator.
 
     check if arguments of function are correct.
     """
     def decorator(func):
-        def _schemadec(*args, **kwargs):
+        def _schema(*args, **kwargs):
             func_arg_names = inspect.getargspec(func).args
             num_args = len(args)
             for key, val in schema.items():
@@ -31,7 +31,7 @@ def schemadec(schema):
                     raise ValueError("Value of {} dont match with pattern".format(key))
 
             return func(*args, **kwargs)
-        return _schemadec
+        return _schema
     return decorator
 
 

@@ -17,7 +17,7 @@ from mdwr.paymethod import PayMethod
 from mdwr.paymethod.card import Card
 from mdwr.amount import Amount
 
-from mdwr.utils import schemadec
+from mdwr.utils import schema
 
 from mdwr.logger import FileLevelHandler
 
@@ -101,7 +101,7 @@ class MDWR:
             raise TypeError('environment must be a string.')
 
         environment = environment.lower()
-        if environment not in ['sandbox', 'staging', 'live']:
+        if environment not in ['develop', 'sandbox', 'staging', 'live']:
             self._logger.error('environment must be sandbox, staging or live')
             raise ValueError('environment must be sandbox, staging or live')
 
@@ -237,7 +237,7 @@ class MDWR:
 
         return _logger
 
-    @schemadec({
+    @schema({
         'amount': {'type': Amount},
         'order': {'type': str, 'pattern': r'^[\w-]{6,64}$'},
         'reconciliation': {
@@ -286,7 +286,7 @@ class MDWR:
         request, response = self.send(payload, 'authorization')
         return Authorization(request, response) if response else None
 
-    @schemadec({
+    @schema({
         'amount': {'type': Amount},
         'order': {'type': str, 'pattern': r'^[\w-]{6,64}$'},
         'reconciliation': {
@@ -338,7 +338,7 @@ class MDWR:
         request, response = self.send(payload, 'refund')
         return Refund(request, response) if response else None
 
-    @schemadec({
+    @schema({
         'card': {'type': Card},
         'token': {'type': str, 'pattern': r'^[\w-]{6,128}$'}
         })
@@ -359,7 +359,7 @@ class MDWR:
         request, response = self.send(payload, 'register')
         return Register(request, response) if response else None
 
-    @schemadec({'token': {'type': str, 'pattern': r'^[\w-]{6,128}$'}})
+    @schema({'token': {'type': str, 'pattern': r'^[\w-]{6,128}$'}})
     def card(self, token):
         """Send a request for search a card in Sipay.
 
@@ -375,7 +375,7 @@ class MDWR:
         request, response = self.send(payload, 'card')
         return CardResponse(request, response) if response else None
 
-    @schemadec({'transaction_id': {'type': str, 'pattern': r'^[0-9]{6,22}$'}})
+    @schema({'transaction_id': {'type': str, 'pattern': r'^[0-9]{6,22}$'}})
     def cancellation(self, transaction_id):
         """Send a request of cancellation to Sipay.
 
@@ -391,7 +391,7 @@ class MDWR:
         request, response = self.send(payload, 'cancellation')
         return Cancellation(request, response) if response else None
 
-    @schemadec({'token': {'type': str, 'pattern': r'^[\w-]{6,128}$'}})
+    @schema({'token': {'type': str, 'pattern': r'^[\w-]{6,128}$'}})
     def unregister(self, token):
         """Send a request of remove a registry of a token to Sipay.
 
@@ -407,7 +407,7 @@ class MDWR:
         request, response = self.send(payload, 'unregister')
         return Unregister(request, response) if response else None
 
-    @schemadec({
+    @schema({
         'order': {'type': str, 'pattern': r'^[\w-]{6,64}$'},
         'transaction_id': {'type': str, 'pattern': r'^[0-9]{6,22}$'}
         })
