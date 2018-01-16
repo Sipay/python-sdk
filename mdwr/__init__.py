@@ -253,7 +253,7 @@ class MDWR:
 
         Args:
             - paymethod: Payment method of authorization (it can be an object
-                of Card, TokenizedCard or FastPay).
+                of Card, StoredCard or FastPay).
             - amount: Amount of the operation.
             - order: ticket of the operation
             - reconciliation: identification for bank reconciliation

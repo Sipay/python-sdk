@@ -3,8 +3,8 @@ from mdwr.paymethod import PayMethod
 import re
 
 
-class TokenizedCard(PayMethod):
-    """TokenizedCard class."""
+class StoredCard(PayMethod):
+    """StoredCard class."""
 
     def __init__(self, token):
         """Initialize.

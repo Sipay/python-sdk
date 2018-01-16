@@ -1,7 +1,7 @@
 """Register module."""
 from mdwr.responses import Response
 from datetime import datetime
-from mdwr.paymethod.tokenizedcard import TokenizedCard
+from mdwr.paymethod.storedcard import StoredCard
 
 
 class Register(Response):
@@ -21,4 +21,4 @@ class Register(Response):
             self.expired_at = date
 
         if self.token:
-            self.card = TokenizedCard(self.token)
+            self.card = StoredCard(self.token)
