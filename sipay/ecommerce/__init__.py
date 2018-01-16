@@ -1,4 +1,4 @@
-"""MDWR module."""
+"""Ecommerce module."""
 from configparser import ConfigParser
 from time import time
 import hmac
@@ -6,27 +6,27 @@ import json
 import requests
 import logging
 
-from mdwr.responses.authorization import Authorization
-from mdwr.responses.cancellation import Cancellation
-from mdwr.responses.card import Card as CardResponse
-from mdwr.responses.refund import Refund
-from mdwr.responses.register import Register
-from mdwr.responses.unregister import Unregister
-from mdwr.responses.query import Query
-from mdwr.paymethod import PayMethod
-from mdwr.paymethod.card import Card
-from mdwr.amount import Amount
+from sipay.ecommerce.responses.authorization import Authorization
+from sipay.ecommerce.responses.cancellation import Cancellation
+from sipay.ecommerce.responses.card import Card as CardResponse
+from sipay.ecommerce.responses.refund import Refund
+from sipay.ecommerce.responses.register import Register
+from sipay.ecommerce.responses.unregister import Unregister
+from sipay.ecommerce.responses.query import Query
+from sipay.paymethod import PayMethod
+from sipay.paymethod.card import Card
+from sipay.amount import Amount
 
-from mdwr.utils import schema
+from sipay.utils import schema
 
-from mdwr.logger import FileLevelHandler
+from sipay.logger import FileLevelHandler
 
 
-class MDWR:
+class Ecommerce:
     """SDK to use middleware of Sipay easily."""
 
     def __init__(self, config_file):
-        """Initialize MDWR with a config.ini file."""
+        """Initialize Ecommerce with a config.ini file."""
         if not isinstance(config_file, str):
             self._logger.error('config_file must be a string.')
             raise TypeError('config_file must be a string.')

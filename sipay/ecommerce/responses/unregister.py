@@ -1,5 +1,5 @@
 """Unregister module."""
-from mdwr.responses import Response
+from sipay.ecommerce.responses import Response
 
 
 class Unregister(Response):

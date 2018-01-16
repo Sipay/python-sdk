@@ -1,10 +1,10 @@
-"""Authorization module."""
-from mdwr.responses import Response
-from mdwr.amount import Amount
+"""Refund module."""
+from sipay.ecommerce.responses import Response
+from sipay.amount import Amount
 
 
-class Authorization(Response):
-    """Authorization class."""
+class Refund(Response):
+    """Refund class."""
 
     def __init__(self, request, response):
         """Initialize."""

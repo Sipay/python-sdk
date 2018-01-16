@@ -1,6 +1,6 @@
 """Query module."""
-from mdwr.responses import Response
-from mdwr.responses.transaction import Transaction
+from sipay.ecommerce.responses import Response
+from sipay.ecommerce.responses.transaction import Transaction
 
 
 class Query(Response):
