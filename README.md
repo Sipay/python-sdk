@@ -62,19 +62,19 @@
     ```
 
 
-  * **TokenizedCard:**
-  Representa el método de pago con tarjeta tokenizada, para inicializarlo se necesita:
+  * **StoredCard:**
+  Representa el método de pago con tarjeta almacenada en Sipay, para inicializarlo se necesita:
 
     * **token asociado a una tarjeta:** String que tiene entre 6 y 128 caracteres alfanúmericos y guiones.
 
   Ejemplo:
   ```python
-    from mdwr.paymethod.tokenizedcard import TokenizedCard
+    from mdwr.paymethod.storedcard import StoredCard
 
-    card = TokenizedCard('token-card')
+    card = StoredCard('token-card')
   ```
   * **FastPay:**
-  Representa el método de pago con tarjeta tokenizada a mediante Fast Pay, para inicializarlo se necesita:
+  Representa el método de pago con tarjeta almacenada en Sipay mediante Fast Pay, para inicializarlo se necesita:
 
     * **token asociado a una tarjeta:** String que tiene entre 6 y 128 caracteres alfanúmericos y guiones.
 
@@ -128,7 +128,7 @@ Todos los objetos de esta sección tienen los siguientes atributos:
   * **card_mask (string):** Número de la tarjeta enmascarado
   * **expired_at (date):** Fecha de la expiración
   * **token (string):** Identificador de la tarjeta
-  * **card(TokenizedCard):** Objeto tarjeta asociado a la tarjeta devuelta.
+  * **card(StoredCard):** Objeto tarjeta asociado a la tarjeta devuelta.
 
 
 * **Query:**
@@ -172,7 +172,7 @@ Todos los objetos de esta sección tienen los siguientes atributos:
 * **card_mask (string):** Número de la tarjeta enmascarado
 * **expired_at (date):** Fecha de la expiración
 * **token (string):** Identificador de la tarjeta
-* **card(TokenizedCard):** Objeto tarjeta asociado a la tarjeta devuelta.
+* **card(StoredCard):** Objeto tarjeta asociado a la tarjeta devuelta.
 
 * **Unregister:**
 
@@ -253,13 +253,13 @@ process=27
 Tras iniciar el objeto `mdwr` se puede realizar las siguientes llamadas:
  * **Authorization**
 
-  * **pay_method(PayMethod, required):** metodo de pago [Card, TokenizedCard, FastPay]
+  * **pay_method(PayMethod, required):** metodo de pago [Card, StoredCard, FastPay]
   * **amount(Amount, required):** importe de la operación
   * **order (string):** Ticket de la operación.
   * **reconciliation (string):** Identificador para la conciliación bancaria.
   * **custom_01 (string):** Campo personalizable.
   * **custom_02 (string):** Campo personalizable.
-  * **token(string):** Si el método de pago no es una tarjeta tokenizada, y el valor de token es un str no vacío tokeniza la tarjeta asociada
+  * **token(string):** Si el método de pago no es una StoredCard, y el valor de token es un str no vacío almacena la tarjeta asociada el token pasado en este campo.
 
  Ejemplo:
 
@@ -291,24 +291,24 @@ Tras iniciar el objeto `mdwr` se puede realizar las siguientes llamadas:
 
 * **Refund**
 
-  * **identificator(PayMethod or string):** Método de pago [Card, TokenizedCard, FastPay] o la id de transacción.
+  * **identificator(PayMethod or string):** Método de pago [Card, StoredCard, FastPay] o la id de transacción.
   * **amount (Amount, required):** Importe de la operación
   * **order (string):** Ticket de la operación.
   * **reconciliation (string):** Identificador para la conciliación bancaria.
   * **custom_01 (string):** Campo personalizable.
   * **custom_02 (string):** Campo personalizable.
-  * **token(string):** Si el método de pago no es una tarjeta tokenizada, y el valor de token es un str no vacío tokeniza la tarjeta asociada
+  * **token(string):** Si el método de pago no es una StoredCard, y el valor de token es un str no vacío almacena la tarjeta asociada el token pasado en este campo.
 
   Ejemplo:
 
   Devolución con tarjeta.
 
   ```python
-    from mdwr.paymethod.tokenizedcard import TokenizedCard
+    from mdwr.paymethod.storedcard import StoredCard
     from mdwr.amount import Amount
 
     amount = Amount(100, 'EUR') # 1€
-    card = TokenizedCard('bd6613acc6bd4ac7b6aa96fb92b2572a')
+    card = StoredCard('bd6613acc6bd4ac7b6aa96fb92b2572a')
 
     refund = mdwr.refund(card, amount)
   ```
