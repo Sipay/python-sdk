@@ -101,7 +101,7 @@ class Ecommerce:
             raise TypeError('environment must be a string.')
 
         environment = environment.lower()
-        if environment not in ['develop', 'sandbox', 'staging', 'live']:
+        if environment not in ['sandbox', 'staging', 'live']:
             self._logger.error('environment must be sandbox, staging or live')
             raise ValueError('environment must be sandbox, staging or live')
 
