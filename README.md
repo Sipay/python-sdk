@@ -21,7 +21,7 @@
   Ejemplos:
 
   ```python
-    from mdwr.amount import Amount
+    from sipay.amount import Amount
 
     # Con string
     amount = Amount('1.56', 'EUR')
@@ -56,7 +56,7 @@
 
     Ejemplo:
     ```python
-      from mdwr.paymethod.card import Card
+      from sipay.paymethod.card import Card
 
       card = Card('0000000000000000', 2018, 2)
     ```
@@ -69,7 +69,7 @@
 
   Ejemplo:
   ```python
-    from mdwr.paymethod.storedcard import StoredCard
+    from sipay.paymethod.storedcard import StoredCard
 
     card = StoredCard('token-card')
   ```
@@ -80,7 +80,7 @@
 
   Ejemplo:
   ```python
-    from mdwr.paymethod.fastpay import FastPay
+    from sipay.paymethod.fastpay import FastPay
 
     fp = FastPay('token-fast-pay')
   ```
@@ -178,13 +178,13 @@ Todos los objetos de esta sección tienen los siguientes atributos:
 
   Este objeto no añade nada a los atributos anteriores.
 
-## **MDWR**
+## **Ecommerce**
 
 Para utilizar la SDK del middleware, hay que importar el paquete y crear el objeto con la ruta del archivo de configuración.
 
 ```python
-  from mdwr import MDWR
-  mdwr = MDWR('etc/config.ini')
+  from sipay import Ecommerce
+  ecommerce = Ecommerce('etc/config.ini')
 ```
 
 El archivo de configuración tiene que
@@ -250,7 +250,7 @@ connection=3
 process=27
 ```
 
-Tras iniciar el objeto `mdwr` se puede realizar las siguientes llamadas:
+Tras iniciar el objeto `ecommerce` se puede realizar las siguientes llamadas:
  * **Authorization**
 
   * **pay_method(PayMethod, required):** metodo de pago [Card, StoredCard, FastPay]
@@ -266,25 +266,25 @@ Tras iniciar el objeto `mdwr` se puede realizar las siguientes llamadas:
  Autorización con tarjeta.
 
  ```python
-   from mdwr.paymethod.card import Card
-   from mdwr.amount import Amount
+   from sipay.paymethod.card import Card
+   from sipay.amount import Amount
 
    amount = Amount(100, 'EUR') # 1€
    card = Card('0000000000000000', 2018, 2)
 
-   auth = mdwr.authorization(card, amount)
+   auth = ecommerce.authorization(card, amount)
  ```
 
  Autorización con Fast Pay.
 
  ```python
-   from mdwr.paymethod.fastpay import FastPay
-   from mdwr.amount import Amount
+   from sipay.paymethod.fastpay import FastPay
+   from sipay.amount import Amount
 
    amount = Amount(100, 'EUR') # 1€
    fp = FastPay('830dc0b45f8945fab229000347646ca5')
 
-   auth = mdwr.authorization(fp, amount)
+   auth = ecommerce.authorization(fp, amount)
  ```
 
  El método authorization devuelve un objeto Authorization.
@@ -304,23 +304,23 @@ Tras iniciar el objeto `mdwr` se puede realizar las siguientes llamadas:
   Devolución con tarjeta.
 
   ```python
-    from mdwr.paymethod.storedcard import StoredCard
-    from mdwr.amount import Amount
+    from sipay.paymethod.storedcard import StoredCard
+    from sipay.amount import Amount
 
     amount = Amount(100, 'EUR') # 1€
     card = StoredCard('bd6613acc6bd4ac7b6aa96fb92b2572a')
 
-    refund = mdwr.refund(card, amount)
+    refund = ecommerce.refund(card, amount)
   ```
 
   Devolución con transaction_id.
 
   ```python
-    from mdwr.amount import Amount
+    from sipay.amount import Amount
 
     amount = Amount(100, 'EUR') # 1€
 
-    refund = mdwr.refund('transaction_id', amount)
+    refund = ecommerce.refund('transaction_id', amount)
   ```
 
   El método refund devuelve un objeto Refund.
@@ -335,11 +335,11 @@ Tras iniciar el objeto `mdwr` se puede realizar las siguientes llamadas:
   Registro de tarjeta.
 
   ```python
-    from mdwr.paymethod.card import Card
+    from sipay.paymethod.card import Card
 
     card = Card('0000000000000000', 2018, 2)
 
-    masked_card = mdwr.register(card, 'newtoken')
+    masked_card = ecommerce.register(card, 'newtoken')
   ```
 
   El método register devuelve un objeto Register.
@@ -353,7 +353,7 @@ Tras iniciar el objeto `mdwr` se puede realizar las siguientes llamadas:
   Búsqueda de tarjeta.
 
   ```python
-    masked_card = mdwr.card('newtoken')
+    masked_card = ecommerce.card('newtoken')
   ```
 
   El método card devuelve un objeto Card del apartado Responses.
@@ -367,7 +367,7 @@ Tras iniciar el objeto `mdwr` se puede realizar las siguientes llamadas:
   Borrar una tarjeta del registro.
 
   ```python
-    unregister = mdwr.unregister('newtoken')
+    unregister = ecommerce.unregister('newtoken')
   ```
 
   El método unregister devuelve un objeto Unregister.
@@ -381,7 +381,7 @@ Tras iniciar el objeto `mdwr` se puede realizar las siguientes llamadas:
   Cancelación de operación.
 
   ```python
-    cancel = mdwr.cancellation('transaction_id')
+    cancel = ecommerce.cancellation('transaction_id')
   ```
 
   El método cancellation devuelve un objeto Cancellation.
@@ -395,7 +395,7 @@ Tras iniciar el objeto `mdwr` se puede realizar las siguientes llamadas:
   Búsqueda de transacciones.
 
   ```python
-    query = mdwr.query(transaction_id='transaction_id')
+    query = ecommerce.query(transaction_id='transaction_id')
   ```
 
   El método query devuelve un objeto Query.

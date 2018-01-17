@@ -1,5 +1,5 @@
 """FastPay file."""
-from mdwr.paymethod import PayMethod
+from sipay.paymethod import PayMethod
 import re
 
 

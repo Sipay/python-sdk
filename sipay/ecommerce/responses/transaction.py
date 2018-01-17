@@ -1,5 +1,5 @@
 """Transaction module."""
-from mdwr.amount import Amount
+from sipay.amount import Amount
 from datetime import datetime
 
 

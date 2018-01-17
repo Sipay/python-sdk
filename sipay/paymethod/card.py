@@ -1,5 +1,5 @@
 """Card file."""
-from mdwr.paymethod import PayMethod
+from sipay.paymethod import PayMethod
 import re
 import time
 

@@ -1,5 +1,5 @@
 """Amount module."""
-from mdwr.catalogs.currency import CURRENCIES
+from sipay.catalogs.currency import CURRENCIES
 import re
 
 
