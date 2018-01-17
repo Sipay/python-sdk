@@ -15,7 +15,7 @@
   La cantidad se puede especificar de dos formas o con un string con la cantidad estandarizada y con el caracter de separación de decimales `.`, o con un entero de la cantidad en la unidad básica e indivisible de la moneda (por ejemplo de la moneda Euro sería el céntimo).
 
   **Atributos**
-    * **amount:** Contiene un entero de la cantidad en la unidad básica e indivisible de la moneda.
+    * **amount:** Contiene un entero de la cantidad en la unidad básica e indivisible de la moneda(en el caso de haber introducido un string con decimales, en este campo se almacenará el entero en la unidad básica e indivisible de la moneda).
     * **currency:** Contiene un string del código de la moneda(ISO4217).
 
   Ejemplos:
