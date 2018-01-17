@@ -399,3 +399,307 @@ Tras iniciar el objeto `ecommerce` se puede realizar las siguientes llamadas:
   ```
 
   El método query devuelve un objeto Query.
+
+# Quickstart
+
+Lo primero para hacer transacciones ecommerce, es crear un archivo de configuración como este:
+
+```ini
+# **************************************************************
+# LOGGER
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Configuración asociada al sistema de trazas.
+#
+# file: Nombre del archivo
+# level: nivel minimo de trazas [debug, info, warning, error, critical]
+# max_file_size: Tamaño máximo del fichero de trazas [bytes]
+# backup_file_rotation: Número de ficheros de backup
+# ------------------------------------------------------------//
+
+[logger]
+file=logs/info.log
+level=warning
+max_file_size = 51200000
+backup_file_rotation = 5
+
+# **************************************************************
+# CREDENTIALS
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Credenciales para obtener acceso al recurso.
+#
+# key: Key del cliente
+# secret: Secret del cliente
+# resouce: Recurso al que se quiere acceder
+# ------------------------------------------------------------//
+
+[credentials]
+key=api-key
+secret=api-secret
+resource=resource
+
+# **************************************************************
+# API
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Configuracion de la API.
+#
+# environment: Entorno al que se deben enviar las peticiones ['sandbox', 'staging', 'live']
+# version: Versión de la api a usar actualmente solo existe v1
+# mode: Modo de encriptacion de la firma, [sha256, sha512]
+# ------------------------------------------------------------//
+
+[api]
+environment=sandbox
+version=v1
+mode=sha256
+
+# **************************************************************
+# TIMEOUT
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Cofiguracion de los tiempos de timeout.
+#
+# connection: Timeout de connexión en segundos
+# process: Timeout de procesamiento en segundos
+# ------------------------------------------------------------//
+
+[timeout]
+connection=3
+process=27
+```
+
+Tras crear este archivo, ya podemos utilizar el SDK.
+
+Para poder utilizar todos los métodos pensados para el pago ecommerce, hay importar e iniciar el objeto `Ecommerce` con un archivo de configuración que hemos creado antes.
+
+Por ejemplo:
+
+```python
+  from sipay import Ecommerce
+  ecommerce = Ecommerce('etc/config.ini')
+```
+
+Una vez iniciado el objeto ecommerce iniciado, ya se pueden hacer todas las operaciones indicadas en la sección *Ecommerce*, por ejemplo:
+
+### Ventas
+
+**Venta con tarjeta**
+
+```python
+from sipay.paymethod.card import Card
+from sipay.amount import Amount
+
+amount = Amount(100, 'EUR')  # 1€
+card = Card('6712009000000205', 2018, 2)
+
+auth = ecommerce.authorization(card, amount)
+
+if auth.code < 0:
+    print('Fallo al realizar el pago, Error: {}'.format(auth.description))
+
+elif auth.code == 0:
+    print('Pago procesado correctamente')
+
+else:
+    print('Pago procesado correctamente, Warning: {}'.format(auth.description))
+```
+
+**Venta con tarjeta almacenada en Sipay**
+
+```python
+from sipay.paymethod.storedcard import StoredCard
+from sipay.amount import Amount
+
+amount = Amount(456, 'EUR')  # 4.56€
+token = '2977e78d1e3e4c9fa6b70'
+card = StoredCard(token)
+
+auth = ecommerce.authorization(card, amount)
+
+if auth.code < 0:
+    print('Fallo al realizar el pago, Error: {}'.format(auth.description))
+
+elif auth.code == 0:
+    print('Pago procesado correctamente')
+
+else:
+    print('Pago procesado correctamente, Warning: {}'.format(auth.description))
+```
+
+**Venta con tarjeta almacenada en servicio FastPay**
+
+```python
+from sipay.paymethod.fastpay import FastPay
+from sipay.amount import Amount
+
+amount = Amount('97.46', 'EUR')  # 97.46€
+token = '2977e78d1e3e4c9fa6b70ab294ef3ee4'
+card = FastPay(token)
+
+auth = ecommerce.authorization(card, amount)
+
+if auth.code < 0:
+    print('Fallo al realizar el pago, Error: {}'.format(auth.description))
+
+elif auth.code == 0:
+    print('Pago procesado correctamente')
+
+else:
+    print('Pago procesado correctamente, Warning: {}'.format(auth.description))
+```
+
+### Devoluciones
+
+**Devolución con un método de pago**
+```python
+from sipay.paymethod.card import Card
+from sipay.paymethod.storedcard import StoredCard
+from sipay.paymethod.fastpay import FastPay
+from sipay.amount import Amount
+
+amount = Amount(2860, 'EUR')  # 28.60€
+card = Card('6712009000000205', 2018, 2)
+# card = StoredCard('token')
+# card = FastPay('token')
+
+refund = ecommerce.refund(card, amount)
+
+if refund.code < 0:
+    print('Fallo al hacer la devolución, Error: {}'.format(refund.description))
+
+elif refund.code == 0:
+    print('Devolución procesada correctamente')
+
+else:
+    print('Devolución procesada correctamente, Warning: {}'.format(refund.description))
+```
+
+**Devolución con un identificador de transacción**
+```python
+from sipay.amount import Amount
+
+amount = Amount(834, 'EUR')
+transaction_id = auth.transaction_id  # identificador de transacción
+
+refund = ecommerce.refund(transaction_id, amount)
+if refund.code < 0:
+    print('Fallo al hacer la devolución, Error: {}'.format(refund.description))
+
+elif refund.code == 0:
+    print('Devolución procesada correctamente')
+
+else:
+    print('Devolución procesada correctamente, Warning: {}'.format(refund.description))
+```
+
+### Cancelaciones
+
+**Cancelación**
+```python
+transaction_id = auth.transaction_id  # identificador de transacción
+
+cancel = ecommerce.cancellation(transaction_id)
+
+if cancel.code < 0:
+    print('Fallo al cancelar el pago, Error: {}'.format(cancel.description))
+
+elif cancel.code == 0:
+    print('Cancelación procesada correctamente')
+
+else:
+    print('Cancelación procesada correctamente, Warning: {}'.format(cancel.description))
+```
+
+### Registros
+
+**Registro**
+```python
+from sipay.paymethod.card import Card
+from sipay.paymethod.fastpay import FastPay
+from sipay.amount import Amount
+
+card = Card('6712009000000205', 2018, 2)
+# card = FastPay('token')
+
+register = ecommerce.register(card, 'newtoken')
+
+if register.code < 0:
+    print('Fallo al registrar la tarjeta, Error: {}'.format(register.description))
+
+elif register.code == 0:
+    print('Registro procesado correctamente')
+
+else:
+    print('Registro procesado correctamente, Warning: {}'.format(register.description))
+```
+
+### Consultas de tarjeta
+
+**Consulta de tarjeta**
+```python
+card_res = ecommerce.card('newtoken')
+
+if card_res.code < 0:
+    print('Fallo al consultar la tarjeta, Error: {}'.format(card_res.description))
+
+elif card_res.code == 0:
+    print('Consulta procesada correctamente')
+
+else:
+    print('Consulta procesada correctamente, Warning: {}'.format(card_res.description))
+```
+
+### Borrados de tarjeta
+
+**Borrar tarjeta de Sipay**
+```python
+unregister = ecommerce.unregister('newtoken')
+
+if unregister.code < 0:
+    print('Fallo al borrar la tarjeta de Sipay, Error: {}'.format(unregister.description))
+
+elif unregister.code == 0:
+    print('Tarjeta borrada correctamente')
+
+else:
+    print('Tarjeta borrada correctamente, Warning: {}'.format(unregister.description))
+
+```
+
+### Consultas de operaciones
+
+**Consulta de operación por identificador de transacción**
+```python
+transaction_id = auth.transaction_id  # identificador de transacción
+
+query = ecommerce.query(transaction_id=transaction_id)
+
+if query.code < 0:
+    print('Fallo al hacer la consulta, Error: {}'.format(query.description))
+
+elif query.code == 0:
+    print('Consulta procesada correctamente')
+
+    for transaction in query.transactions:
+        print(transaction)
+
+else:
+    print('Consulta procesada correctamente, Warning: {}'.format(query.description))
+```
+
+**Consulta de operación por ticket de venta**
+```python
+order = auth.order  # ticket de venta
+
+query = ecommerce.query(order=order)
+
+if query.code < 0:
+    print('Fallo al hacer la consulta, Error: {}'.format(query.description))
+
+elif query.code == 0:
+    print('Consulta procesada correctamente')
+
+    for transaction in query.transactions:
+        print(transaction)
+
+else:
+    print('Consulta procesada correctamente, Warning: {}'.format(query.description))
+```
