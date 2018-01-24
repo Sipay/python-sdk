@@ -2,8 +2,7 @@
 
   ```bash
     $ git clone https://github.com/sipay/python-sdk
-    $ cd python-sdk
-    $ pip install -r requirements.txt
+    $ pip install ./python-sdk
   ```
 
 # Documentación
@@ -408,8 +407,7 @@ Hacer una venta:
 
 ```bash
   $ git clone https://github.com/sipay/python-sdk
-  $ cd python-sdk
-  $ pip install -r requirements.txt
+  $ pip install ./python-sdk
   $ python
   >>> from sipay import Ecommerce
   >>> ecommerce = Ecommerce('etc/config.ini') # Configurar el archivo de configuración como se indica en la sección Ecommerce
