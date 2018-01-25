@@ -1,3 +1,23 @@
+# Quickstart
+
+Hacer una venta:
+
+```bash
+  $ git clone https://github.com/sipay/python-sdk
+  $ cd python-sdk
+  $ pip install -r requirements.txt
+  $ python
+  >>> from sipay import Ecommerce
+  >>> ecommerce = Ecommerce('etc/config.ini') # Configurar el archivo de configuración como se indica en la sección Ecommerce
+  >>> from sipay.paymethod.card import Card
+  >>> from sipay.amount import Amount
+  >>> amount = Amount(100, 'EUR') # 1.00 EUR
+  >>> card = Card('4242424242424242', 2050, 1)
+  >>> auth = ecommerce.authorization(card, amount)
+  >>> if auth.code == 0:
+  >>>     print("Autorización aceptada, el pago ha sido completado!")
+```
+
 # Instalación
 
   ```bash
@@ -52,9 +72,9 @@
   * **Card:**
     Representa el método de pago con tarjeta, para inicializarlo se necesita:
 
-      * **número de tarjeta:** String que tiene entre 14 y 19 números.
-      * **año de caducidad:** Entero de 4 digitos mayor que 2017.
-      * **mes de caducidad:** Entero de 2 digitos entre 1 y 12.
+      * **número de tarjeta:** String que tiene entre 14 y 19 dígitos.
+      * **año de caducidad:** Entero de 4 dígitos.
+      * **mes de caducidad:** Entero de 2 dígitos entre 1 y 12.
 
     Ejemplo:
     ```python
@@ -95,11 +115,11 @@ Todos los objetos de esta sección tienen los siguientes atributos:
     * success
     * warning
     * error
-  - **code (string):** Código identificador del resultado. Es un código orientativo y no está ligado estrictamente con motivo de la respuesta, es decir, el código no identifica univocamente la respuesta.
+  - **code (string):** Código identificador del resultado. Es un código orientativo y no está ligado estrictamente con motivo de la respuesta, es decir, el código no identifica unívocamente la respuesta.
     - 0 -> success
     - mayor a 0 -> warning
     - menor a 0 -> error
-  - **detail (string):** Código alfanumérico separado con guiones bajos y sin mayúsculas que identifica univocamente la respuesta. Útil para la gestión de los diferentes casos de uso de una operación.
+  - **detail (string):** Código alfanumérico separado con guiones bajos y sin mayúsculas que identifica unívocamente la respuesta. Útil para la gestión de los diferentes casos de uso de una operación.
   - **description (string):** Descripción literal del mensaje de respuesta.
   - **uuid (string):** Identificador único de la petición, imprescindible para la trazabilidad.
   - **request_id (string):** Necesario para la finalización de algunas operaciones. Se indicarán aquellas en las que sea necesario.
@@ -401,23 +421,3 @@ Tras iniciar el objeto `ecommerce` se puede realizar las siguientes llamadas:
   ```
 
   El método query devuelve un objeto Query.
-
-# Quickstart
-
-Hacer una venta:
-
-```bash
-  $ git clone https://github.com/sipay/python-sdk
-  $ cd python-sdk
-  $ pip install -r requirements.txt
-  $ python
-  >>> from sipay import Ecommerce
-  >>> ecommerce = Ecommerce('etc/config.ini') # Configurar el archivo de configuración como se indica en la sección Ecommerce
-  >>> from sipay.paymethod.card import Card
-  >>> from sipay.amount import Amount
-  >>> amount = Amount(100, 'EUR') # 1.00 EUR
-  >>> card = Card('4242424242424242', 2050, 1)
-  >>> auth = ecommerce.authorization(card, amount)
-  >>> if auth.code == 0:
-  >>>     print("Autorización aceptada, el pago ha sido completado!")
-```
