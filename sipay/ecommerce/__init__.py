@@ -34,6 +34,8 @@ class Ecommerce:
         config = ConfigParser()
         config.read(config_file)
 
+        self._logger = self._get_logger(config['logger'])
+
         cred = config['credentials']
         self.key = cred.get('key', '')
         self.secret = cred.get('secret', '')
@@ -47,8 +49,6 @@ class Ecommerce:
         timeout = config['timeout']
         self.conn_timeout = timeout.getint('connection', 3)
         self.process_timeout = timeout.getint('process', 27)
-
-        self._logger = self._get_logger(config['logger'])
 
     @property
     def key(self):
