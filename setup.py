@@ -35,11 +35,8 @@ setup(
     python_requires='>=3.5',
     platforms=['linux'],
 
-    # packages=['sipay', 'sipay.catalogs'],
     packages=['sipay'] + list(map(lambda x: "sipay."+x, find_packages('sipay'))),
 
-    setup_requires=['pytest-runner'],
-    # tests_require=requirements('requirements-dev.txt'),
     install_requires=requirements('requirements.txt'),
     dependency_links=[],
 
