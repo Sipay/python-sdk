@@ -1,3 +1,6 @@
+# Requermientos
+ python >= 3.5.x
+
 # Quickstart
 
 Hacer una venta:
