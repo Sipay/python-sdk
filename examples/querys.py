@@ -1,8 +1,12 @@
 """Query example."""
-
 from sipay import Ecommerce
 
-ecommerce = Ecommerce('etc/config.ini')
+from pathlib import Path
+
+parent = str(Path(__file__).parent.resolve().parent)
+config_file = '{}/etc/config.ini'.format(parent)
+
+ecommerce = Ecommerce(config_file)
 
 # Consultar tarjeta
 card_res = ecommerce.card('tokenCard')

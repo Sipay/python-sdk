@@ -214,7 +214,7 @@ El archivo de configuración tiene que
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Configuración asociada al sistema de trazas.
 #
-# file: Nombre del archivo
+# file: Nombre del archivo (Nota: Aconsejable usar rutas absolutas para que se pueda ejecutar el módulo desde diferentes localizaciones)
 # level: nivel minimo de trazas [debug, info, warning, error, critical]
 # max_file_size: Tamaño máximo del fichero de trazas [bytes]
 # backup_file_rotation: Número de ficheros de backup
