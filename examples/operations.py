@@ -5,7 +5,12 @@ from sipay.paymethod.storedcard import StoredCard
 from sipay.paymethod.fastpay import FastPay
 from sipay.amount import Amount
 
-ecommerce = Ecommerce('etc/config.ini')
+from pathlib import Path
+
+parent = str(Path(__file__).parent.resolve().parent)
+config_file = '{}/etc/config.ini'.format(parent) 
+
+ecommerce = Ecommerce(config_file)
 
 # pago de un Euro con tarjeta y almacenar en Sipay con un token
 pan_example = '4242424242424242'
