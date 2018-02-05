@@ -1,6 +1,14 @@
 # Requermientos
  python >= 3.5.x
 
+# Instalación
+
+  ```bash
+    $ git clone https://github.com/sipay/python-sdk
+    $ pip install ./python-sdk
+  ```
+
+
 # Quickstart
 
 Hacer una venta:
@@ -20,12 +28,6 @@ Hacer una venta:
   >>>     print("Autorización aceptada, el pago ha sido completado!")
 ```
 
-# Instalación
-
-  ```bash
-    $ git clone https://github.com/sipay/python-sdk
-    $ pip install ./python-sdk
-  ```
 
 # Documentación
 
