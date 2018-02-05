@@ -34,6 +34,8 @@ class Ecommerce:
         config = ConfigParser()
         config.read(config_file)
 
+        self._logger = self._get_logger(config['logger'])
+
         cred = config['credentials']
         self.key = cred.get('key', '')
         self.secret = cred.get('secret', '')
@@ -47,8 +49,6 @@ class Ecommerce:
         timeout = config['timeout']
         self.conn_timeout = timeout.getint('connection', 3)
         self.process_timeout = timeout.getint('process', 27)
-
-        self._logger = self._get_logger(config['logger'])
 
     @property
     def key(self):
@@ -101,7 +101,7 @@ class Ecommerce:
             raise TypeError('environment must be a string.')
 
         environment = environment.lower()
-        if environment not in ['develop', 'sandbox', 'staging', 'live']:
+        if environment not in ['sandbox', 'staging', 'live']:
             self._logger.error('environment must be sandbox, staging or live')
             raise ValueError('environment must be sandbox, staging or live')
 

@@ -1,8 +1,33 @@
+# Requermientos
+ python >= 3.5.x
+
 # Instalación
 
   ```bash
-    $ git clone url
+    $ git clone https://github.com/sipay/python-sdk
+    $ pip install ./python-sdk
   ```
+
+
+# Quickstart
+
+Hacer una venta:
+
+```bash
+  $ git clone https://github.com/sipay/python-sdk
+  $ pip install ./python-sdk
+  $ python
+  >>> from sipay import Ecommerce
+  >>> ecommerce = Ecommerce('etc/config.ini') # Configurar el archivo de configuración como se indica en la sección Ecommerce
+  >>> from sipay.paymethod.card import Card
+  >>> from sipay.amount import Amount
+  >>> amount = Amount(100, 'EUR') # 1.00 EUR
+  >>> card = Card('4242424242424242', 2050, 1)
+  >>> auth = ecommerce.authorization(card, amount)
+  >>> if auth.code == 0:
+  >>>     print("Autorización aceptada, el pago ha sido completado!")
+```
+
 
 # Documentación
 
@@ -50,15 +75,15 @@
   * **Card:**
     Representa el método de pago con tarjeta, para inicializarlo se necesita:
 
-      * **número de tarjeta:** String que tiene entre 14 y 19 números.
-      * **año de caducidad:** Entero de 4 digitos mayor que 2017.
-      * **mes de caducidad:** Entero de 2 digitos entre 1 y 12.
+      * **número de tarjeta:** String que tiene entre 14 y 19 dígitos.
+      * **año de caducidad:** Entero de 4 dígitos.
+      * **mes de caducidad:** Entero de 2 dígitos entre 1 y 12.
 
     Ejemplo:
     ```python
       from sipay.paymethod.card import Card
 
-      card = Card('0000000000000000', 2018, 2)
+      card = Card('4242424242424242', 2050, 2)
     ```
 
 
@@ -93,11 +118,11 @@ Todos los objetos de esta sección tienen los siguientes atributos:
     * success
     * warning
     * error
-  - **code (string):** Código identificador del resultado. Es un código orientativo y no está ligado estrictamente con motivo de la respuesta, es decir, el código no identifica univocamente la respuesta.
+  - **code (string):** Código identificador del resultado. Es un código orientativo y no está ligado estrictamente con motivo de la respuesta, es decir, el código no identifica unívocamente la respuesta.
     - 0 -> success
     - mayor a 0 -> warning
     - menor a 0 -> error
-  - **detail (string):** Código alfanumérico separado con guiones bajos y sin mayúsculas que identifica univocamente la respuesta. Útil para la gestión de los diferentes casos de uso de una operación.
+  - **detail (string):** Código alfanumérico separado con guiones bajos y sin mayúsculas que identifica unívocamente la respuesta. Útil para la gestión de los diferentes casos de uso de una operación.
   - **description (string):** Descripción literal del mensaje de respuesta.
   - **uuid (string):** Identificador único de la petición, imprescindible para la trazabilidad.
   - **request_id (string):** Necesario para la finalización de algunas operaciones. Se indicarán aquellas en las que sea necesario.
@@ -194,7 +219,7 @@ El archivo de configuración tiene que ser similar al siguiente:
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Configuración asociada al sistema de trazas.
 #
-# file: Nombre del archivo (la carpeta tiene que estar creada previamente.)
+# file: Nombre del archivo (Nota: Aconsejable usar rutas absolutas para que se pueda ejecutar el módulo desde diferentes localizaciones)
 # level: nivel minimo de trazas [debug, info, warning, error, critical]
 # max_file_size: Tamaño máximo del fichero de trazas [bytes]
 # backup_file_rotation: Número de ficheros de backup
@@ -270,7 +295,7 @@ Tras iniciar el objeto `ecommerce` se puede realizar las siguientes llamadas:
    from sipay.amount import Amount
 
    amount = Amount(100, 'EUR') # 1€
-   card = Card('0000000000000000', 2018, 2)
+   card = Card('4242424242424242', 2050, 2)
 
    auth = ecommerce.authorization(card, amount)
  ```
@@ -337,7 +362,7 @@ Tras iniciar el objeto `ecommerce` se puede realizar las siguientes llamadas:
   ```python
     from sipay.paymethod.card import Card
 
-    card = Card('0000000000000000', 2018, 2)
+    card = Card('4242424242424242', 2050, 2)
 
     masked_card = ecommerce.register(card, 'newtoken')
   ```
