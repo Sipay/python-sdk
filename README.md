@@ -212,7 +212,7 @@ Para utilizar la SDK del middleware, hay que importar el paquete y crear el obje
   ecommerce = Ecommerce('etc/config.ini')
 ```
 
-El archivo de configuración tiene que
+El archivo de configuración tiene que ser similar al siguiente:
 ```ini
 # **************************************************************
 # LOGGER
