@@ -187,14 +187,14 @@ Para utilizar la SDK del middleware, hay que importar el paquete y crear el obje
   ecommerce = Ecommerce('etc/config.ini')
 ```
 
-El archivo de configuración tiene que
+El archivo de configuración tiene que ser similar al siguiente:
 ```ini
 # **************************************************************
 # LOGGER
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Configuración asociada al sistema de trazas.
 #
-# file: Nombre del archivo
+# file: Nombre del archivo (la carpeta tiene que estar creada previamente.)
 # level: nivel minimo de trazas [debug, info, warning, error, critical]
 # max_file_size: Tamaño máximo del fichero de trazas [bytes]
 # backup_file_rotation: Número de ficheros de backup
