@@ -20,8 +20,10 @@ card = Card(pan_example, 2050, 2)
 token = '2977e78d1e3e4c9fa6b70'
 
 auth = ecommerce.authorization(card, amount, token=token)
+if not auth:
+    print('Fallo al realizar el pago, Error al conectar con el servicio')
 
-if auth.code != 0:
+elif auth.code != 0:
     print('Fallo al realizar el pago, Error: {}'.format(auth.description))
 
 else:
@@ -36,7 +38,10 @@ card = StoredCard(token)
 
 auth2 = ecommerce.authorization(card, amount)
 
-if auth2.code != 0:
+if not auth2:
+    print('Fallo al realizar el pago, Error al conectar con el servicio')
+
+elif auth2.code != 0:
     print('Fallo al realizar el pago, Error: {}'.format(auth2.description))
 
 else:
@@ -49,7 +54,10 @@ card = FastPay(token_fastpay)
 
 auth3 = ecommerce.authorization(card, amount)
 
-if auth3.code != 0:
+if not auth3:
+    print('Fallo al realizar el pago, Error al conectar con el servicio')
+
+elif auth3.code != 0:
     print('Fallo al realizar el pago, Error: {}'.format(auth3.description))
 
 else:
@@ -57,7 +65,10 @@ else:
 
 # cancelar el pago con tarjeta (auth)
 cancel = ecommerce.cancellation(auth.transaction_id)
-if cancel.code != 0:
+if not cancel:
+    print('Fallo al cancelar el pago, Error al conectar con el servicio')
+
+elif cancel.code != 0:
     print('Fallo al cancelar el pago, Error: {}'.format(cancel.description))
 
 else:
@@ -67,7 +78,10 @@ else:
 amount = Amount(834, 'EUR')
 
 refund = ecommerce.refund(auth2.transaction_id, amount)
-if refund.code != 0:
+if not refund:
+    print('Fallo al hacer la devolución, Error al conectar con el servicio')
+
+elif refund.code != 0:
     print('Fallo al hacer la devolución, Error: {}'.format(refund.description))
 
 else:
@@ -81,7 +95,10 @@ card = Card(pan_example, 2018, 2)
 
 refund2 = ecommerce.refund(card, amount)
 
-if refund2.code != 0:
+if not refund2:
+    print('Fallo al hacer la devolución, Error al conectar con el servicio')
+
+elif refund2.code != 0:
     print('Fallo al hacer la devolución, Error: {}'.format(refund2.description))
 
 else:
@@ -93,7 +110,10 @@ card = Card(pan_example, 2018, 2)
 
 register = ecommerce.register(card, 'newtoken')
 
-if register.code != 0:
+if not register:
+    print('Fallo al registrar la tarjeta, Error al conectar con el servicio')
+
+elif register.code != 0:
     print('Fallo al registrar la tarjeta, Error: {}'.format(register.description))
 
 else:
@@ -104,7 +124,10 @@ else:
 # Borrar tarjeta de Sipay
 unregister = ecommerce.unregister('newtoken')
 
-if unregister.code != 0:
+if not unregister:
+    print('Fallo al borrar la tarjeta de Sipay, Error al conectar con el servicio')
+
+elif unregister.code != 0:
     print('Fallo al borrar la tarjeta de Sipay, Error: {}'.format(unregister.description))
 
 else:
