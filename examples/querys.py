@@ -11,7 +11,10 @@ ecommerce = Ecommerce(config_file)
 # Consultar tarjeta
 card_res = ecommerce.card('tokenCard')
 
-if card_res.code != 0:
+if not card_res:
+    print('Fallo al consultar la tarjeta, Error al conectar con el servicio')
+
+elif card_res.code != 0:
     print('Fallo al consultar la tarjeta, Error: {}'.format(card_res.description))
 
 else:
@@ -22,7 +25,10 @@ else:
 # Consultar operación por id
 query = ecommerce.query(transaction_id='transaction_id')
 
-if query.code != 0:
+if not query:
+    print('Fallo al hacer la consulta, Error al conectar con el servicio')
+
+elif query.code != 0:
     print('Fallo al hacer la consulta, Error: {}'.format(query.description))
 
 else:
@@ -34,7 +40,10 @@ else:
 # Consultar operación por ticket
 query2 = ecommerce.query(order='order')
 
-if query2.code != 0:
+if not query2:
+    print('Fallo al hacer la consulta, Error al conectar con el servicio')
+
+elif query2.code != 0:
     print('Fallo al hacer la consulta, Error: {}'.format(query2.description))
 
 elif query2.code == 0:
