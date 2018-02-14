@@ -6,9 +6,10 @@ Con el siguiente ejemplo podrás, en pocos pasos, instalar la SDK y efectuar una
 ```bash
   $ git clone https://github.com/sipay/python-sdk
   $ pip install ./python-sdk
+  $ cd python-sdk
   $ python
   >>> from sipay import Ecommerce
-  >>> ecommerce = Ecommerce('etc/config.ini') # Configurar el archivo de configuración como se indica en la sección Ecommerce
+  >>> ecommerce = Ecommerce('etc/config.ini') # Establecer la configuración como se indica en la sección 4.Configuración
   >>> from sipay.paymethod.card import Card
   >>> from sipay.amount import Amount
   >>> amount = Amount(100, 'EUR') # 1.00 EUR
@@ -42,7 +43,8 @@ Un ejemplo de configuraciones se muestra a continuación:
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Configuración asociada al sistema de trazas.
 #
-# file: Nombre y ruta del archivo de logs. (Nota: Aconsejable usar rutas absolutas para que se pueda ejecutar el módulo desde diferentes localizaciones).
+# file: Nombre y ruta del archivo de logs. (Nota: Aconsejable usar rutas absolutas 
+#       para que se pueda ejecutar el módulo desde diferentes localizaciones).
 # level: Nivel mínimo de trazas [debug, info, warning, error, critical]
 # max_file_size: Tamaño máximo del fichero de trazas [bytes]
 # backup_file_rotation: Número de ficheros de backup
