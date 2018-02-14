@@ -118,7 +118,7 @@ Para llevar a cabo de forma correcta las operativas Ecommerce, se requiere el do
 ### **5.1.1. `Amount(amount,currency)`**
 
 #### Definición
-  Este objeto representa una cantidad monetaria, por tanto esta cantidad debe ser mayor que cero (0). Para instanciar un objeto de este tipo se necesita una cantidad (amount) y una moneda (currency) en formato ISO4217.
+  Este objeto representa una cantidad monetaria, por tanto esta cantidad debe ser mayor que cero (0). Para instanciar un objeto de este tipo se necesita una cantidad (amount) y una moneda (currency) en formato ISO4217 (https://en.wikipedia.org/wiki/ISO_4217).
   La cantidad se puede especificar de dos formas:
   * Con un `string` con la cantidad estandarizada y con el caracter punto (`.`) como separador de decimales , o
   * Con un `int` que represente la cantidad en la unidad básica e indivisible de la moneda (por ejemplo de la moneda Euro sería el céntimo).
