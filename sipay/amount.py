@@ -6,14 +6,39 @@ import re
 class Amount:
     """Amount class."""
 
-    def __init__(self, amount, currency):
+    def __init__(self, amount, currency, separator='', decimal_separator='.'):
         """Initialize Amount."""
         self.currency = currency
-        index = -self._currency[2]-1
-        if isinstance(amount, str) and \
-           re.match(r'^([0-9]+\.[0-9]+)$', amount) and amount[index] == '.':
-            amount = amount.replace('.', '')
-            amount = int(amount)
+        self.separator = separator
+        self.decimal_separator = decimal_separator
+
+        if isinstance(amount, str):
+            if not isinstance(separator, str) or len(separator) >= 2 or \
+               re.match(r'[0-9]', separator):
+                raise TypeError('separator must be a string with length 0,1.')
+
+            if not isinstance(decimal_separator, str) or \
+               len(decimal_separator) != 1 or \
+               re.match(r'[0-9]', decimal_separator):
+                raise TypeError('decimal_separator must be a string with '
+                                'length 1.')
+
+            if decimal_separator == separator:
+                raise TypeError('separators are equals.')
+
+            if len(separator) == 1:
+                separator = "\{}".format(separator)
+
+            decimal_separator = "\{}".format(decimal_separator)
+
+            regex = '^[0-9]{{1,3}}({sep}[0-9]{{3}})*{decimal_sep}[0-9]'\
+                    '{{{decimals}}}$'.format(sep=separator,
+                                             decimal_sep=decimal_separator,
+                                             decimals=self._currency[2])
+            if re.match(regex, amount):
+                amount = amount.replace(self.decimal_separator, '')
+                amount = amount.replace(self.separator, '')
+                amount = int(amount)
 
         self.amount = amount
 
@@ -131,4 +156,14 @@ class Amount:
         """Parse to string."""
         dec = self._currency[2]
         fmt_amount = str(self.amount).zfill(dec + 1)
-        return fmt_amount[:-dec] + '.' + fmt_amount[-dec:] + self.currency
+        decimal = fmt_amount[-dec:]
+        integer = fmt_amount[:-dec]
+        length = len(integer)
+        init = length%3 if length%3 > 0 else 3;
+        integer_ftm = integer[:init]
+
+        for i in range(init, length, 3):
+            integer_ftm += "{0}{1}".format(self.separator, integer[i:i+3])
+
+
+        return integer_ftm + self.decimal_separator + decimal + self.currency
