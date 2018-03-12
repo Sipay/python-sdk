@@ -2,6 +2,9 @@
 from sipay.catalogs.currency import CURRENCIES
 import re
 
+THOUSAND_SEPARATORS = (',', ' ', '\'', '.', '')
+DECIMAL_SEPARATORS = (',', '.')
+
 
 class Amount:
     """Amount class."""
@@ -13,15 +16,13 @@ class Amount:
         self.decimal_separator = decimal_separator
 
         if isinstance(amount, str):
-            if not isinstance(separator, str) or len(separator) >= 2 or \
-               re.match(r'[0-9]', separator):
-                raise TypeError('separator must be a string with length 0,1.')
+            if not isinstance(separator, str) or \
+               separator not in THOUSAND_SEPARATORS:
+                raise TypeError('separator must be [ ,\'.].')
 
             if not isinstance(decimal_separator, str) or \
-               len(decimal_separator) != 1 or \
-               re.match(r'[0-9]', decimal_separator):
-                raise TypeError('decimal_separator must be a string with '
-                                'length 1.')
+               decimal_separator not in DECIMAL_SEPARATORS:
+                raise TypeError('decimal_separator must be [,.]')
 
             if decimal_separator == separator:
                 raise TypeError('separators are equals.')
