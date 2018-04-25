@@ -7,6 +7,7 @@ import requests
 import logging
 
 from sipay.ecommerce.responses.authorization import Authorization
+from sipay.ecommerce.responses.preauthorization import Preauthorization
 from sipay.ecommerce.responses.cancellation import Cancellation
 from sipay.ecommerce.responses.card import Card as CardResponse
 from sipay.ecommerce.responses.refund import Refund
@@ -215,7 +216,6 @@ class Ecommerce:
             }
 
         self._logger.info('End send to endpoint ' + endpoint)
-
         return (request, response)
 
     def _get_logger(self, config):
@@ -247,8 +247,11 @@ class Ecommerce:
         'custom_02': {'type': str},
         'token': {'type': str, 'pattern': r'^[\w-]{6,128}$'}
         })
+
+
     def authorization(self, paymethod, amount, order=None, reconciliation=None,
                       custom_01=None, custom_02=None, token=None):
+
         """Send a request of authorization to Sipay.
 
         Args:
@@ -280,11 +283,51 @@ class Ecommerce:
 
         if 'token' not in payload and token is not None:
             payload['token'] = token
-
         payload = {k: v for k, v in payload.items() if v is not None}
 
         request, response = self.send(payload, 'authorization')
         return Authorization(request, response) if response else None
+
+
+    def preauthorization(self, paymethod, amount, order=None,
+                         reconciliation=None, custom_01=None,
+                         custom_02=None, token=None):
+        """Send a request of preauthorization to Sipay.
+
+
+        Args:
+            - paymethod: Payment method of preauthorization (it can be an object
+                of Card, StoredCard or FastPay).
+            - amount: Amount of the operation.
+            - order: ticket of the operation
+            - reconciliation: identification for bank reconciliation
+            - custom_01: custom field 1
+            - custom_02: custom field 2
+            - token: if this argument is set, it register paymethod with
+                this token
+        Return:
+            Preauthorization: object that contain response of MDWR API
+        """
+        if not issubclass(type(paymethod), PayMethod):
+            TypeError("paymethod isn't a PayMethod")
+
+        payload = {
+            'order': order,
+            'reconciliation': reconciliation,
+            'custom_01': custom_01,
+            'custom_02': custom_02,
+            'amount': amount.amount,
+            'currency': amount.currency
+        }
+
+        payload.update(paymethod.to_dict())
+
+        if 'token' not in payload and token is not None:
+            payload['token'] = token
+        payload = {k: v for k, v in payload.items() if v is not None}
+
+        request, response = self.send(payload, 'preauthorization')
+        return Preauthorization(request, response) if response else None
 
     @schema({
         'amount': {'type': Amount},
