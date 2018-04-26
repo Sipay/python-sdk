@@ -247,11 +247,8 @@ class Ecommerce:
         'custom_02': {'type': str},
         'token': {'type': str, 'pattern': r'^[\w-]{6,128}$'}
         })
-
-
     def authorization(self, paymethod, amount, order=None, reconciliation=None,
                       custom_01=None, custom_02=None, token=None):
-
         """Send a request of authorization to Sipay.
 
         Args:
@@ -288,16 +285,14 @@ class Ecommerce:
         request, response = self.send(payload, 'authorization')
         return Authorization(request, response) if response else None
 
-
     def preauthorization(self, paymethod, amount, order=None,
                          reconciliation=None, custom_01=None,
                          custom_02=None, token=None):
         """Send a request of preauthorization to Sipay.
 
-
         Args:
-            - paymethod: Payment method of preauthorization (it can be an object
-                of Card, StoredCard or FastPay).
+            - paymethod: Payment method of preauthorization (it can be an
+            object of Card, StoredCard or FastPay).
             - amount: Amount of the operation.
             - order: ticket of the operation
             - reconciliation: identification for bank reconciliation

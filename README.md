@@ -22,13 +22,13 @@ Con el siguiente ejemplo podrás, en pocos pasos, instalar la SDK y efectuar una
 # 3. Instalación
 ## Pre-requisitos
  * Versión de python 3.5 o superior.
- 
+
 ## Pasos
   ```bash
     $ git clone https://github.com/sipay/python-sdk
     $ pip install ./python-sdk
   ```
- 
+
 # 4. Configuración
 Una vez que se ha instalado la SDK, se deben actualizar los parámetros de configuración asociados a:
 * Sistema de trazas.
@@ -43,7 +43,7 @@ Un ejemplo de configuraciones se muestra a continuación:
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Configuración asociada al sistema de trazas.
 #
-# file: Nombre y ruta del archivo de logs. (Nota: Aconsejable usar rutas absolutas 
+# file: Nombre y ruta del archivo de logs. (Nota: Aconsejable usar rutas absolutas
 #       para que se pueda ejecutar el módulo desde diferentes localizaciones).
 # level: Nivel mínimo de trazas [debug, info, warning, error, critical]
 # max_file_size: Tamaño máximo del fichero de trazas [bytes]
@@ -128,7 +128,7 @@ Para llevar a cabo de forma correcta las operativas Ecommerce, se requiere el do
 #### Parámetros
 * **`amount`:**  [_obligatorio_] Es la cantidad de dinero a procesar. Se puede representar con un `string` o un `int`. Supongamos que queremos procesar 1.56 €, la cantidad (1.56) como un `string` sería `'1.56'` ; como un `int` sería `156`.
 * **`currency`:** [_obligatorio_] Es un `string` que representa el código de la moneda (ISO4217).
-    
+
 #### Atributos
 * **`amount`:** `int` que representa la cantidad de procesamiento. Será este tipo de dato, independientemente de si se ha instanciado con un `string` previamente.
 * **`currency`:** `string` que representa el código de la moneda (ISO4217).
@@ -187,7 +187,7 @@ Este objeto representa una tarjeta que se puede utilizar en las diferentes opera
       print(card.card_number)
       print(card.year)
       print(card.month)
-      
+
       card.card_number='123451234512345'
       print(card.card_number)
 
@@ -217,11 +217,11 @@ Este objeto representa una tarjeta almacenada en Sipay que puede utilizarse en o
     card = StoredCard('token-card')
     print(card.token)
     # Imprime token-card
-    
+
     card.token = 'new-token-card'
     print(card.token)
     # Imprime new-token-card
-    
+
   ```
 ### **5.1.4. `FastPay(token)`**
 
@@ -240,7 +240,7 @@ Este objeto representa una tarjeta obtenida mediante el método de pago FastPay.
 
     fp = FastPay('token-fast-pay')
     print(fp.token)
-    
+
     fp = FastPay('new-token-fast-pay')
     print(fp.token)
 
@@ -323,13 +323,13 @@ El método `authorization` devuelve un objeto `Authorization`.
 
 ### Definición
 Este método permite enviar una petición de cancelación a Sipay.
- 
+
 ### Parámetros
 * **`transaction_id`:** [_obligatorio_] Es un `string` con el identificador de la transacción.
 
 ### Salida
 El método `cancellation` devuelve un objeto `Cancellation`.
- 
+
 ### Ejemplo
 **- Cancelación de operación**
   ```python
@@ -340,7 +340,7 @@ El método `cancellation` devuelve un objeto `Cancellation`.
 
 ### Definición
 Este método `Ecommerce` permite enviar una petición de devolución a Sipay.
- 
+
 ### Parámetros
 * **`identificator`:** [_obligatorio_] Es una instancia del método de pago (`Card`, `StoredCard` o `FastPay`) o, un `string` que representa el identificador de transacción.
 * **`amount `:** [_obligatorio_] Corresponde a una instancia de `Amount` con el importe de la operación.
@@ -352,7 +352,7 @@ Este método `Ecommerce` permite enviar una petición de devolución a Sipay.
 
 ### Salida
 El método `refund` devuelve un objeto `Refund`.
- 
+
 ### Ejemplo
 **- Devolución con tarjeta**
   ```python
@@ -417,7 +417,7 @@ Este método `Ecommerce` permite enviar una petición de tokenización de tarjet
 
     masked_card = ecommerce.register(card, 'newtoken')
   ```
-  
+
 ## 5.2.7 `card(token)`
 
 ### Definición
@@ -436,7 +436,7 @@ El método `card` devuelve un objeto `Card` del apartado Responses.
   ```
 
 ## 5.2.8 `unregister(token)`
- 
+
 ### Definición
 Este método `Ecommerce` permite enviar una petición a Sipay con la finalidad de dar de baja una tarjeta tokenizada.
 
@@ -453,6 +453,44 @@ El método `unregister` devuelve un objeto `Unregister`.
     unregister = ecommerce.unregister('token')
   ```
 
+## 5.2.1 **`preauthorization(paymethod, amount, order='order', reconciliation='reconciliation',  custom_01='custom_01', custom_02='custom_02', token='token')`**
+
+### Definición
+ Este método de `Ecommerce` permite enviar una petición de preautorización a Sipay.
+### Parámetros
+* **`pay_method`:**[_obligatorio_] Corresponde a una instancia  `Card`, `StoredCard` o `FastPay` que indica el método de pago a utilizar.
+* **`amount `:** [_obligatorio_] Corresponde a una instancia de `Amount` que representa el importe de la operación.
+* **`order `:** [_opcional_] Es un `string` que representa el ticket de la operación.
+* **`reconciliation `:** [_opcional_] Es un `string` que identifica la conciliación bancaria.
+* **`custom_01` :** [_opcional_] Es un `string` que representa un campo personalizable.
+* **`custom_02` :** [_opcional_] Es un `string` que representa un campo personalizable.
+* **`token`:** [_opcional_] Es un `string` que representa un token a almacenar. Se utiliza cuando el método de pago es de tipo `Card` o `Fpay`, y se desea asignar un token específico a la tarjeta utilizada.
+
+### Salida
+El método `preauthorization` devuelve un objeto `Preuthorization`.
+
+### Ejemplo
+ **- Preautorización con tarjeta**
+ ```python
+   from sipay.paymethod.card import Card
+   from sipay.amount import Amount
+
+   amount = Amount(100, 'EUR') # 1€
+   card = Card('4242424242424242', 2050, 2)
+
+   preauth = ecommerce.preauthorization(card, amount)
+ ```
+
+**- Preautorización con FastPay**
+ ```python
+   from sipay.paymethod.fastpay import FastPay
+   from sipay.amount import Amount
+
+   amount = Amount(100, 'EUR') # 1€
+   fp = FastPay('830dc0b45f8945fab229000347646ca5')
+
+   preauth = ecommerce.preauthorization(fp, amount)
+ ```
 ### 5.3 Responses
 Todos los objetos obtenidos como respuestas de operativas `Ecommerce` tienen los siguientes atributos.
 
