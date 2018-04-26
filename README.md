@@ -517,6 +517,26 @@ El método `confirmation` devuelve un objeto `Confirmation`.
 
    conf = ecommerce.confirmation('transaction_id', amount)
  ```
+## 5.2.10 `unlock(identificator, amount, order='order', custom_01='custom_01', custom_02='custom_02')`
+
+### Definición
+Este método `Ecommerce` permite enviar una petición de desbloqueo a Sipay.
+
+### Parámetros
+* **`identificator`:** [_obligatorio_] Es un `string` con el identificador de la transacción.
+* **`amount `:** [_obligatorio_] Corresponde a una instancia de `Amount` con el importe de la operación.
+* **`order `:** [_opcional_] Es un `string` que representa el número de ticket o boleta de la operación.
+* **`custom_01` :** [_opcional_] Es un `string` que representa un campo personalizable.
+* **`custom_02` :** [_opcional_] Es un `string` que representa un campo personalizable.
+
+### Salida
+El método `unlock` devuelve un objeto `Unlock`.
+
+### Ejemplo
+**- Desbloqueo con transaction_id**
+```python
+  unlock = ecommerce.unlock('transaction_id', amount)
+```
 ### 5.3 Responses
 Todos los objetos obtenidos como respuestas de operativas `Ecommerce` tienen los siguientes atributos.
 
@@ -596,4 +616,13 @@ Este objeto no añade nada a lo indicado en los atributos comunes.
 * **`card`:** Objeto de tipo `StoredCard`  con los datos asociados a la tarjeta devuelta.
 
 #### 5.3.8 `Unregister`
+Este objeto no añade nada a lo descrito en los atributos comunes.
+
+#### 5.3.9 `Preauthorization`
+Este objeto no añade nada a lo descrito en los atributos comunes.
+
+#### 5.3.10 `Confirm`
+Este objeto no añade nada a lo descrito en los atributos comunes.
+
+#### 5.3.11 `Unlock`
 Este objeto no añade nada a lo descrito en los atributos comunes.
