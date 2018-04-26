@@ -453,7 +453,7 @@ El método `unregister` devuelve un objeto `Unregister`.
     unregister = ecommerce.unregister('token')
   ```
 
-## 5.2.1 **`preauthorization(paymethod, amount, order='order', reconciliation='reconciliation',  custom_01='custom_01', custom_02='custom_02', token='token')`**
+## 5.2.9 **`preauthorization(paymethod, amount, order='order', reconciliation='reconciliation',  custom_01='custom_01', custom_02='custom_02', token='token')`**
 
 ### Definición
  Este método de `Ecommerce` permite enviar una petición de preautorización a Sipay.
