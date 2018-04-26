@@ -8,6 +8,7 @@ import logging
 
 from sipay.ecommerce.responses.authorization import Authorization
 from sipay.ecommerce.responses.preauthorization import Preauthorization
+from sipay.ecommerce.responses.confirmation import Confirmation
 from sipay.ecommerce.responses.cancellation import Cancellation
 from sipay.ecommerce.responses.card import Card as CardResponse
 from sipay.ecommerce.responses.refund import Refund
@@ -467,3 +468,21 @@ class Ecommerce:
 
         request, response = self.send(payload, 'query')
         return Query(request, response) if response else None
+
+    def confirmation(self, transaction_id, amount, order=None,
+                     reconciliation=None, custom_01=None, custom_02=None):
+        """Send a confirmation for an preauthorization to Sipay."""
+        payload = {
+            'order': order,
+            'reconciliation': reconciliation,
+            'custom_01': custom_01,
+            'custom_02': custom_02,
+            'amount': amount.amount,
+            'transaction_id': transaction_id,
+            'currency': amount.currency
+        }
+
+        payload = {k: v for k, v in payload.items() if v is not None}
+
+        request, response = self.send(payload, 'confirmation')
+        return Confirmation(request, response) if response else None

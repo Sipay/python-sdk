@@ -491,6 +491,32 @@ El método `preauthorization` devuelve un objeto `Preauthorization`.
 
    preauth = ecommerce.preauthorization(fp, amount)
  ```
+
+## 5.2.9 `confirmation(identificator, amount, order='order', reconciliation='reconciliation', custom_01='custom_01', custom_02='custom_02')`
+
+### Definición
+Este método `Ecommerce` permite enviar una petición de confirmación a Sipay.
+
+### Parámetros
+* **`identificator`:** [_obligatorio_] Es un `string` con el identificador de la transacción.
+* **`amount `:** [_obligatorio_] Corresponde a una instancia de `Amount` con el importe de la operación.
+* **`order `:** [_opcional_] Es un `string` que representa el número de ticket o boleta de la operación.
+* **`reconciliation `:** [_opcional_] Es un `string` que identifica la conciliación bancaria.
+* **`custom_01` :** [_opcional_] Es un `string` que representa un campo personalizable.
+* **`custom_02` :** [_opcional_] Es un `string` que representa un campo personalizable.
+
+### Salida
+El método `confirmation` devuelve un objeto `Confirmation`.
+
+### Ejemplo
+**- Devolución con transaction_id**
+ ```python
+   from sipay.amount import Amount
+
+   amount = Amount(100, 'EUR') # 1€
+
+   conf = ecommerce.confirmation('transaction_id', amount)
+ ```
 ### 5.3 Responses
 Todos los objetos obtenidos como respuestas de operativas `Ecommerce` tienen los siguientes atributos.
 
