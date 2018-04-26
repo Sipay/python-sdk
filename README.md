@@ -374,7 +374,7 @@ El método `refund` devuelve un objeto `Refund`.
     refund = ecommerce.refund('transaction_id', amount)
   ```
 
-## 5.2.5 `query(order='order', transaction_id='transaction_id')`
+## 5.2.4 `query(order='order', transaction_id='transaction_id')`
 
 ### Definición
 Este método `Ecommerce` permite enviar una petición a Sipay para buscar de una operación concreta.
@@ -395,7 +395,7 @@ El método `query` devuelve un objeto `Query`.
     query = ecommerce.query(transaction_id='transaction_id')
   ```
 
-## 5.2.6 `register(card, token)`
+## 5.2.5 `register(card, token)`
 
 ### Definición
 Este método `Ecommerce` permite enviar una petición de tokenización de tarjeta a Sipay.
@@ -418,7 +418,7 @@ Este método `Ecommerce` permite enviar una petición de tokenización de tarjet
     masked_card = ecommerce.register(card, 'newtoken')
   ```
 
-## 5.2.7 `card(token)`
+## 5.2.6 `card(token)`
 
 ### Definición
 Este método `Ecommerce` permite enviar una petición a Sipay con la finalidad de obtener información de una tarjeta que está tokenenizada.
@@ -435,7 +435,7 @@ El método `card` devuelve un objeto `Card` del apartado Responses.
     masked_card = ecommerce.card('newtoken')
   ```
 
-## 5.2.8 `unregister(token)`
+## 5.2.7 `unregister(token)`
 
 ### Definición
 Este método `Ecommerce` permite enviar una petición a Sipay con la finalidad de dar de baja una tarjeta tokenizada.
@@ -453,7 +453,7 @@ El método `unregister` devuelve un objeto `Unregister`.
     unregister = ecommerce.unregister('token')
   ```
 
-## 5.2.9 **`preauthorization(paymethod, amount, order='order', reconciliation='reconciliation',  custom_01='custom_01', custom_02='custom_02', token='token')`**
+## 5.2.8 **`preauthorization(paymethod, amount, order='order', reconciliation='reconciliation',  custom_01='custom_01', custom_02='custom_02', token='token')`**
 
 ### Definición
  Este método de `Ecommerce` permite enviar una petición de preautorización a Sipay.
