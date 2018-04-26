@@ -467,7 +467,7 @@ El método `unregister` devuelve un objeto `Unregister`.
 * **`token`:** [_opcional_] Es un `string` que representa un token a almacenar. Se utiliza cuando el método de pago es de tipo `Card` o `Fpay`, y se desea asignar un token específico a la tarjeta utilizada.
 
 ### Salida
-El método `preauthorization` devuelve un objeto `Preuthorization`.
+El método `preauthorization` devuelve un objeto `Preauthorization`.
 
 ### Ejemplo
  **- Preautorización con tarjeta**
