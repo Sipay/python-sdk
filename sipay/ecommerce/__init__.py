@@ -286,6 +286,16 @@ class Ecommerce:
         request, response = self.send(payload, 'authorization')
         return Authorization(request, response) if response else None
 
+    @schema({
+        'amount': {'type': Amount},
+        'order': {'type': str, 'pattern': r'^[\w-]{6,64}$'},
+        'reconciliation': {
+            'type': str,
+            'pattern': r'^[0-9]{4}[a-zA-Z0-9]{0,8}$'},
+        'custom_01': {'type': str},
+        'custom_02': {'type': str},
+        'token': {'type': str, 'pattern': r'^[\w-]{6,128}$'}
+        })
     def preauthorization(self, paymethod, amount, order=None,
                          reconciliation=None, custom_01=None,
                          custom_02=None, token=None):
@@ -469,6 +479,16 @@ class Ecommerce:
         request, response = self.send(payload, 'query')
         return Query(request, response) if response else None
 
+    @schema({
+        'amount': {'type': Amount},
+        'order': {'type': str, 'pattern': r'^[\w-]{6,64}$'},
+        'reconciliation': {
+            'type': str,
+            'pattern': r'^[0-9]{4}[a-zA-Z0-9]{0,8}$'},
+        'custom_01': {'type': str},
+        'transaction_id': {'type': str},
+        'custom_02': {'type': str}
+        })
     def confirmation(self, transaction_id, amount, order=None,
                      reconciliation=None, custom_01=None, custom_02=None):
         """Send a confirmation for an preauthorization to Sipay."""
