@@ -509,7 +509,7 @@ Este método `Ecommerce` permite enviar una petición de confirmación a Sipay.
 El método `confirmation` devuelve un objeto `Confirmation`.
 
 ### Ejemplo
-**- Devolución con transaction_id**
+**- Confirmación con transaction_id**
  ```python
    from sipay.amount import Amount
 
