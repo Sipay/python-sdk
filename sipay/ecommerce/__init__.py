@@ -200,7 +200,6 @@ class Ecommerce:
         url = 'https://{0}.sipay.es/mdwr/{1}/{2}'.format(self.environment,
                                                          self.version,
                                                          endpoint)
-        # url = 'https://sandbox.sipay.es/altp/v1/methods'
         try:
             r = requests.post(url, headers=headers, data=body,
                               timeout=(self.conn_timeout,
