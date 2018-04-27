@@ -620,9 +620,33 @@ Este objeto no añade nada a lo descrito en los atributos comunes.
 
 #### 5.3.9 `Preauthorization`
 Este objeto no añade nada a lo descrito en los atributos comunes.
+* **`amount`:** Es un objeto `Amount`  con el importe de la operación.
+* **`order`:** Es un `string` con el ticket de la operación.
+* **`reconciliation `:** [_opcional_] Es un `string` que identifica la conciliación bancaria.
+* **`card_trade`:** Es un `string` con el emisor de la tarjeta.
+* **`card_type`:** Es un `string` con el tipo de la tarjeta.
+* **`transaction_id`:**  Es un `string` identificador de la transacción.
+* **`card_mask`:** Es un `string` con el número de la tarjeta enmascarado.
+* **`aproval`:** Es un `string` con el código de aprobación de la entidad.
+* **`authorizator`:** Es un `string` con la entidad autorizadora de la operación.
+* **`token`:** Es un `string` identificador de la tarjeta.
 
 #### 5.3.10 `Confirm`
 Este objeto no añade nada a lo descrito en los atributos comunes.
+* **`amount`:** Es un objeto `Amount`  con el importe de la operación.
+* **`order`:** Es un `string` con el ticket de la operación.
+* **`reconciliation `:** [_opcional_] Es un `string` que identifica la conciliación bancaria.
+* **`card_trade`:** Es un `string` con el emisor de la tarjeta.
+* **`card_type`:** Es un `string` con el tipo de la tarjeta.
+* **`transaction_id`:**  Es un `string` identificador de la transacción.
+* **`card_mask`:** Es un `string` con el número de la tarjeta enmascarado.
+* **`aproval`:** Es un `string` con el código de aprobación de la entidad.
+* **`authorizator`:** Es un `string` con la entidad autorizadora de la operación.
+* **`sequence`:** Es un `string` con la secuencia de la operación.
 
 #### 5.3.11 `Unlock`
+* **`order`:** Es un `string` con el ticket de la operación.
+* **`transaction_id`:**  Es un `string` identificador de la transacción.
+* **`reconciliation `:** [_opcional_] Es un `string` que identifica la conciliación bancaria.
+
 Este objeto no añade nada a lo descrito en los atributos comunes.

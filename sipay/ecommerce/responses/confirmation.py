@@ -18,6 +18,7 @@ class Confirmation(Response):
         self.order = payload.get('order')
         self.reconciliation = payload.get('reconciliation')
         self.transaction_id = payload.get('transaction_id')
+        self.sequence = payload.get('sequence')
 
         if payload.get('amount') and payload.get('currency'):
             self.amount = Amount(payload['amount'], payload['currency'])

@@ -24,3 +24,9 @@ class Preauthorization(Response):
 
         else:
             self.amount = None
+
+    def to_dict(self):
+        """Parse Authorization object to dict."""
+        return {
+            'transaction_id': self.transaction_id
+        }

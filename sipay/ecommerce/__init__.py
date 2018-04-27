@@ -324,13 +324,12 @@ class Ecommerce:
             'custom_01': custom_01,
             'custom_02': custom_02,
             'amount': amount.amount,
-            'currency': amount.currency
+            'currency': amount.currency,
+            'token': token
         }
 
         payload.update(paymethod.to_dict())
 
-        if 'token' not in payload and token is not None:
-            payload['token'] = token
         payload = {k: v for k, v in payload.items() if v is not None}
 
         request, response = self.send(payload, 'preauthorization')
@@ -487,15 +486,14 @@ class Ecommerce:
             'type': str,
             'pattern': r'^[0-9]{4}[a-zA-Z0-9]{0,8}$'},
         'custom_01': {'type': str},
-        'transaction_id': {'type': str},
         'custom_02': {'type': str}
         })
-    def confirmation(self, transaction_id, amount, order=None,
+    def confirmation(self, identificator, amount, order=None,
                      reconciliation=None, custom_01=None, custom_02=None):
         """Send a confirmation for a confirmation to Sipay.
 
         Args:
-            - transaction_id: identificator of transaction
+            - identificator: identificator of transaction.
             - amount: Amount of the operation.
             - order: ticket of the operation
             - reconciliation: identification for bank reconciliation
@@ -512,11 +510,18 @@ class Ecommerce:
             'custom_01': custom_01,
             'custom_02': custom_02,
             'amount': amount.amount,
-            'transaction_id': transaction_id,
             'currency': amount.currency
         }
 
         payload = {k: v for k, v in payload.items() if v is not None}
+
+        if isinstance(identificator, str):
+            payload['transaction_id'] = identificator
+        elif issubclass(type(identificator), Preauthorization):
+            payload.update(identificator.to_dict())
+        else:
+            self._logger.error('Incorrect identificator.')
+            raise TypeError('Incorrect identificator.')
 
         request, response = self.send(payload, 'confirmation')
         return Confirmation(request, response) if response else None
