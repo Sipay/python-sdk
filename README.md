@@ -600,7 +600,7 @@ Este objeto añade una lista de transacciones, cada objeto transacción tiene:
 * **`method_name`:** Es un `string`  identificador literal del método de pago.
 
 #### 5.3.5 `Register`
-Este objeto añade lo atributos:
+Este objeto añade los siguientes atributos:
 * **`card_mask`:** Es un `string` con el número de la tarjeta enmascarado.
 * **`expired_at`:** Es un `date` con fecha de la expiración.
 * **`token`:** Es un `string` identificador de la tarjeta.
@@ -610,6 +610,7 @@ Este objeto añade lo atributos:
 Este objeto no añade nada a lo indicado en los atributos comunes.
 
 #### 5.3.7 `Card`
+Este objeto añade los siguientes atributos:
 * **`card_mask`:** Es un `string` con el número de la tarjeta enmascarado.
 * **`expired_at`:** Parámetro de tipo `date` con la fecha de expiración de la tarjeta.
 * **`token`:** Es un `string` identificador de la tarjeta.
@@ -619,7 +620,7 @@ Este objeto no añade nada a lo indicado en los atributos comunes.
 Este objeto no añade nada a lo descrito en los atributos comunes.
 
 #### 5.3.9 `Preauthorization`
-Este objeto no añade nada a lo descrito en los atributos comunes.
+Este objeto añade los siguientes atributos:
 * **`amount`:** Es un objeto `Amount`  con el importe de la operación.
 * **`order`:** Es un `string` con el ticket de la operación.
 * **`reconciliation `:** [_opcional_] Es un `string` que identifica la conciliación bancaria.
@@ -632,7 +633,7 @@ Este objeto no añade nada a lo descrito en los atributos comunes.
 * **`token`:** Es un `string` identificador de la tarjeta.
 
 #### 5.3.10 `Confirm`
-Este objeto no añade nada a lo descrito en los atributos comunes.
+Este objeto añade los siguientes atributos:
 * **`amount`:** Es un objeto `Amount`  con el importe de la operación.
 * **`order`:** Es un `string` con el ticket de la operación.
 * **`reconciliation `:** [_opcional_] Es un `string` que identifica la conciliación bancaria.
@@ -645,8 +646,7 @@ Este objeto no añade nada a lo descrito en los atributos comunes.
 * **`sequence`:** Es un `string` con la secuencia de la operación.
 
 #### 5.3.11 `Unlock`
+Este objeto añade los siguientes atributos:
 * **`order`:** Es un `string` con el ticket de la operación.
 * **`transaction_id`:**  Es un `string` identificador de la transacción.
 * **`reconciliation `:** [_opcional_] Es un `string` que identifica la conciliación bancaria.
-
-Este objeto no añade nada a lo descrito en los atributos comunes.

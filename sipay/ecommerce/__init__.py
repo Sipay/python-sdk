@@ -200,7 +200,7 @@ class Ecommerce:
         url = 'https://{0}.sipay.es/mdwr/{1}/{2}'.format(self.environment,
                                                          self.version,
                                                          endpoint)
-
+        # url = 'https://sandbox.sipay.es/altp/v1/methods'
         try:
             r = requests.post(url, headers=headers, data=body,
                               timeout=(self.conn_timeout,
@@ -493,7 +493,8 @@ class Ecommerce:
         """Send a confirmation for a confirmation to Sipay.
 
         Args:
-            - identificator: identificator of transaction.
+            - identificator: identificator of transaction, can be a
+              transaction_id string or an preauthorization object
             - amount: Amount of the operation.
             - order: ticket of the operation
             - reconciliation: identification for bank reconciliation
@@ -517,8 +518,8 @@ class Ecommerce:
 
         if isinstance(identificator, str):
             payload['transaction_id'] = identificator
-        elif issubclass(type(identificator), Preauthorization):
-            payload.update(identificator.to_dict())
+        elif isinstance(identificator, Preauthorization):
+            payload['transaction_id'] = identificator.transaction_id
         else:
             self._logger.error('Incorrect identificator.')
             raise TypeError('Incorrect identificator.')
@@ -527,18 +528,18 @@ class Ecommerce:
         return Confirmation(request, response) if response else None
 
     @schema({
-        'transaction_id': {'type': str},
         'amount': {'type': Amount},
         'order': {'type': str, 'pattern': r'^[\w-]{6,64}$'},
         'custom_01': {'type': str},
         'custom_02': {'type': str}
         })
-    def unlock(self, transaction_id, amount, order=None,
+    def unlock(self, identificator, amount, order=None,
                custom_01=None, custom_02=None):
         """Send a unlock for a preauthorization to Sipay.
 
         Args:
-            - transaction_id: identificator of transaction
+            - identificator: identificator of transaction, can be a
+              transaction_id string or an preauthorization object
             - amount: Amount of the operation
             - order: ticket of the operation
             - custom_01: custom field 1
@@ -548,7 +549,6 @@ class Ecommerce:
             Unlock: object that contains response of MDWR API
         """
         payload = {
-            'transaction_id': transaction_id,
             'amount': amount.amount,
             'currency': amount.currency,
             'order': order,
@@ -558,5 +558,17 @@ class Ecommerce:
 
         payload = {k: v for k, v in payload.items() if v is not None}
 
-        request, response = self.send(payload, 'unlock')
-        return Unlock(request, response) if response else None
+        if isinstance(identificator, str):
+            payload['transaction_id'] = identificator
+        elif isinstance(identificator, Preauthorization):
+            payload['transaction_id'] = identificator.transaction_id
+            if (amount <= identificator.amount):
+                request, response = self.send(payload, 'unlock')
+                return Unlock(request, response) if response else None
+
+            else:
+                self._logger.error('Unlocking amount cannot be greater than preauthorization amount.')# noqa
+                raise TypeError('Unlocking amount cannot be greater than preauthorization amount.') # noqa
+        else:
+            self._logger.error('Incorrect identificator.')
+            raise TypeError('Incorrect identificator.')
