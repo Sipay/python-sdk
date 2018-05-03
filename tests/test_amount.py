@@ -119,3 +119,6 @@ class AmountTests(unittest.TestCase):
             self.amount1 != self.amount4
         with self.assertRaises(TypeError):
             self.amount1 != 'something'
+
+    def test_str(self):
+        self.assertEqual(str(self.amount1), '1.00EUR')

@@ -50,3 +50,6 @@ class CardTests(unittest.TestCase):
     def test_is_expired(self):
         with self.assertRaises(Exception):
             Card('6712009000000205', 2018, 3)
+
+    def test_to_dict(self):
+        self.assertEqual(self.card.to_dict(), {'pan': '4242424242424242', 'year': 2050, 'month': 1})  # noqa
