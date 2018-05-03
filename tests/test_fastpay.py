@@ -9,9 +9,9 @@ class FastPayTests(unittest.TestCase):
 
     def test_init_fastpay(self):
         with self.assertRaises(TypeError):
-            fp = FastPay(12345678901234567890123456789011)
+            FastPay(12345678901234567890123456789011)
         with self.assertRaises(ValueError):
-            fp = FastPay('123456789012345678901234567890')
+            FastPay('123456789012345678901234567890')
 
     def test_get_set_token(self):
         self.assertEqual(self.fp.token, '12345678901234567890123456789011')

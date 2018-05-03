@@ -9,19 +9,19 @@ class CardTests(unittest.TestCase):
 
     def test_init_card(self):
         with self.assertRaises(TypeError):
-            card = Card('6712009000000205')
+            Card('6712009000000205')
         with self.assertRaises(TypeError):
-            card = Card('671200900000020')
+            Card('671200900000020')
         with self.assertRaises(TypeError):
-            card = Card('671200900000020W')
+            Card('671200900000020W')
         with self.assertRaises(TypeError):
-            card = Card('6712009000000205', 2050)
+            Card('6712009000000205', 2050)
         with self.assertRaises(TypeError):
-            card = Card('6712009000000205', 'something', 1)
+            Card('6712009000000205', 'something', 1)
         with self.assertRaises(TypeError):
-            card = Card('6712009000000205', '', 1)
+            Card('6712009000000205', '', 1)
         with self.assertRaises(TypeError):
-            card = Card('6712009000000205', 2050, '1')
+            Card('6712009000000205', 2050, '1')
 
     def test_get_set_card(self):
         self.assertEqual(self.card.card_number, '6712009000000205')
@@ -49,4 +49,4 @@ class CardTests(unittest.TestCase):
 
     def test_is_expired(self):
         with self.assertRaises(Exception):
-            card = Card('6712009000000205', 2018, 3)
+            Card('6712009000000205', 2018, 3)

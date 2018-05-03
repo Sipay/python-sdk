@@ -9,9 +9,9 @@ class StoredCardTests(unittest.TestCase):
 
     def test_init_storedcard(self):
         with self.assertRaises(ValueError):
-            storedcard = StoredCard('token')
+            StoredCard('token')
         with self.assertRaises(TypeError):
-            storedcard = StoredCard(123)
+            StoredCard(123)
 
     def test_get_set_token(self):
         self.assertEqual(self.storedcard.token, 'token-card')
