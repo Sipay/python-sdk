@@ -52,4 +52,4 @@ class CardTests(unittest.TestCase):
             Card('6712009000000205', 2018, 3)
 
     def test_to_dict(self):
-        self.assertEqual(self.card.to_dict(), {'pan': '4242424242424242', 'year': 2050, 'month': 1})  # noqa
+        self.assertEqual(self.card.to_dict(), {'pan': '6712009000000205', 'year': 2050, 'month': 1})  # noqa
