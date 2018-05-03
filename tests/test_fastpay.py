@@ -23,9 +23,4 @@ class FastPayTests(unittest.TestCase):
             self.fp.token = '123456789012345678901234567890'
 
     def test_to_dict(self):
-        self.fp = FastPay('12345678901234567890123456789011')
-        self.assertIsInstance(self.fp, FastPay)
-        self.assertEqual(self.fp.token, '12345678901234567890123456789011')
-
-if __name__ == '__main__':
-    unittest.main()
+        self.assertEqual(self.fp.to_dict(), {'fastpay': {'request_id': '12345678901234567890123456789011'}})  # noqa
