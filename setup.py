@@ -47,8 +47,7 @@ setup(
     python_requires='>=3.4',
     platforms=['linux'],
 
-    packages=['sipay'] +
-    list(map(lambda x: "sipay."+x, find_packages('sipay'))),
+    packages=['sipay'] + list(map(lambda x: "sipay."+x, find_packages('sipay'))),  # noqa
 
     install_requires=requirements('requirements.txt'),
     dependency_links=[],

@@ -25,6 +25,6 @@ class Response:
             if not k.startswith('_'):
                 ret += '{0}={1}, '.format(k, v)
 
-        ret = '<{0}({1})>'.format(type(self).__name__,ret[:-2])
+        ret = '<{0}({1})>'.format(type(self).__name__, ret[:-2])
 
         return ret
