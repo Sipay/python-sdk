@@ -495,10 +495,10 @@ El método `preauthorization` devuelve un objeto `Preauthorization`.
 ## 5.2.9 `confirmation(identificator, amount, order='order', reconciliation='reconciliation', custom_01='custom_01', custom_02='custom_02')`
 
 ### Definición
-Este método `Ecommerce` permite enviar una petición de confirmación a Sipay.
+Este método `Ecommerce` permite enviar una petición de confirmación sobre una preautorización a Sipay.
 
 ### Parámetros
-* **`identificator`:** [_obligatorio_] Es un `string` con el identificador de la transacción.
+* **`identificator`:** [_obligatorio_] Puede ser o bien un `string` con el identificador de la transacción o una instacia de la clase Preautorización
 * **`amount `:** [_obligatorio_] Corresponde a una instancia de `Amount` con el importe de la operación.
 * **`order `:** [_opcional_] Es un `string` que representa el número de ticket o boleta de la operación.
 * **`reconciliation `:** [_opcional_] Es un `string` que identifica la conciliación bancaria.
@@ -517,13 +517,20 @@ El método `confirmation` devuelve un objeto `Confirmation`.
 
    conf = ecommerce.confirmation('transaction_id', amount)
  ```
+ **- Confirmación con una instancia de Preautorización**
+  ```python
+    from sipay.amount import Amount
+
+    conf = ecommerce.confirmation('preauth.transaction_id', amount)
+  ```
+
 ## 5.2.10 `unlock(identificator, amount, order='order', custom_01='custom_01', custom_02='custom_02')`
 
 ### Definición
-Este método `Ecommerce` permite enviar una petición de desbloqueo a Sipay.
+Este método `Ecommerce` permite enviar una petición de desbloqueo sobre una preautorización a Sipay.
 
 ### Parámetros
-* **`identificator`:** [_obligatorio_] Es un `string` con el identificador de la transacción.
+* **`identificator`:** [_obligatorio_] Puede ser o bien un `string` con el identificador de la transacción o una instacia de la clase Preautorización
 * **`amount `:** [_obligatorio_] Corresponde a una instancia de `Amount` con el importe de la operación.
 * **`order `:** [_opcional_] Es un `string` que representa el número de ticket o boleta de la operación.
 * **`custom_01` :** [_opcional_] Es un `string` que representa un campo personalizable.
@@ -537,6 +544,13 @@ El método `unlock` devuelve un objeto `Unlock`.
 ```python
   unlock = ecommerce.unlock('transaction_id', amount)
 ```
+
+**- Desbloqueo con una instancia de Preautorización**
+ ```python
+   from sipay.amount import Amount
+
+   unlock = ecommerce.unlock('preauth.transaction_id', amount)
+ ```
 ### 5.3 Responses
 Todos los objetos obtenidos como respuestas de operativas `Ecommerce` tienen los siguientes atributos.
 

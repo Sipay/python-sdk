@@ -489,11 +489,11 @@ class Ecommerce:
         })
     def confirmation(self, identificator, amount, order=None,
                      reconciliation=None, custom_01=None, custom_02=None):
-        """Send a confirmation for a confirmation to Sipay.
+        """Send a confirmation for a preauthorization to Sipay.
 
         Args:
             - identificator: identificator of transaction, can be a
-              transaction_id string or an preauthorization object
+              transaction_id string or a preauthorization object
             - amount: Amount of the operation.
             - order: ticket of the operation
             - reconciliation: identification for bank reconciliation
@@ -534,7 +534,7 @@ class Ecommerce:
         })
     def unlock(self, identificator, amount, order=None,
                custom_01=None, custom_02=None):
-        """Send a unlock for a preauthorization to Sipay.
+        """Send an unlock for a preauthorization to Sipay.
 
         Args:
             - identificator: identificator of transaction, can be a
