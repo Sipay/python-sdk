@@ -1,18 +1,20 @@
 import unittest
 from sipay.paymethod.card import Card
 
+CARD = '4242424242424242'
+
 
 class CardTests(unittest.TestCase):
 
     def setUp(self):
-        self.card = Card('6712009000000205', 2050, 1)
+        self.card = Card(CARD, 2050, 1)
 
     def test_init_card(self):
         with self.assertRaises(TypeError):
-            Card('6712009000000205')
+            Card(CARD)
 
     def test_get_set_card(self):
-        self.assertEqual(self.card.card_number, '6712009000000205')
+        self.assertEqual(self.card.card_number, CARD)
         with self.assertRaises(TypeError):
             self.card.card_number = 1
         with self.assertRaises(ValueError):
@@ -35,7 +37,7 @@ class CardTests(unittest.TestCase):
 
     def test_is_expired(self):
         with self.assertRaises(Exception):
-            Card('6712009000000205', 2018, 3)
+            Card(CARD, 2018, 3)
 
     def test_to_dict(self):
-        self.assertEqual(self.card.to_dict(), {'pan': '6712009000000205', 'year': 2050, 'month': 1})  # noqa
+        self.assertEqual(self.card.to_dict(), {'pan': CARD, 'year': 2050, 'month': 1})  # noqa
