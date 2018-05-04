@@ -10,18 +10,6 @@ class CardTests(unittest.TestCase):
     def test_init_card(self):
         with self.assertRaises(TypeError):
             Card('6712009000000205')
-        with self.assertRaises(TypeError):
-            Card('671200900000020')
-        with self.assertRaises(TypeError):
-            Card('671200900000020W')
-        with self.assertRaises(TypeError):
-            Card('6712009000000205', 2050)
-        with self.assertRaises(TypeError):
-            Card('6712009000000205', 'something', 1)
-        with self.assertRaises(TypeError):
-            Card('6712009000000205', '', 1)
-        with self.assertRaises(TypeError):
-            Card('6712009000000205', 2050, '1')
 
     def test_get_set_card(self):
         self.assertEqual(self.card.card_number, '6712009000000205')
@@ -31,8 +19,6 @@ class CardTests(unittest.TestCase):
             self.card.card_number = '1'
 
     def test_get_set_year_month(self):
-        self.assertEqual(self.card.year, 2050)
-        self.assertEqual(self.card.month, 1)
         self.card.set_expiration_date(2049, 2)
         self.assertEqual(self.card.year, 2049)
         self.assertEqual(self.card.month, 2)

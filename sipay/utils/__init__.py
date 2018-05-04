@@ -28,7 +28,7 @@ def schema(schema):
                     raise TypeError("Type error in variable {}".format(key))
 
                 elif code == 3:
-                    raise ValueError("Value of {} dont match with pattern".format(key))
+                    raise ValueError("Value of {} dont match with pattern".format(key))  # noqa
 
             return func(*args, **kwargs)
         return _schema

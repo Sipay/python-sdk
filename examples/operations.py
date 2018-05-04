@@ -8,7 +8,7 @@ from sipay.amount import Amount
 from pathlib import Path
 
 parent = str(Path(__file__).parent.resolve().parent)
-config_file = '{}/etc/config.ini'.format(parent) 
+config_file = '{}/etc/config.ini'.format(parent)
 
 ecommerce = Ecommerce(config_file)
 
@@ -99,7 +99,7 @@ if not refund2:
     print('Fallo al hacer la devolución, Error al conectar con el servicio')
 
 elif refund2.code != 0:
-    print('Fallo al hacer la devolución, Error: {}'.format(refund2.description))
+    print('Fallo al hacer la devolución, Error: {}'.format(refund2.description))  # noqa
 
 else:
     print('Devolución procesada correctamente')
@@ -114,7 +114,7 @@ if not register:
     print('Fallo al registrar la tarjeta, Error al conectar con el servicio')
 
 elif register.code != 0:
-    print('Fallo al registrar la tarjeta, Error: {}'.format(register.description))
+    print('Fallo al registrar la tarjeta, Error: {}'.format(register.description))  # noqa
 
 else:
     print('Registro procesado correctamente')
@@ -125,10 +125,10 @@ else:
 unregister = ecommerce.unregister('newtoken')
 
 if not unregister:
-    print('Fallo al borrar la tarjeta de Sipay, Error al conectar con el servicio')
+    print('Fallo al borrar la tarjeta de Sipay, Error al conectar con el servicio')  # noqa
 
 elif unregister.code != 0:
-    print('Fallo al borrar la tarjeta de Sipay, Error: {}'.format(unregister.description))
+    print('Fallo al borrar la tarjeta de Sipay, Error: {}'.format(unregister.description))  # noqa
 
 else:
     print('Tarjeta borrada correctamente')

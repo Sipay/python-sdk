@@ -15,6 +15,7 @@ def requirements(filename):
     reqs = parse_requirements(path, session=False)
     return [str(req.req) for req in reqs]
 
+
 setup(
     name='sipay',
 
@@ -37,7 +38,7 @@ setup(
     python_requires='>=3.5',
     platforms=['linux'],
 
-    packages=['sipay'] + list(map(lambda x: "sipay."+x, find_packages('sipay'))),
+    packages=['sipay'] + list(map(lambda x: "sipay."+x, find_packages('sipay'))),  # noqa
 
     install_requires=requirements('requirements.txt'),
     dependency_links=[],

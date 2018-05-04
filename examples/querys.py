@@ -15,7 +15,7 @@ if not card_res:
     print('Fallo al consultar la tarjeta, Error al conectar con el servicio')
 
 elif card_res.code != 0:
-    print('Fallo al consultar la tarjeta, Error: {}'.format(card_res.description))
+    print('Fallo al consultar la tarjeta, Error: {}'.format(card_res.description))  # noqa
 
 else:
     print('Consulta procesada correctamente')
