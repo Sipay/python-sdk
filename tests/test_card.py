@@ -22,14 +22,14 @@ class CardTests(unittest.TestCase):
         self.card.set_expiration_date(2049, 2)
         self.assertEqual(self.card.year, 2049)
         self.assertEqual(self.card.month, 2)
-        with self.assertRaises(ValueError):
-            self.card.set_expiration_date(998, 2)
         with self.assertRaises(TypeError):
             self.card.set_expiration_date(998.00, 2)
         with self.assertRaises(ValueError):
-            self.card.set_expiration_date(1000, 13)
+            self.card.set_expiration_date(998, 2)
         with self.assertRaises(TypeError):
             self.card.set_expiration_date(1000, 2.00)
+        with self.assertRaises(ValueError):
+            self.card.set_expiration_date(1000, 13)
         with self.assertRaises(Exception):
             self.card.set_expiration_date(1999, 1)
 
