@@ -1,2 +1,10 @@
 /logs
 __pycache__/
+.cov_html/
+.coverage
+.coveragerc
+.pytest_cache/
+.tox/
+.vscode/
+htmlcov/
+sipay.egg-info/
