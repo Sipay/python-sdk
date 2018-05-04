@@ -10,9 +10,10 @@ from setuptools import setup
 from os import path
 
 
-here = path.abspath(path.dirname(__file__))
-with open(path.join(here, 'VERSION'), encoding='utf-8') as f:
-    version = f.read()
+def read_file(filename):
+    here = path.abspath(path.dirname(__file__))
+    with open(path.join(here, filename), encoding='utf-8') as f:
+        return f.read()
 
 
 def requirements(filename):
@@ -25,7 +26,7 @@ def requirements(filename):
 setup(
     name='sipay',
 
-    version=version,
+    version=read_file('VERSION'),
 
     description='Python SDK',
     long_description=Path('README.md').read_text(),
