@@ -89,7 +89,7 @@ else:
 
 # Hacer una devolución con tarjeta de 28.60 euros
 amount = Amount(2860, 'EUR')
-card = Card(pan_example, 2018, 2)
+card = Card(pan_example, 2020, 2)
 # card = StoredCard('token')
 # card = FastPay('token')
 
@@ -105,7 +105,7 @@ else:
     print('Devolución procesada correctamente')
 
 # Almacenar tarjeta en Sipay
-card = Card(pan_example, 2018, 2)
+card = Card(pan_example, 2020, 2)
 # card = FastPay('token')
 
 register = ecommerce.register(card, 'newtoken')
@@ -136,7 +136,7 @@ else:
 
 # Realizar una preautorización de 8.34 euros con Sipay
 amount = Amount(834, 'EUR')
-card = Card(pan_example, 2018, 2)
+card = Card(pan_example, 2020, 2)
 
 preauth = ecommerce.preauthorization(card, amount)
 

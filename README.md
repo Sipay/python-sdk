@@ -110,6 +110,9 @@ A través de peticiones a Sipay mediante Ecommerce, se pueden realizar operativa
 * Tokenización* de tarjetas (sección 5.2.5).
 * Búsqueda de tarjetas tokenizadas (sección 5.2.6).
 * Dar de baja una tarjeta tokenizada (sección 5.2.7).
+* Preautorización (sección 5.2.8).
+* Confirmación de una preautorización (sección 5.2.9).
+* Desbloqueo de una preautorización (sección 5.2.10).
 
 _* Tokenización_: Es un proceso por el cual el PAN (_Primary Account Number_ – Número Primario de Cuenta) de la tarjeta se sustituye por un valor llamado token. Esta funcionalidad permite que Sipay guarde los datos de la tarjeta del cliente, para agilizar el proceso de pagos y evitar que se deba introducir, cada vez, los datos de tarjeta, en pagos repetitivos. Sipay realiza el almacenamieno de los datos de forma segura, cumpliendo con las normativas PCI.
 
