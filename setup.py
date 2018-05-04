@@ -7,6 +7,12 @@ except ImportError:
 
 from setuptools import find_packages
 from setuptools import setup
+from os import path
+
+
+here = path.abspath(path.dirname(__file__))
+with open(path.join(here, 'VERSION'), encoding='utf-8') as f:
+    version = f.read()
 
 
 def requirements(filename):
@@ -15,10 +21,11 @@ def requirements(filename):
     reqs = parse_requirements(path, session=False)
     return [str(req.req) for req in reqs]
 
+
 setup(
     name='sipay',
 
-    version=Path('VERSION').read_text().strip(),
+    version=version,
 
     description='Python SDK',
     long_description=Path('README.md').read_text(),
@@ -37,7 +44,8 @@ setup(
     python_requires='>=3.5',
     platforms=['linux'],
 
-    packages=['sipay'] + list(map(lambda x: "sipay."+x, find_packages('sipay'))),
+    packages=['sipay'] +
+    list(map(lambda x: "sipay."+x, find_packages('sipay'))),
 
     install_requires=requirements('requirements.txt'),
     dependency_links=[],
