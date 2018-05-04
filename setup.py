@@ -29,7 +29,7 @@ setup(
     version=read_file('VERSION'),
 
     description='Python SDK',
-    long_description=Path('README.md').read_text(),
+    long_description=read_file('README.md'),
 
     author='Sipay Plus SL',
     author_email='develop@sipay.es',
