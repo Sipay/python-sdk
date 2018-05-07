@@ -276,7 +276,6 @@ class Ecommerce:
             'amount': amount.amount,
             'currency': amount.currency
         }
-
         payload.update(paymethod.to_dict())
 
         if 'token' not in payload and token is not None:
@@ -571,3 +570,5 @@ class Ecommerce:
         else:
             self._logger.error('Incorrect identificator.')
             raise TypeError('Incorrect identificator.')
+        request, response = self.send(payload, 'unlock')
+        return Unlock(request, response) if response else None

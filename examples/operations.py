@@ -147,11 +147,11 @@ elif preauth.code != 0:
     print('Fallo al realizar la preautorización, Error: {}'.format(preauth.description))
 
 else:
-    print('preautorización creada correctamente')
+    print('Preautorización creada correctamente')
 
 # Realizar un desbloqueo de una preautorización de 8.34 euros útilizando una instancia de preautorización
 
-unlock = ecommerce.unlock(preauth.transaction_id, amount)
+unlock = ecommerce.unlock(preauth, amount)
 
 if not unlock:
     print('Fallo al hacer realizar el desbloqueo de la preautorización, Error al conectar con el servicio')
@@ -171,34 +171,34 @@ if not unlock2:
     print('Fallo al hacer realizar el desbloqueo de la preautorización, Error al conectar con el servicio')
 
 elif unlock2.code != 0:
-    print('Fallo al realizar el desbloqueo de la preautorización, Error: {}'.format(unlock.description))
+    print('Fallo al realizar el desbloqueo de la preautorización, Error: {}'.format(unlock2.description))
 
 else:
     print('Desbloqueo de preautorización realizado con exito')
 
 # Realizar una confirmación de una preautorización de 8.34 euros útilizando una instancia de preautorización
 
-confirm = ecommerce.confirmation(preauth.transaction_id, amount)
+confirm = ecommerce.confirmation(preauth, amount)
 
 if not confirm:
     print('Fallo al hacer realizar la confirmación de la preautorización, Error al conectar con el servicio')
 
 elif confirm.code != 0:
-    print('Fallo al realizar la confirmación de la preautorización, Error: {}'.format(unlock.description))
+    print('Fallo al realizar la confirmación de la preautorización, Error: {}'.format(confirm.description))
 
 else:
-    print('confirmación de preautorización realizada con exito')
+    print('Confirmación de preautorización realizada con exito')
 
 # Realizar un desbloqueo de una preautorización útilizando un transaction_id
 
 confirm2 = ecommerce.confirmation('000097586585926825335', amount)
 # El transaction_id se obtiene al haber realizado una preautorización
 
-if not confirm:
-    print('Fallo al hacer realizar el desbloqueo de la preautorización, Error al conectar con el servicio')
+if not confirm2:
+    print('Fallo al hacer realizar la confirmación de la preautorización, Error al conectar con el servicio')
 
-elif confirm.code != 0:
-    print('Fallo al realizar el desbloqueo de la preautorización, Error: {}'.format(unlock.description))
+elif confirm2.code != 0:
+    print('Fallo al realizar la confirmación de la preautorización, Error: {}'.format(confirm2.description))
 
 else:
-    print('Desbloqueo de preautorización realizado con exito')
+    print('Confirmación de preautorización realizado con exito')
