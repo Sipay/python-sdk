@@ -192,6 +192,7 @@ else:
 # Realizar un desbloqueo de una preautorización útilizando un transaction_id
 
 confirm2 = ecommerce.confirmation('000097586585926825335', amount)
+
 # El transaction_id se obtiene al haber realizado una preautorización
 
 if not confirm2:

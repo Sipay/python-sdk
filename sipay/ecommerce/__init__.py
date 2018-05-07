@@ -563,7 +563,6 @@ class Ecommerce:
             if (amount <= identificator.amount):
                 request, response = self.send(payload, 'unlock')
                 return Unlock(request, response) if response else None
-
             else:
                 self._logger.error('Unlocking amount cannot be greater than preauthorization amount.')# noqa
                 raise TypeError('Unlocking amount cannot be greater than preauthorization amount.') # noqa
