@@ -22,13 +22,13 @@ Con el siguiente ejemplo podrás, en pocos pasos, instalar la SDK y efectuar una
 # 3. Instalación
 ## Pre-requisitos
  * Versión de python 3.5 o superior.
- 
+
 ## Pasos
   ```bash
     $ git clone https://github.com/sipay/python-sdk
     $ pip install ./python-sdk
   ```
- 
+
 # 4. Configuración
 Una vez que se ha instalado la SDK, se deben actualizar los parámetros de configuración asociados a:
 * Sistema de trazas.
@@ -43,7 +43,7 @@ Un ejemplo de configuraciones se muestra a continuación:
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Configuración asociada al sistema de trazas.
 #
-# file: Nombre y ruta del archivo de logs. (Nota: Aconsejable usar rutas absolutas 
+# file: Nombre y ruta del archivo de logs. (Nota: Aconsejable usar rutas absolutas
 #       para que se pueda ejecutar el módulo desde diferentes localizaciones).
 # level: Nivel mínimo de trazas [debug, info, warning, error, critical]
 # max_file_size: Tamaño máximo del fichero de trazas [bytes]
@@ -110,6 +110,9 @@ A través de peticiones a Sipay mediante Ecommerce, se pueden realizar operativa
 * Tokenización* de tarjetas (sección 5.2.5).
 * Búsqueda de tarjetas tokenizadas (sección 5.2.6).
 * Dar de baja una tarjeta tokenizada (sección 5.2.7).
+* Preautorización (sección 5.2.8).
+* Confirmación de una preautorización (sección 5.2.9).
+* Desbloqueo de una preautorización (sección 5.2.10).
 
 _* Tokenización_: Es un proceso por el cual el PAN (_Primary Account Number_ – Número Primario de Cuenta) de la tarjeta se sustituye por un valor llamado token. Esta funcionalidad permite que Sipay guarde los datos de la tarjeta del cliente, para agilizar el proceso de pagos y evitar que se deba introducir, cada vez, los datos de tarjeta, en pagos repetitivos. Sipay realiza el almacenamieno de los datos de forma segura, cumpliendo con las normativas PCI.
 
@@ -128,7 +131,7 @@ Para llevar a cabo de forma correcta las operativas Ecommerce, se requiere el do
 #### Parámetros
 * **`amount`:**  [_obligatorio_] Es la cantidad de dinero a procesar. Se puede representar con un `string` o un `int`. Supongamos que queremos procesar 1.56 €, la cantidad (1.56) como un `string` sería `'1.56'` ; como un `int` sería `156`.
 * **`currency`:** [_obligatorio_] Es un `string` que representa el código de la moneda (ISO4217).
-    
+
 #### Atributos
 * **`amount`:** `int` que representa la cantidad de procesamiento. Será este tipo de dato, independientemente de si se ha instanciado con un `string` previamente.
 * **`currency`:** `string` que representa el código de la moneda (ISO4217).
@@ -187,7 +190,7 @@ Este objeto representa una tarjeta que se puede utilizar en las diferentes opera
       print(card.card_number)
       print(card.year)
       print(card.month)
-      
+
       card.card_number='123451234512345'
       print(card.card_number)
 
@@ -217,11 +220,11 @@ Este objeto representa una tarjeta almacenada en Sipay que puede utilizarse en o
     card = StoredCard('token-card')
     print(card.token)
     # Imprime token-card
-    
+
     card.token = 'new-token-card'
     print(card.token)
     # Imprime new-token-card
-    
+
   ```
 ### **5.1.4. `FastPay(token)`**
 
@@ -240,7 +243,7 @@ Este objeto representa una tarjeta obtenida mediante el método de pago FastPay.
 
     fp = FastPay('token-fast-pay')
     print(fp.token)
-    
+
     fp = FastPay('new-token-fast-pay')
     print(fp.token)
 
@@ -323,13 +326,13 @@ El método `authorization` devuelve un objeto `Authorization`.
 
 ### Definición
 Este método permite enviar una petición de cancelación a Sipay.
- 
+
 ### Parámetros
 * **`transaction_id`:** [_obligatorio_] Es un `string` con el identificador de la transacción.
 
 ### Salida
 El método `cancellation` devuelve un objeto `Cancellation`.
- 
+
 ### Ejemplo
 **- Cancelación de operación**
   ```python
@@ -340,7 +343,7 @@ El método `cancellation` devuelve un objeto `Cancellation`.
 
 ### Definición
 Este método `Ecommerce` permite enviar una petición de devolución a Sipay.
- 
+
 ### Parámetros
 * **`identificator`:** [_obligatorio_] Es una instancia del método de pago (`Card`, `StoredCard` o `FastPay`) o, un `string` que representa el identificador de transacción.
 * **`amount `:** [_obligatorio_] Corresponde a una instancia de `Amount` con el importe de la operación.
@@ -352,7 +355,7 @@ Este método `Ecommerce` permite enviar una petición de devolución a Sipay.
 
 ### Salida
 El método `refund` devuelve un objeto `Refund`.
- 
+
 ### Ejemplo
 **- Devolución con tarjeta**
   ```python
@@ -374,7 +377,7 @@ El método `refund` devuelve un objeto `Refund`.
     refund = ecommerce.refund('transaction_id', amount)
   ```
 
-## 5.2.5 `query(order='order', transaction_id='transaction_id')`
+## 5.2.4 `query(order='order', transaction_id='transaction_id')`
 
 ### Definición
 Este método `Ecommerce` permite enviar una petición a Sipay para buscar de una operación concreta.
@@ -395,7 +398,7 @@ El método `query` devuelve un objeto `Query`.
     query = ecommerce.query(transaction_id='transaction_id')
   ```
 
-## 5.2.6 `register(card, token)`
+## 5.2.5 `register(card, token)`
 
 ### Definición
 Este método `Ecommerce` permite enviar una petición de tokenización de tarjeta a Sipay.
@@ -417,8 +420,8 @@ Este método `Ecommerce` permite enviar una petición de tokenización de tarjet
 
     masked_card = ecommerce.register(card, 'newtoken')
   ```
-  
-## 5.2.7 `card(token)`
+
+## 5.2.6 `card(token)`
 
 ### Definición
 Este método `Ecommerce` permite enviar una petición a Sipay con la finalidad de obtener información de una tarjeta que está tokenenizada.
@@ -435,8 +438,8 @@ El método `card` devuelve un objeto `Card` del apartado Responses.
     masked_card = ecommerce.card('newtoken')
   ```
 
-## 5.2.8 `unregister(token)`
- 
+## 5.2.7 `unregister(token)`
+
 ### Definición
 Este método `Ecommerce` permite enviar una petición a Sipay con la finalidad de dar de baja una tarjeta tokenizada.
 
@@ -453,6 +456,104 @@ El método `unregister` devuelve un objeto `Unregister`.
     unregister = ecommerce.unregister('token')
   ```
 
+## 5.2.8 **`preauthorization(paymethod, amount, order='order', reconciliation='reconciliation',  custom_01='custom_01', custom_02='custom_02', token='token')`**
+
+### Definición
+ Este método de `Ecommerce` permite enviar una petición de preautorización a Sipay.
+### Parámetros
+* **`pay_method`:**[_obligatorio_] Corresponde a una instancia  `Card`, `StoredCard` o `FastPay` que indica el método de pago a utilizar.
+* **`amount `:** [_obligatorio_] Corresponde a una instancia de `Amount` que representa el importe de la operación.
+* **`order `:** [_opcional_] Es un `string` que representa el ticket de la operación.
+* **`reconciliation `:** [_opcional_] Es un `string` que identifica la conciliación bancaria.
+* **`custom_01` :** [_opcional_] Es un `string` que representa un campo personalizable.
+* **`custom_02` :** [_opcional_] Es un `string` que representa un campo personalizable.
+* **`token`:** [_opcional_] Es un `string` que representa un token a almacenar. Se utiliza cuando el método de pago es de tipo `Card` o `Fpay`, y se desea asignar un token específico a la tarjeta utilizada.
+
+### Salida
+El método `preauthorization` devuelve un objeto `Preauthorization`.
+
+### Ejemplo
+ **- Preautorización con tarjeta**
+ ```python
+   from sipay.paymethod.card import Card
+   from sipay.amount import Amount
+
+   amount = Amount(100, 'EUR') # 1€
+   card = Card('4242424242424242', 2050, 2)
+
+   preauth = ecommerce.preauthorization(card, amount)
+ ```
+
+**- Preautorización con FastPay**
+ ```python
+   from sipay.paymethod.fastpay import FastPay
+   from sipay.amount import Amount
+
+   amount = Amount(100, 'EUR') # 1€
+   fp = FastPay('830dc0b45f8945fab229000347646ca5')
+
+   preauth = ecommerce.preauthorization(fp, amount)
+ ```
+
+## 5.2.9 `confirmation(identificator, amount, order='order', reconciliation='reconciliation', custom_01='custom_01', custom_02='custom_02')`
+
+### Definición
+Este método `Ecommerce` permite enviar una petición de confirmación sobre una preautorización a Sipay.
+
+### Parámetros
+* **`identificator`:** [_obligatorio_] Puede ser o bien un `string` con el identificador de la transacción o una instacia de la clase Preautorización
+* **`amount `:** [_obligatorio_] Corresponde a una instancia de `Amount` con el importe de la operación.
+* **`order `:** [_opcional_] Es un `string` que representa el número de ticket o boleta de la operación.
+* **`reconciliation `:** [_opcional_] Es un `string` que identifica la conciliación bancaria.
+* **`custom_01` :** [_opcional_] Es un `string` que representa un campo personalizable.
+* **`custom_02` :** [_opcional_] Es un `string` que representa un campo personalizable.
+
+### Salida
+El método `confirmation` devuelve un objeto `Confirmation`.
+
+### Ejemplo
+**- Confirmación con transaction_id**
+ ```python
+   from sipay.amount import Amount
+
+   amount = Amount(100, 'EUR') # 1€
+
+   conf = ecommerce.confirmation('transaction_id', amount)
+ ```
+ **- Confirmación con una instancia de Preautorización**
+  ```python
+    from sipay.amount import Amount
+
+    conf = ecommerce.confirmation('preauth.transaction_id', amount)
+  ```
+
+## 5.2.10 `unlock(identificator, amount, order='order', custom_01='custom_01', custom_02='custom_02')`
+
+### Definición
+Este método `Ecommerce` permite enviar una petición de desbloqueo sobre una preautorización a Sipay.
+
+### Parámetros
+* **`identificator`:** [_obligatorio_] Puede ser o bien un `string` con el identificador de la transacción o una instacia de la clase Preautorización
+* **`amount `:** [_obligatorio_] Corresponde a una instancia de `Amount` con el importe de la operación.
+* **`order `:** [_opcional_] Es un `string` que representa el número de ticket o boleta de la operación.
+* **`custom_01` :** [_opcional_] Es un `string` que representa un campo personalizable.
+* **`custom_02` :** [_opcional_] Es un `string` que representa un campo personalizable.
+
+### Salida
+El método `unlock` devuelve un objeto `Unlock`.
+
+### Ejemplo
+**- Desbloqueo con transaction_id**
+```python
+  unlock = ecommerce.unlock('transaction_id', amount)
+```
+
+**- Desbloqueo con una instancia de Preautorización**
+ ```python
+   from sipay.amount import Amount
+
+   unlock = ecommerce.unlock('preauth.transaction_id', amount)
+ ```
 ### 5.3 Responses
 Todos los objetos obtenidos como respuestas de operativas `Ecommerce` tienen los siguientes atributos.
 
@@ -516,7 +617,7 @@ Este objeto añade una lista de transacciones, cada objeto transacción tiene:
 * **`method_name`:** Es un `string`  identificador literal del método de pago.
 
 #### 5.3.5 `Register`
-Este objeto añade lo atributos:
+Este objeto añade los siguientes atributos:
 * **`card_mask`:** Es un `string` con el número de la tarjeta enmascarado.
 * **`expired_at`:** Es un `date` con fecha de la expiración.
 * **`token`:** Es un `string` identificador de la tarjeta.
@@ -526,6 +627,7 @@ Este objeto añade lo atributos:
 Este objeto no añade nada a lo indicado en los atributos comunes.
 
 #### 5.3.7 `Card`
+Este objeto añade los siguientes atributos:
 * **`card_mask`:** Es un `string` con el número de la tarjeta enmascarado.
 * **`expired_at`:** Parámetro de tipo `date` con la fecha de expiración de la tarjeta.
 * **`token`:** Es un `string` identificador de la tarjeta.
@@ -533,3 +635,35 @@ Este objeto no añade nada a lo indicado en los atributos comunes.
 
 #### 5.3.8 `Unregister`
 Este objeto no añade nada a lo descrito en los atributos comunes.
+
+#### 5.3.9 `Preauthorization`
+Este objeto añade los siguientes atributos:
+* **`amount`:** Es un objeto `Amount`  con el importe de la operación.
+* **`order`:** Es un `string` con el ticket de la operación.
+* **`reconciliation `:** [_opcional_] Es un `string` que identifica la conciliación bancaria.
+* **`card_trade`:** Es un `string` con el emisor de la tarjeta.
+* **`card_type`:** Es un `string` con el tipo de la tarjeta.
+* **`transaction_id`:**  Es un `string` identificador de la transacción.
+* **`card_mask`:** Es un `string` con el número de la tarjeta enmascarado.
+* **`aproval`:** Es un `string` con el código de aprobación de la entidad.
+* **`authorizator`:** Es un `string` con la entidad autorizadora de la operación.
+* **`token`:** Es un `string` identificador de la tarjeta.
+
+#### 5.3.10 `Confirm`
+Este objeto añade los siguientes atributos:
+* **`amount`:** Es un objeto `Amount`  con el importe de la operación.
+* **`order`:** Es un `string` con el ticket de la operación.
+* **`reconciliation `:** [_opcional_] Es un `string` que identifica la conciliación bancaria.
+* **`card_trade`:** Es un `string` con el emisor de la tarjeta.
+* **`card_type`:** Es un `string` con el tipo de la tarjeta.
+* **`transaction_id`:**  Es un `string` identificador de la transacción.
+* **`card_mask`:** Es un `string` con el número de la tarjeta enmascarado.
+* **`aproval`:** Es un `string` con el código de aprobación de la entidad.
+* **`authorizator`:** Es un `string` con la entidad autorizadora de la operación.
+* **`sequence`:** Es un `string` con la secuencia de la operación.
+
+#### 5.3.11 `Unlock`
+Este objeto añade los siguientes atributos:
+* **`order`:** Es un `string` con el ticket de la operación.
+* **`transaction_id`:**  Es un `string` identificador de la transacción.
+* **`reconciliation `:** [_opcional_] Es un `string` que identifica la conciliación bancaria.

@@ -7,7 +7,10 @@ import requests
 import logging
 
 from sipay.ecommerce.responses.authorization import Authorization
+from sipay.ecommerce.responses.preauthorization import Preauthorization
+from sipay.ecommerce.responses.confirmation import Confirmation
 from sipay.ecommerce.responses.cancellation import Cancellation
+from sipay.ecommerce.responses.unlock import Unlock
 from sipay.ecommerce.responses.card import Card as CardResponse
 from sipay.ecommerce.responses.refund import Refund
 from sipay.ecommerce.responses.register import Register
@@ -197,7 +200,6 @@ class Ecommerce:
         url = 'https://{0}.sipay.es/mdwr/{1}/{2}'.format(self.environment,
                                                          self.version,
                                                          endpoint)
-
         try:
             r = requests.post(url, headers=headers, data=body,
                               timeout=(self.conn_timeout,
@@ -215,7 +217,6 @@ class Ecommerce:
             }
 
         self._logger.info('End send to endpoint ' + endpoint)
-
         return (request, response)
 
     def _get_logger(self, config):
@@ -249,7 +250,7 @@ class Ecommerce:
         })
     def authorization(self, paymethod, amount, order=None, reconciliation=None,
                       custom_01=None, custom_02=None, token=None):
-        """Send a request of authorization to Sipay.
+        """Sends a request of authorization to Sipay.
 
         Args:
             - paymethod: Payment method of authorization (it can be an object
@@ -262,7 +263,7 @@ class Ecommerce:
             - token: if this argument is set, it register paymethod with
                 this token
         Return:
-            Authorization: object that contain response of MDWR API
+            Authorization: object that contains response of MDWR API
         """
         if not issubclass(type(paymethod), PayMethod):
             TypeError("paymethod isn't a PayMethod")
@@ -280,11 +281,58 @@ class Ecommerce:
 
         if 'token' not in payload and token is not None:
             payload['token'] = token
-
         payload = {k: v for k, v in payload.items() if v is not None}
 
         request, response = self.send(payload, 'authorization')
         return Authorization(request, response) if response else None
+
+    @schema({
+        'amount': {'type': Amount},
+        'order': {'type': str, 'pattern': r'^[\w-]{6,64}$'},
+        'reconciliation': {
+            'type': str,
+            'pattern': r'^[0-9]{4}[a-zA-Z0-9]{0,8}$'},
+        'custom_01': {'type': str},
+        'custom_02': {'type': str},
+        'token': {'type': str, 'pattern': r'^[\w-]{6,128}$'}
+        })
+    def preauthorization(self, paymethod, amount, order=None,
+                         reconciliation=None, custom_01=None,
+                         custom_02=None, token=None):
+        """Send a request of preauthorization to Sipay.
+
+        Args:
+            - paymethod: Payment method of preauthorization (it can be an
+            object of Card, StoredCard or FastPay).
+            - amount: Amount of the operation.
+            - order: ticket of the operation
+            - reconciliation: identification for bank reconciliation
+            - custom_01: custom field 1
+            - custom_02: custom field 2
+            - token: if this argument is set, it register paymethod with
+                this token
+        Return:
+            Preauthorization: object that contains response of MDWR API
+        """
+        if not issubclass(type(paymethod), PayMethod):
+            TypeError("paymethod isn't a PayMethod")
+
+        payload = {
+            'order': order,
+            'reconciliation': reconciliation,
+            'custom_01': custom_01,
+            'custom_02': custom_02,
+            'amount': amount.amount,
+            'currency': amount.currency,
+            'token': token
+        }
+
+        payload.update(paymethod.to_dict())
+
+        payload = {k: v for k, v in payload.items() if v is not None}
+
+        request, response = self.send(payload, 'preauthorization')
+        return Preauthorization(request, response) if response else None
 
     @schema({
         'amount': {'type': Amount},
@@ -311,7 +359,7 @@ class Ecommerce:
             - token: if this argument is set, it register paymethod with
                 this token
         Return:
-            Refund: object that contain response of MDWR API
+            Refund: object that contains response of MDWR API
         """
         payload = {
             'order': order,
@@ -349,7 +397,7 @@ class Ecommerce:
             - card: Card that register.
             - token: token will be associate to card
         Return:
-            Register: object that contain response of MDWR API
+            Register: object that contains response of MDWR API
         """
         payload = {
             'token': token
@@ -366,7 +414,7 @@ class Ecommerce:
         Args:
             - token: token of card
         Return:
-            Card(Response): object that contain response of MDWR API
+            Card(Response): object that contains response of MDWR API
         """
         payload = {
             'token': token
@@ -382,7 +430,7 @@ class Ecommerce:
         Args:
             - transaction_id: identificator of transaction.
         Return:
-            Cancellation(Response): object that contain response of MDWR API
+            Cancellation(Response): object that contains response of MDWR API
         """
         payload = {
             'transaction_id': transaction_id
@@ -398,7 +446,7 @@ class Ecommerce:
         Args:
             - token: token of a card
         Return:
-            Unregister: object that contain response of MDWR API
+            Unregister: object that contains response of MDWR API
         """
         payload = {
             'token': token
@@ -418,7 +466,7 @@ class Ecommerce:
             - order: ticket of the operation
             - transaction_id: identificator of transaction
         Return:
-            Query: object that contain response of MDWR API
+            Query: object that contains response of MDWR API
         """
         payload = {
             'order': order,
@@ -429,3 +477,97 @@ class Ecommerce:
 
         request, response = self.send(payload, 'query')
         return Query(request, response) if response else None
+
+    @schema({
+        'amount': {'type': Amount},
+        'order': {'type': str, 'pattern': r'^[\w-]{6,64}$'},
+        'reconciliation': {
+            'type': str,
+            'pattern': r'^[0-9]{4}[a-zA-Z0-9]{0,8}$'},
+        'custom_01': {'type': str},
+        'custom_02': {'type': str}
+        })
+    def confirmation(self, identificator, amount, order=None,
+                     reconciliation=None, custom_01=None, custom_02=None):
+        """Send a confirmation for a preauthorization to Sipay.
+
+        Args:
+            - identificator: identificator of transaction, can be a
+              transaction_id string or a preauthorization object
+            - amount: Amount of the operation.
+            - order: ticket of the operation
+            - reconciliation: identification for bank reconciliation
+            - custom_01: custom field 1
+            - custom_02: custom field 2
+            - token: if this argument is set, it register paymethod with
+                this token
+        Return:
+            Confirmation: object that contains response of MDWR API
+        """
+        payload = {
+            'order': order,
+            'reconciliation': reconciliation,
+            'custom_01': custom_01,
+            'custom_02': custom_02,
+            'amount': amount.amount,
+            'currency': amount.currency
+        }
+
+        payload = {k: v for k, v in payload.items() if v is not None}
+
+        if isinstance(identificator, str):
+            payload['transaction_id'] = identificator
+        elif isinstance(identificator, Preauthorization):
+            payload['transaction_id'] = identificator.transaction_id
+        else:
+            self._logger.error('Incorrect identificator.')
+            raise TypeError('Incorrect identificator.')
+
+        request, response = self.send(payload, 'confirmation')
+        return Confirmation(request, response) if response else None
+
+    @schema({
+        'amount': {'type': Amount},
+        'order': {'type': str, 'pattern': r'^[\w-]{6,64}$'},
+        'custom_01': {'type': str},
+        'custom_02': {'type': str}
+        })
+    def unlock(self, identificator, amount, order=None,
+               custom_01=None, custom_02=None):
+        """Send an unlock for a preauthorization to Sipay.
+
+        Args:
+            - identificator: identificator of transaction, can be a
+              transaction_id string or an preauthorization object
+            - amount: Amount of the operation
+            - order: ticket of the operation
+            - custom_01: custom field 1
+            - custom_02: custom field 2
+
+        Return:
+            Unlock: object that contains response of MDWR API
+        """
+        payload = {
+            'amount': amount.amount,
+            'currency': amount.currency,
+            'order': order,
+            'custom_01': custom_01,
+            'custom_02': custom_02
+        }
+
+        payload = {k: v for k, v in payload.items() if v is not None}
+
+        if isinstance(identificator, str):
+            payload['transaction_id'] = identificator
+        elif isinstance(identificator, Preauthorization):
+            payload['transaction_id'] = identificator.transaction_id
+            if (amount <= identificator.amount):
+                request, response = self.send(payload, 'unlock')
+                return Unlock(request, response) if response else None
+
+            else:
+                self._logger.error('Unlocking amount cannot be greater than preauthorization amount.')# noqa
+                raise TypeError('Unlocking amount cannot be greater than preauthorization amount.') # noqa
+        else:
+            self._logger.error('Incorrect identificator.')
+            raise TypeError('Incorrect identificator.')
