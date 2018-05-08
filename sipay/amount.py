@@ -126,7 +126,7 @@ class Amount:
     def __le__(self, other):
         """Operator <=."""
         if not isinstance(other, Amount):
-            raise TypeError('Second argument must be a Amount.')
+            raise TypeError('Second argument must be an Amount.')
 
         if self.currency != other.currency:
             raise TypeError('You can not add two amounts with different currencies.')  # noqa
