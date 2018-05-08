@@ -161,10 +161,10 @@ CURRENCIES = {
     'XAF': ('XAF', '950', 0, 'Franco CFA de África Central'),
     'XAG': ('XAG', '961', -1, 'Plata (una onza troy)'),
     'XAU': ('XAU', '959', -1, 'Oro (una onza troy)'),
-    'XBA': ('XBA', '955', -1, 'Unidad compuesta europea (EURCO) (Unidad del mercados de bonos)'),
-    'XBB': ('XBB', '956', -1, 'Unidad Monetaria europea (E.M.U.-6) (Unidad del mercado de bonos)'),
-    'XBC': ('XBC', '957', -1, 'Unidad europea de cuenta 9 (E.U.A.-9) (Unidad del mercado de bonos)'),
-    'XBD': ('XBD', '958', -1, 'Unidad europea de cuenta 17 (E.U.A.-17) (Unidad del mercado de bonos)'),
+    'XBA': ('XBA', '955', -1, 'Unidad compuesta europea (EURCO) (Unidad del mercados de bonos)'),  # noqa
+    'XBB': ('XBB', '956', -1, 'Unidad Monetaria europea (E.M.U.-6) (Unidad del mercado de bonos)'),  # noqa
+    'XBC': ('XBC', '957', -1, 'Unidad europea de cuenta 9 (E.U.A.-9) (Unidad del mercado de bonos)'),  # noqa
+    'XBD': ('XBD', '958', -1, 'Unidad europea de cuenta 17 (E.U.A.-17) (Unidad del mercado de bonos)'),  # noqa
     'XCD': ('XCD', '951', 2, 'Dólar del Caribe Oriental'),
     'XDR': ('XDR', '960', -1, 'Derechos especiales de giro'),
     'XOF': ('XOF', '952', 0, 'Franco CFA de África Occidental'),

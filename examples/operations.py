@@ -8,7 +8,7 @@ from sipay.amount import Amount
 from pathlib import Path
 
 parent = str(Path(__file__).parent.resolve().parent)
-config_file = '{}/etc/config.ini'.format(parent) 
+config_file = '{}/etc/config.ini'.format(parent)
 
 ecommerce = Ecommerce(config_file)
 
@@ -89,7 +89,7 @@ else:
 
 # Hacer una devolución con tarjeta de 28.60 euros
 amount = Amount(2860, 'EUR')
-card = Card(pan_example, 2018, 2)
+card = Card(pan_example, 2020, 2)
 # card = StoredCard('token')
 # card = FastPay('token')
 
@@ -99,13 +99,13 @@ if not refund2:
     print('Fallo al hacer la devolución, Error al conectar con el servicio')
 
 elif refund2.code != 0:
-    print('Fallo al hacer la devolución, Error: {}'.format(refund2.description))
+    print('Fallo al hacer la devolución, Error: {}'.format(refund2.description))  # noqa
 
 else:
     print('Devolución procesada correctamente')
 
-# Al macenar tarjeta en Sipay
-card = Card(pan_example, 2018, 2)
+# Almacenar tarjeta en Sipay
+card = Card(pan_example, 2020, 2)
 # card = FastPay('token')
 
 register = ecommerce.register(card, 'newtoken')
@@ -114,7 +114,7 @@ if not register:
     print('Fallo al registrar la tarjeta, Error al conectar con el servicio')
 
 elif register.code != 0:
-    print('Fallo al registrar la tarjeta, Error: {}'.format(register.description))
+    print('Fallo al registrar la tarjeta, Error: {}'.format(register.description))  # noqa
 
 else:
     print('Registro procesado correctamente')
@@ -125,10 +125,81 @@ else:
 unregister = ecommerce.unregister('newtoken')
 
 if not unregister:
-    print('Fallo al borrar la tarjeta de Sipay, Error al conectar con el servicio')
+    print('Fallo al borrar la tarjeta de Sipay, Error al conectar con el servicio')  # noqa
 
 elif unregister.code != 0:
-    print('Fallo al borrar la tarjeta de Sipay, Error: {}'.format(unregister.description))
+    print('Fallo al borrar la tarjeta de Sipay, Error: {}'.format(unregister.description))  # noqa
 
 else:
     print('Tarjeta borrada correctamente')
+
+
+# Realizar una preautorización de 8.34 euros con Sipay
+amount = Amount(834, 'EUR')
+card = Card(pan_example, 2020, 2)
+
+preauth = ecommerce.preauthorization(card, amount)
+
+if not preauth:
+    print('Fallo al hacer la preautorización, Error al conectar con el servicio')
+
+elif preauth.code != 0:
+    print('Fallo al realizar la preautorización, Error: {}'.format(preauth.description))
+
+else:
+    print('Preautorización creada correctamente')
+
+# Realizar un desbloqueo de una preautorización de 8.34 euros útilizando una instancia de preautorización
+
+unlock = ecommerce.unlock(preauth, amount)
+
+if not unlock:
+    print('Fallo al hacer realizar el desbloqueo de la preautorización, Error al conectar con el servicio')
+
+elif unlock.code != 0:
+    print('Fallo al realizar el desbloqueo de la preautorización, Error: {}'.format(unlock.description))
+
+else:
+    print('Desbloqueo de preautorización realizado con exito')
+
+# Realizar un desbloqueo de una preautorización de 8.34 euros útilizando un transaction_id
+
+unlock2 = ecommerce.unlock('000097586585926825335', amount)
+# El transaction_id se obtiene al haber realizado una preautorización
+
+if not unlock2:
+    print('Fallo al hacer realizar el desbloqueo de la preautorización, Error al conectar con el servicio')
+
+elif unlock2.code != 0:
+    print('Fallo al realizar el desbloqueo de la preautorización, Error: {}'.format(unlock2.description))
+
+else:
+    print('Desbloqueo de preautorización realizado con exito')
+
+# Realizar una confirmación de una preautorización de 8.34 euros útilizando una instancia de preautorización
+
+confirm = ecommerce.confirmation(preauth, amount)
+
+if not confirm:
+    print('Fallo al hacer realizar la confirmación de la preautorización, Error al conectar con el servicio')
+
+elif confirm.code != 0:
+    print('Fallo al realizar la confirmación de la preautorización, Error: {}'.format(confirm.description))
+
+else:
+    print('Confirmación de preautorización realizada con exito')
+
+# Realizar un desbloqueo de una preautorización útilizando un transaction_id
+
+confirm2 = ecommerce.confirmation('000097586585926825335', amount)
+
+# El transaction_id se obtiene al haber realizado una preautorización
+
+if not confirm2:
+    print('Fallo al hacer realizar la confirmación de la preautorización, Error al conectar con el servicio')
+
+elif confirm2.code != 0:
+    print('Fallo al realizar la confirmación de la preautorización, Error: {}'.format(confirm2.description))
+
+else:
+    print('Confirmación de preautorización realizado con exito')

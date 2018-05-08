@@ -1,1 +1,1 @@
-from sipay.ecommerce import Ecommerce
+from sipay.ecommerce import Ecommerce  # noqa
