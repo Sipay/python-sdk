@@ -34,4 +34,4 @@ class TransactionTests(unittest.TestCase):
         self.assertIsInstance(self.transa, Transaction)
 
     def test_str_(self):
-        self.assertIsInstance(self.transa.__str__(), str) 
+        self.assertIsInstance(self.transa.__str__(), str)
