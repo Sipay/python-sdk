@@ -34,4 +34,4 @@ class TransactionTests(unittest.TestCase):
         self.assertIsInstance(self.transa, Transaction)
 
     def test_str_(self):
-        self.assertEqual(self.transa.__str__(), self.transa.__str__()) # noqa
+        self.assertIsInstance(self.transa.__str__(), str) 

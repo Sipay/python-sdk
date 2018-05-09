@@ -13,10 +13,17 @@ class RefundTests(unittest.TestCase):
 
         ecommerce = Ecommerce('etc/config.ini')
 
-        amount = Amount(100, 'EUR')
+        self.amount = Amount(100, 'EUR')
 
-        self.refund = ecommerce.refund('something', amount)
+        self.refund = ecommerce.refund('something', self.amount)
 
     def test_init_refund(self):
 
         self.assertIsInstance(self.refund, Refund)
+
+        payload = {
+            'amount': 100,
+            'currency': 'EUR'
+        }
+
+        self.assertEqual(self.amount.amount, payload['amount'])
