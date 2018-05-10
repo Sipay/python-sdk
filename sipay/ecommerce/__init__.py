@@ -31,7 +31,6 @@ class Ecommerce:
     def __init__(self, config_file):
         """Initialize Ecommerce with a config.ini file."""
         if not isinstance(config_file, str):
-            self._logger.error('config_file must be a string.')
             raise TypeError('config_file must be a string.')
 
         config = ConfigParser()
