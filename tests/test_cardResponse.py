@@ -23,7 +23,5 @@ class CardTests(unittest.TestCase):
         self.assertIn('expired_at', self.payload)
         self.assertIsInstance(self.payload, dict)
 
-        self.assertIsNotNone(self.token)
-        self.assertEqual(self.token, 'new-token')
         self.card = StoredCard(self.token)
         self.assertIsInstance(self.card, StoredCard)
