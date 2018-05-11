@@ -12,3 +12,7 @@ class QueryTests(unittest.TestCase):
         self.query = ecommerce.query("something")
 
         self.assertIsInstance(self.query, Query)
+        self.payload = None
+        self.assertIsNone(self.payload)
+        self.transactions = None
+        self.assertIsNone(self.transactions)
