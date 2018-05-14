@@ -11,8 +11,7 @@ class Status(Response):
             payload = response['payload']
             request = payload['request']
             response = payload['response']
-            self.order = request.get('order')
-            self.status = payload.get('status')
+
             if response is not None:
                 data = response.get('data')
                 if data is not None:
@@ -20,6 +19,11 @@ class Status(Response):
                     self.amount = data.get('amount')
                     self.payment_date = data.get('payment_date')
                     self.card = data['card']
-                self.identifier = response.get('identifier')
-                self.event = response.get('event')
-                self.account_id = response.get('account_id')
+
+                if response.get('identifier') is not None:
+                    self.identifier = response.get('identifier')
+                    self.event = response.get('event')
+                    self.account_id = response.get('account_id')
+
+            self.order = request.get('order')
+            self.status = payload.get('status')

@@ -5,6 +5,7 @@ import hmac
 import json
 import requests
 import logging
+import pprint
 
 
 from sipay.amount import Amount
@@ -12,6 +13,7 @@ from sipay.altp.responses.methods import Methods
 from sipay.altp.responses.status import Status
 from sipay.altp.responses.confirm import Confirm
 from sipay.altp.responses.payment import Payment
+from sipay.altp.responses.purchase_from_token import Purchase_from_token
 
 
 from sipay.utils import schema
@@ -292,11 +294,17 @@ class Altp:
         'request_id': {'type': str},
         'payment_type': {'type': str}
         })
-    def confirm(self, request_id, payment_type):
+    def confirm(self, request_id, payment_type, **kwargs):
 
         payload = {
             'request_id': request_id
         }
+
+        if kwargs.get('opt'):
+            payload_to_add = {
+                'opt': kwargs['opt']
+            }
+            payload.update(payload_to_add)
 
         request, response = self.send(payload, '{0}/confirm'.format(payment_type))  # noqa
         return Confirm(request, response) if response else None
@@ -319,3 +327,31 @@ class Altp:
 
         request, response = self.send(payload, 'pref/payment')
         return Payment(request, response) if response else None
+
+    @schema({
+        'amount': {'type': str},
+        'currency': {'type': str},
+        'auth_token': {'type': str},
+        'client_ip_address': {'type': str},
+        })
+    def purchase_from_token(self, amount, currency, auth_token, client_ip_address,  # noqa
+                                order=None, notes=None, pe_notification_url=None,  # noqa
+                                channel=None, custom_params=None, language=None, message_params=None):  # noqa
+
+        payload = {
+            'amount': amount,
+            'currency': currency,
+            'auth_token': auth_token,
+            'client_ip_address': client_ip_address,
+            'order': order,
+            'notes': notes,
+            'pe_notification_url': pe_notification_url,
+            'channel': channel,
+            'custom_params': custom_params,
+            'language': language,
+            'message_params': message_params
+        }
+
+        pprint.pprint(payload)
+        request, response = self.send(payload, 'movi/purchase_from_token')
+        return Purchase_from_token(request, response) if response else None
