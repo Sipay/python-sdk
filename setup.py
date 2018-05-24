@@ -30,6 +30,7 @@ setup(
 
     description='Python SDK',
     long_description=read_file('README.md'),
+    long_description_content_type='text/markdown',
 
     author='Sipay Plus SL',
     author_email='develop@sipay.es',
