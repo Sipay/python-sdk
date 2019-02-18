@@ -9,6 +9,7 @@ class AmountTests(unittest.TestCase):
         self.amount3 = Amount(100, 'EUR')
         self.amount2 = Amount(200, 'EUR')
         self.amount4 = Amount(300, 'TRY')
+        self.amount5 = Amount('300.00', 'USD', ',')
 
     def test_init_amount(self):
         with self.assertRaises(TypeError):
@@ -17,8 +18,7 @@ class AmountTests(unittest.TestCase):
             self.amount5 = Amount('300.00', 'USD', '.', '$')
         with self.assertRaises(TypeError):
             self.amount5 = Amount('300.00', 'USD', '.', '.')
-        with self.assertRaises(ValueError):
-            self.amount5 = Amount('300.00', 'UK', ',', '.')
+        self.assertTrue(len(self.amount5.separator), 1)
 
     def test_get_set_currency(self):
         self.assertEqual(self.amount1.currency, 'EUR')

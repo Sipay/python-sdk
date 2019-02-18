@@ -12,6 +12,5 @@ class Query(Response):
         payload = response['payload']
         if payload:
             self.transactions = [Transaction(tx) for tx in payload['items']]
-
         else:
             self.transactions = None
