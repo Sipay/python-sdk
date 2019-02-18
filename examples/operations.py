@@ -141,15 +141,17 @@ card = Card(pan_example, 2020, 2)
 preauth = ecommerce.preauthorization(card, amount)
 
 if not preauth:
-    print('Fallo al hacer la preautorización, Error al conectar con el servicio') # noqa
-
 elif preauth.code != 0:
     print('Fallo al realizar la preautorización, Error: {}'.format(preauth.description)) # noqa
+elif preauth.code != 0:
+    print('Fallo al realizar la preautorización, Error: {}'.format(preauth.description))  # noqa
 
 else:
     print('Preautorización creada correctamente')
 
-# Realizar un desbloqueo de una preautorización de 8.34 euros útilizando una instancia de preautorización # noqa
+
+# Realizar un desbloqueo de una preautorización de 8.34 
+# euros útilizando una instancia de preautorización 
 
 unlock = ecommerce.unlock(preauth, amount)
 
@@ -162,7 +164,7 @@ elif unlock.code != 0:
 else:
     print('Desbloqueo de preautorización realizado con exito')
 
-# Realizar un desbloqueo de una preautorización de 8.34 euros útilizando un transaction_id # noqa
+# Realizar un desbloqueo de una preautorización de 8.34 euros útilizando un transaction_id  # noqa
 
 unlock2 = ecommerce.unlock('000097586585926825335', amount)
 # El transaction_id se obtiene al haber realizado una preautorización
@@ -171,21 +173,20 @@ if not unlock2:
     print('Fallo al hacer realizar el desbloqueo de la preautorización, Error al conectar con el servicio') # noqa
 
 elif unlock2.code != 0:
-    print('Fallo al realizar el desbloqueo de la preautorización, Error: {}'.format(unlock2.description)) # noqa
+    print('Fallo al realizar el desbloqueo de la preautorización, Error: {}'.format(unlock2.description))  # noqa
 
 else:
     print('Desbloqueo de preautorización realizado con exito')
 
-# Realizar una confirmación de una preautorización de 8.34 euros útilizando una instancia de preautorización # noqa
+# Realizar una confirmación de una preautorización de 8.34 euros útilizando una instancia de preautorización  # noqa
 
 confirm = ecommerce.confirmation(preauth, amount)
 
 if not confirm:
-    print('Fallo al hacer realizar la confirmación de la preautorización, Error al conectar con el servicio') # noqa
+    print('Fallo al hacer realizar la confirmación de la preautorización, Error al conectar con el servicio')  # noqa
 
 elif confirm.code != 0:
-    print('Fallo al realizar la confirmación de la preautorización, Error: {}'.format(confirm.description)) # noqa
-
+    print('Fallo al realizar la confirmación de la preautorización, Error: {}'.format(confirm.description))  # noqa
 else:
     print('Confirmación de preautorización realizada con exito')
 
@@ -196,10 +197,9 @@ confirm2 = ecommerce.confirmation('000097586585926825335', amount)
 # El transaction_id se obtiene al haber realizado una preautorización
 
 if not confirm2:
-    print('Fallo al hacer realizar la confirmación de la preautorización, Error al conectar con el servicio') # noqa
-
+    print('Fallo al hacer realizar la confirmación de la preautorización, Error al conectar con el servicio')  # noqa
 elif confirm2.code != 0:
-    print('Fallo al realizar la confirmación de la preautorización, Error: {}'.format(confirm2.description)) # noqa
+    print('Fallo al realizar la confirmación de la preautorización, Error: {}'.format(confirm2.description))  # noqa
 
 else:
     print('Confirmación de preautorización realizado con exito')
