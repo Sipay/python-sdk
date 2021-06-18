@@ -20,7 +20,7 @@ def requirements(filename):
     """Parse requirements from requirements.txt."""
     path = str(Path(filename))
     reqs = parse_requirements(path, session=False)
-    return [str(req.req) for req in reqs]
+    return [str(req.requirement) for req in reqs]
 
 
 setup(
