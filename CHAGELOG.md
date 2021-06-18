@@ -6,7 +6,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased] - XXXX-XX-XX
 
+## [1.2.0] - 2021-06-18
+
+### Fixed
+- Corrección para test unitarios
+
+### Added
+- Soporte para Requests 1.26
+
 ## [1.1.0] - 2018-05-08
+
 ### Added
 - Operativas:
 	- Preautorización
@@ -17,13 +26,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [1.0.0] - 2018-02-14
 
 ### Added
-- Implementación incial de la SDK con operativas:
-	- Autorizacion mediante diferentes métodos(tarjeta, token, fastpay)
+- Implementación inicial de la SDK con operativas:
+	- Autorización mediante diferentes métodos(tarjeta, token, fastpay)
 	- Cancelación
 	- Devolución
 	- Query
-	- Tokenizacióm
-- Intrucciones de instalación y ejecución
+	- Tokenización
+- Instrucciones de instalación y ejecución
 - Ejemplos para el uso de la SDK
 
 
