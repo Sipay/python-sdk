@@ -12,7 +12,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Corrección para test unitarios
 
 ### Added
-- Soporte para Requests 1.26
+- Soporte para requests 2.25
+- Soporte para urllib3 1.26
 
 ## [1.1.0] - 2018-05-08
 
