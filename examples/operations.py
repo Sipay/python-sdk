@@ -141,8 +141,7 @@ card = Card(pan_example, 2020, 2)
 preauth = ecommerce.preauthorization(card, amount)
 
 if not preauth:
-elif preauth.code != 0:
-    print('Fallo al realizar la preautorización, Error: {}'.format(preauth.description)) # noqa
+    print('Fallo al realizar la preautorización, Error al conectar con el servicio') # noqa
 elif preauth.code != 0:
     print('Fallo al realizar la preautorización, Error: {}'.format(preauth.description))  # noqa
 
@@ -150,8 +149,8 @@ else:
     print('Preautorización creada correctamente')
 
 
-# Realizar un desbloqueo de una preautorización de 8.34 
-# euros útilizando una instancia de preautorización 
+# Realizar un desbloqueo de una preautorización de 8.34
+# euros útilizando una instancia de preautorización
 
 unlock = ecommerce.unlock(preauth, amount)
 
