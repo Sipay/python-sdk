@@ -37,7 +37,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Ejemplos para el uso de la SDK
 
 
-[Unreleased]: https://github.com/Sipay/python-sdk/compare/develop...1.1.0
+[Unreleased]: https://github.com/Sipay/python-sdk/compare/develop...1.2.0
+[1.2.0]: https://github.com/Sipay/python-sdk/compare/1.2.0...1.1.0
 [1.1.0]: https://github.com/Sipay/python-sdk/compare/1.1.0...1.0.0
 [1.0.0]: https://github.com/Sipay/python-sdk/compare/1.0.0...c07cf438db0db30207881482c7e8fc3df2ba2c56
 
