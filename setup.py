@@ -40,12 +40,10 @@ setup(
 
     classifiers=[
         'Development Status :: 5 - Production/Stable',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
     ],
 
-    python_requires='>=3.4',
+    python_requires='>=3.6',
     platforms=['linux'],
 
     packages=['sipay'] + list(map(lambda x: "sipay."+x, find_packages('sipay'))),  # noqa
