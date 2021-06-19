@@ -28,9 +28,9 @@ class Amount:
 
         if isinstance(amount, str):
             if len(separator) == 1:
-                separator = "\{}".format(separator)
+                separator = r"\{}".format(separator)
 
-            decimal_separator = "\{}".format(decimal_separator)
+            decimal_separator = r"\{}".format(decimal_separator)
 
             regex = '^[0-9]{{1,3}}({sep}[0-9]{{3}})*{decimal_sep}[0-9]'\
                     '{{{decimals}}}$'.format(sep=separator,
