@@ -15,12 +15,10 @@ class Amount:
         self.separator = separator
         self.decimal_separator = decimal_separator
 
-        if not isinstance(separator, str) or \
-           separator not in THOUSAND_SEPARATORS:
+        if not isinstance(separator, str) or separator not in THOUSAND_SEPARATORS:
             raise TypeError('separator must be [ ,\'.].')
 
-        if not isinstance(decimal_separator, str) or \
-           decimal_separator not in DECIMAL_SEPARATORS:
+        if not isinstance(decimal_separator, str) or decimal_separator not in DECIMAL_SEPARATORS:
             raise TypeError('decimal_separator must be [,.]')
 
         if decimal_separator == separator:
@@ -32,13 +30,17 @@ class Amount:
 
             decimal_separator = r"\{}".format(decimal_separator)
 
-            regex = '^[0-9]{{1,3}}({sep}[0-9]{{3}})*{decimal_sep}[0-9]'\
+            regex = '^[0-9]{{1,3}}({sep}[0-9]{{3}})*{decimal_sep}[0-9]' \
                     '{{{decimals}}}$'.format(sep=separator,
                                              decimal_sep=decimal_separator,
                                              decimals=self._currency[2])
+            regex_no_separators = '^[0-9]+$'
+
             if re.match(regex, amount):
                 amount = amount.replace(self.decimal_separator, '')
                 amount = amount.replace(self.separator, '')
+                amount = int(amount)
+            elif re.match(regex_no_separators, amount):
                 amount = int(amount)
 
         self.amount = amount
@@ -164,6 +166,6 @@ class Amount:
         integer_ftm = integer[:init]
 
         for i in range(init, length, 3):
-            integer_ftm += "{0}{1}".format(self.separator, integer[i:i+3])
+            integer_ftm += "{0}{1}".format(self.separator, integer[i:i + 3])
 
         return integer_ftm + self.decimal_separator + decimal + self.currency
